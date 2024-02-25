@@ -13,13 +13,15 @@ const Home = ({ role, navlinks, component }) => {
       // overflowY="auto"
       bg="#F8F8F8"
       // gap={3}
-      
+
       // flexDirection="column"
       display="grid"
-      gridTemplateRows="80px calc(100svh - 80px)"
+      gridTemplateRows="minmax(80px,auto) minmax(0, 1fr)"
     >
       <Header {...headerProps} />
-      <Box flex={1} p={3} overflowY="hidden">{component}</Box>
+      <Box flex={1} p={3} overflowY="hidden">
+        {component}
+      </Box>
     </Flex>
   );
 };

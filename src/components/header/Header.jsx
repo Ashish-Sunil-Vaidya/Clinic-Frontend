@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import logo from "src/assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { FaBars } from "react-icons/fa6";
 
 const Header = ({ role, navlinks }) => {
   const navigate = useNavigate();
@@ -34,9 +35,13 @@ const Header = ({ role, navlinks }) => {
   return (
     <>
       {isMobile ? (
-        <Accordion allowToggle bg="white" boxShadow="0 0 8px 8px rgb(0,0,0,.1)">
+        <Accordion
+          allowToggle
+          bg="white"
+          boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
+        >
           <AccordionItem border={0}>
-            <AccordionButton justifyContent="space-between" color="teal">
+            <AccordionButton justifyContent="space-between"  color="teal" px={6} py={3}>
               <Flex alignItems="center">
                 <Image
                   boxSize="60px"
@@ -45,7 +50,7 @@ const Header = ({ role, navlinks }) => {
                   alt="Code Surgery Squad"
                   bg="white"
                   borderRadius="50%"
-                  p={1}
+                 
                 />
                 <Box
                   mx={2}
@@ -56,7 +61,7 @@ const Header = ({ role, navlinks }) => {
                   {role}
                 </Box>
               </Flex>
-              <AccordionIcon fontSize="2rem" />
+              <FaBars fontSize="1.5rem"/>
             </AccordionButton>
 
             <AccordionPanel>
