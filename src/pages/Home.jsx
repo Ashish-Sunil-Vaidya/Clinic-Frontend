@@ -10,16 +10,16 @@ const Home = ({ role, navlinks, component }) => {
     <Flex
       w="100%"
       h="100svh"
-      overflowY="auto"
+      // overflowY="auto"
       bg="#F8F8F8"
-      gap={3}
-      p={{
-        sm: 3,
-      }}
-      flexDirection="column"
+      // gap={3}
+      
+      // flexDirection="column"
+      display="grid"
+      gridTemplateRows="80px calc(100svh - 80px)"
     >
       <Header {...headerProps} />
-      <Box flex={1}>{component}</Box>
+      <Box flex={1} p={3} overflowY="hidden">{component}</Box>
     </Flex>
   );
 };
