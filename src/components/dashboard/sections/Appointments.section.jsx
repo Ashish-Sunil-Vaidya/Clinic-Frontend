@@ -6,15 +6,13 @@ import {
   Td,
   Tbody,
   Table,
-  Icon,
 } from "@chakra-ui/react";
 import appoinmentsData from "../data/appointmentsData";
-import { FaCheckCircle } from "react-icons/fa";
-import { FaCircleXmark } from "react-icons/fa6";
+
 
 const Appointments = () => {
   return (
-    <TableContainer>
+    <TableContainer bgColor="white" boxShadow="0 0 2px 2px rgb(0,0,0,.05)">
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -25,13 +23,19 @@ const Appointments = () => {
             <Th>Age</Th>
             <Th>Date</Th>
             <Th>Time</Th>
-            <Th>Visited?</Th>
+            {/* <Th>Visited?</Th> */}
           </Tr>
         </Thead>
         <Tbody>
           {appoinmentsData.map((appointment, index) => {
             return (
-              <Tr key={index}>
+              <Tr
+                key={index}
+                _hover={{
+                  bg: "teal.50",
+                  cursor: "pointer",
+                }}
+              >
                 <Td>{index + 1}</Td>
                 <Td>{appointment.name}</Td>
                 <Td>{appointment.mobile}</Td>
@@ -39,14 +43,14 @@ const Appointments = () => {
                 <Td>{appointment.age}</Td>
                 <Td>{appointment.date}</Td>
                 <Td>{appointment.time}</Td>
-                <Td display="flex" gap={3}>
+                {/* <Td display="flex" gap={3}>
                   <Icon
                     as={appointment.isVisited ? FaCheckCircle : FaCircleXmark}
                     color={appointment.isVisited ? "green.500" : "red.500"}
                     boxSize={6}
                   />
                   {appointment.isVisited ? "Yes" : "No"}
-                </Td>
+                </Td> */}
               </Tr>
             );
           })}

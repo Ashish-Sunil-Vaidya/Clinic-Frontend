@@ -1,6 +1,6 @@
-import Appointments from "./Appointments";
-import Payments from "./Payments";
-import BillingInfo from "./BillingInfo";
-import PatientDetails from "./PatientDetails";
+import Appointments from "./Appointments.section";
+import PaymentsHistory from "./PaymentsHistory.section";
+import Summary from "./Summary.section";
+import PatientHistory from "./PatientHistory.section";
 
-export { Appointments, Payments, BillingInfo, PatientDetails };
+export { Appointments, PaymentsHistory, Summary, PatientHistory };

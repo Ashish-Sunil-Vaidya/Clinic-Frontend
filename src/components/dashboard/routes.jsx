@@ -1,17 +1,17 @@
-import { BillingInfo, PatientDetails, Appointments, Payments } from "./sections";
+import { PatientHistory, Summary, Appointments, PaymentsHistory } from "./sections";
 
 const tabnames = [
     "Summary",
     "Appointments",
-    "Find Patient",
-    "Payments",
+    "Patient History",
+    "Payments History",
 ];
 
 const tabcontent = [
-    <PatientDetails key={1} />,
+    <Summary key={1} />,
     <Appointments key={2} />,
-    <BillingInfo key={3} />,
-    <Payments key={4} />,
+    <PatientHistory key={3} />,
+    <PaymentsHistory key={4} />,
 ];
 
 export { tabnames, tabcontent };

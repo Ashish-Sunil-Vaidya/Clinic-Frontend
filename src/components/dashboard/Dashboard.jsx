@@ -87,13 +87,11 @@ const Dashboard = () => {
 
         <TabPanels
           h="100%"
-          bgColor="white"
-          boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
           borderRadius={10}
           overflowY="auto"
         >
           {tabcontent.map((content, index) => (
-            <TabPanel key={index}>{content}</TabPanel>
+            <TabPanel key={index} p={0}>{content}</TabPanel>
           ))}
         </TabPanels>
       </Tabs>
