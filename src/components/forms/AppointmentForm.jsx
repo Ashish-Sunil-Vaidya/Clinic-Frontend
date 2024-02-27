@@ -1,3 +1,5 @@
+import {Table, Tr, Th, Td, TableContainer, Input, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, NumberInput, Select, Box, Button, Thead, Heading} from "@chakra-ui/react";
+
 const AppointmentForm = () =>{
     return (
         <>
