@@ -12,7 +12,7 @@ import appointmentsData from "src/components/dashboard/data/appointments.data";
 
 const Appointments = () => {
   return (
-    <TableContainer bgColor="white" boxShadow="0 0 2px 2px rgb(0,0,0,.05)">
+    <TableContainer bgColor="white" boxShadow="0 0 2px 2px rgb(0,0,0,.05)" borderRadius={10} >
       <Table variant="simple">
         <Thead>
           <Tr>
@@ -32,7 +32,7 @@ const Appointments = () => {
               <Tr
                 key={index}
                 _hover={{
-                  bg: "teal.50",
+                  bg: "cyan.50",
                   cursor: "pointer",
                 }}
               >

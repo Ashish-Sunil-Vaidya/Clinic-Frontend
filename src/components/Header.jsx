@@ -86,7 +86,7 @@ const Header = ({ role, navlinks }) => {
             align="center"
             justify="space-between"
             flexWrap="wrap"
-            px={3}
+            p={3}
           >
             <Flex alignItems="center">
               <Image

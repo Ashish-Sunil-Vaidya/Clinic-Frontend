@@ -4,6 +4,7 @@ import Summary from "./Summary.section";
 import Schedules from "./Schedules.section";
 import PatientHistory from "./PatientHistory.section";
 import PaymentsHistory from "./PaymentsHistory.section";
+import Appointments from "./Appointments.section";
 
 
 const Dashboard = () => {
@@ -11,9 +12,9 @@ const Dashboard = () => {
 
   const tabcontent = [
     <Summary key={1} />,
-    <Schedules key={2} />,
-    <PatientHistory key={3} />,
-    <PaymentsHistory key={4} />,
+    <Appointments key={2} />,
+    <Appointments key={3} />,
+    <Appointments key={4} />,
   ];
   const chakraCustomButtonTheme = {
     bg: "cyan.500",
