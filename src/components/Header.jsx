@@ -17,10 +17,11 @@ import { useNavigate } from "react-router-dom";
 import { FaUserDoctor } from "react-icons/fa6";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { FaBars } from "react-icons/fa6";
+import { useGlobalContext } from "src/context/GlobalContext";
 
 const Header = ({ role, navlinks }) => {
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(false);
+  const { isMobile, setIsMobile,tabValue } = useGlobalContext();
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,7 +55,7 @@ const Header = ({ role, navlinks }) => {
                   borderRadius="50%"
                 />
                 <Box mx={2} fontSize="1rem" fontWeight="bold" color="cyan.600">
-                  Dashboard / <strong>Home</strong>
+                  Dashboard / <strong>{tabValue}</strong>
                 </Box>
               </Flex>
               <FaBars fontSize="1.5rem" />
@@ -106,7 +107,7 @@ const Header = ({ role, navlinks }) => {
                 fontSize="1.1rem"
                 color="cyan.600"
               >
-                Dashboard / <strong>Home</strong>
+                Dashboard / <strong>{tabValue}</strong>
               </Box>
             </Flex>
             <Flex gap={10} alignItems="center">

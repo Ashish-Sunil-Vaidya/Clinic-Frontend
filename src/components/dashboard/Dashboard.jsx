@@ -1,14 +1,15 @@
 import { Tab, Tabs, TabList, TabPanel, TabPanels, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import Summary from "./Summary.section";
+import Summary from "./Summary";
 import Schedules from "./Schedules.section";
-import PatientHistory from "./PatientHistory.section";
+import PatientHistory from "./PatientHistory";
 import PaymentsHistory from "./PaymentsHistory.section";
-import Appointments from "./Appointments.section";
-
+import Appointments from "./Appointments";
+import { useGlobalContext } from "src/context/GlobalContext";
 
 const Dashboard = () => {
   const tabnames = ["Home", "Schedules", "Patient History", "Payments History"];
+  const { isMobile, setIsMobile, setTabValue } = useGlobalContext();
 
   const tabcontent = [
     <Summary key={1} />,
@@ -23,7 +24,12 @@ const Dashboard = () => {
   };
 
   const [orientation, setOrientation] = useState("vertical");
-  const [isMobile, setIsMobile] = useState(false);
+
+  const handleChange = (index) => {
+    setTabValue(tabnames[index]);
+    console.log("Tab Changed to: ", tabnames[index]);
+  };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,8 +37,6 @@ const Dashboard = () => {
       else setIsMobile(false);
       if (window.innerWidth > 768) {
         setOrientation("vertical");
-
-        console.log("isMobile", isMobile);
       } else {
         setOrientation("horizontal");
       }
@@ -56,6 +60,7 @@ const Dashboard = () => {
         display={orientation === "horizontal" ? "grid" : "flex"}
         gridTemplateRows="auto 1fr"
         gap={3}
+        onChange={handleChange}
       >
         <Box
           height={{
@@ -90,20 +95,19 @@ const Dashboard = () => {
           >
             {tabnames.map((tabname, index) => (
               <Tab
-              position="relative"
-              bgColor="white"
-              transition="all 300ms"
-              top={0}
-              left={0}
-              boxShadow="5px 5px 8px 2px rgb(0,0,0,.06)"
-              _selected={chakraCustomButtonTheme}
+                position="relative"
+                bgColor="white"
+                transition="all 300ms"
+                top={0}
+                left={0}
+                boxShadow="5px 5px 8px 2px rgb(0,0,0,.06)"
+                _selected={chakraCustomButtonTheme}
                 _active={{
                   top: 1,
                   left: 1,
                   boxShadow: "none",
                 }}
                 key={index}
-                
               >
                 {tabname}
               </Tab>
