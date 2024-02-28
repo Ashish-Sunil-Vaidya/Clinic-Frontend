@@ -1,12 +1,24 @@
 import { Tab, Tabs, TabList, TabPanel, TabPanels, Box } from "@chakra-ui/react";
-import { tabnames, tabcontent } from "./routes";
 import { useEffect, useState } from "react";
+import Summary from "./Summary.section";
+import Schedules from "./Schedules.section";
+import PatientHistory from "./PatientHistory.section";
+import PaymentsHistory from "./PaymentsHistory.section";
+
 
 const Dashboard = () => {
+  const tabnames = ["Home", "Schedules", "Patient History", "Payments History"];
+
+  const tabcontent = [
+    <Summary key={1} />,
+    <Schedules key={2} />,
+    <PatientHistory key={3} />,
+    <PaymentsHistory key={4} />,
+  ];
   const chakraCustomButtonTheme = {
-    borderRadius: "10px",
-    bg: "teal.500",
+    bg: "cyan.500",
     color: "white",
+    border: "none",
   };
 
   const [orientation, setOrientation] = useState("vertical");
@@ -45,8 +57,6 @@ const Dashboard = () => {
         gap={3}
       >
         <Box
-          boxShadow="0 0 2px 2px rgba(0,0,0,0.05)"
-          bg="white"
           height={{
             sm: "fit-content",
             md: "100%",
@@ -55,16 +65,16 @@ const Dashboard = () => {
           }}
           width={{
             sm: "100%",
-            md: "30%",
+            md: "20%",
           }}
           borderRadius={10}
         >
           <TabList
+            mt={6}
             minW="fit-content"
             p="10px"
             borderRadius={10}
-            gap={2}
-            top={3}
+            gap={3}
             position="sticky"
             sx={
               document.body.clientWidth <= 768 && {
@@ -78,20 +88,33 @@ const Dashboard = () => {
             }
           >
             {tabnames.map((tabname, index) => (
-              <Tab _selected={chakraCustomButtonTheme} key={index}>
+              <Tab
+              position="relative"
+              bgColor="white"
+              transition="all 300ms"
+              top={0}
+              left={0}
+              boxShadow="5px 5px 8px 2px rgb(0,0,0,.06)"
+              _selected={chakraCustomButtonTheme}
+                _active={{
+                  top: 1,
+                  left: 1,
+                  boxShadow: "none",
+                }}
+                key={index}
+                
+              >
                 {tabname}
               </Tab>
             ))}
           </TabList>
         </Box>
 
-        <TabPanels
-          h="100%"
-          borderRadius={10}
-          overflowY="auto"
-        >
+        <TabPanels h="100%" overflowY="auto">
           {tabcontent.map((content, index) => (
-            <TabPanel key={index} p={0}>{content}</TabPanel>
+            <TabPanel key={index} p={0}>
+              {content}
+            </TabPanel>
           ))}
         </TabPanels>
       </Tabs>

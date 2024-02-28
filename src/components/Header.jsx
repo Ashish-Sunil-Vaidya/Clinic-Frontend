@@ -10,9 +10,12 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Icon,
 } from "@chakra-ui/react";
 import logo from "src/assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { FaUserDoctor } from "react-icons/fa6";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import { FaBars } from "react-icons/fa6";
 
 const Header = ({ role, navlinks }) => {
@@ -41,27 +44,20 @@ const Header = ({ role, navlinks }) => {
           boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
         >
           <AccordionItem border={0}>
-            <AccordionButton justifyContent="space-between"  color="teal" px={6} py={3}>
+            <AccordionButton justifyContent="space-between" px={6} py={3}>
               <Flex alignItems="center">
                 <Image
                   boxSize="60px"
                   objectFit="cover"
                   src={logo}
                   alt="Code Surgery Squad"
-                  bg="white"
                   borderRadius="50%"
-                 
                 />
-                <Box
-                  mx={2}
-                  fontSize="1.5rem"
-                  fontWeight="bold"
-                  color="teal.600"
-                >
-                  {role}
+                <Box mx={2} fontSize="1rem" fontWeight="bold" color="cyan.600">
+                  Dashboard / <strong>Home</strong>
                 </Box>
               </Flex>
-              <FaBars fontSize="1.5rem"/>
+              <FaBars fontSize="1.5rem" />
             </AccordionButton>
 
             <AccordionPanel>
@@ -89,9 +85,6 @@ const Header = ({ role, navlinks }) => {
             h="100%"
             align="center"
             justify="space-between"
-            boxShadow="0 0 2px 2px rgba(0,0,0,0.05)"
-            borderRadius={10}
-            bg="white"
             flexWrap="wrap"
             px={3}
           >
@@ -105,25 +98,37 @@ const Header = ({ role, navlinks }) => {
                 borderRadius="50%"
                 p={1}
               />
-              <Box mx={2} fontSize="1.5rem" fontWeight="bold" color="teal.600">
-                {role}
+              <Box
+                bg="white"
+                borderRadius={9999}
+                mx={2}
+                p={3}                
+                fontSize="1.1rem"
+                color="cyan.600"
+              >
+                Dashboard / <strong>Home</strong>
               </Box>
             </Flex>
-            <Flex gap={10}>
-              <Flex align="center" gap={2}>
-                {navlinks.map(({ name, path }, index) => {
-                  return (
-                    <Box key={index} fontSize="1.2rem" fontWeight={600}>
-                      <Button
-                        color="teal"
-                        variant="link"
-                        onClick={() => navigate(path)}
-                      >
-                        {name}
-                      </Button>
-                    </Box>
-                  );
-                })}
+            <Flex gap={10} alignItems="center">
+              <Flex
+                alignItems="center"
+                gap={2}
+                color="cyan.600"
+                fontSize="1.2rem"
+                bg="white"
+                borderRadius={9999}
+                p={2}
+                pr={2}
+              >
+                <Icon
+                  as={role === "Doctor" ? FaUserDoctor : RiCustomerService2Fill}
+                  color="white"
+                  bgColor="cyan.600"
+                  boxSize={9}
+                  p={1}
+                  borderRadius="50%"
+                />
+                {role === "Doctor" ? "Doctor" : "Receptionist"}
               </Flex>
               <Box>
                 <Button colorScheme="red">Logout</Button>

@@ -1,5 +1,5 @@
 import Dashboard from "src/components/dashboard/Dashboard";
-import { Appointments } from "src/components/dashboard/sections";
+// import { Appointments } from "src/components/dashboard/sections";
 import { AppointmentForm,BillingForm, PatientForm } from "src/components/forms";
 export const doctorRoutes = [
     {
@@ -12,7 +12,8 @@ export const doctorRoutes = [
 export const receptionistRoutes = [
     {
         path: '/receptionist/appointments',
-        component: <Appointments />,
+        // component: <Appointments />,
+        // component: <Schedules />,
         name: 'appointments'
     },
     {

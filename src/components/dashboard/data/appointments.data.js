@@ -1,4 +1,4 @@
-const appoinmentsData = [
+const schedulesData = [
     {
         srNo: 1,
         name: "Alice",
@@ -201,4 +201,4 @@ const appoinmentsData = [
     }
 ];
 
-export default appoinmentsData;
+export default schedulesData;

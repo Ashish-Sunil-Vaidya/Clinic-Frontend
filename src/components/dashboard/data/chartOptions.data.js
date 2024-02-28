@@ -1,4 +1,4 @@
-import appoinmentsData from "../data/appointmentsData";
+import appoinmentsData from "./appointments.data";
 
 export const seriesData = [
     [{

@@ -7,7 +7,7 @@ import {
   Tbody,
   Table,
 } from "@chakra-ui/react";
-import appoinmentsData from "../data/appointmentsData";
+import appointmentsData from "src/components/dashboard/data/appointments.data";
 
 
 const Appointments = () => {
@@ -27,7 +27,7 @@ const Appointments = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {appoinmentsData.map((appointment, index) => {
+          {appointmentsData.map((appointment, index) => {
             return (
               <Tr
                 key={index}

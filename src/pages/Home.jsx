@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import Header from "src/components/header/Header";
+import Header from "src/components/Header";
 
 const Home = ({ role, navlinks, component }) => {
   const headerProps = {
@@ -8,10 +8,11 @@ const Home = ({ role, navlinks, component }) => {
   };
   return (
     <Flex
-      w="100%"
+      max="100%"
       h="100svh"
+      px="5%"
       // overflowY="auto"
-      bg="#F8F8F8"
+      bg="cyan.100"
       // gap={3}
 
       // flexDirection="column"
@@ -19,7 +20,7 @@ const Home = ({ role, navlinks, component }) => {
       gridTemplateRows="minmax(80px,auto) minmax(0, 1fr)"
     >
       <Header {...headerProps} />
-      <Box flex={1} p={3} overflowY="hidden">
+      <Box flex={1}  overflowY="hidden">
         {component}
       </Box>
     </Flex>

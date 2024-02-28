@@ -1,14 +1,18 @@
 import {
   doctorRoutes,
   receptionistRoutes,
-} from "./components/header/routes/routes";
+} from "./components/routes";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import { Home, Login } from "./pages";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/login"
+          element={<Login role="Login" navlinks={doctorRoutes} />}
+        />
         {doctorRoutes.map(({ path, component }, index) => {
           return (
             <Route
