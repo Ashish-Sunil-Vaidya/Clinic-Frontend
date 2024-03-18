@@ -1,14 +1,12 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState } from "react";
 
-export const GlobalContext = createContext(null);
+export const GlobalContext = createContext();
 export const GlobalProvider = ({ children }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [tabValue, setTabValue] = useState("Home");
+
+  const [tabValue, setTabValue] = useState("Dashboard");
   return (
     <GlobalContext.Provider
       value={{
-        isMobile,
-        setIsMobile,
         tabValue,
         setTabValue,
       }}
@@ -18,11 +16,5 @@ export const GlobalProvider = ({ children }) => {
   );
 };
 
-export const useGlobalContext = () => {
-  if (!useContext(GlobalContext)) {
-    throw new Error("useGlobalContext must be used within a GlobalProvider");
-  }
-  return useContext(GlobalContext);
-};
 
 export default GlobalProvider;

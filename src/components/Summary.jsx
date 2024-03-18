@@ -1,7 +1,7 @@
 import { Box, Grid } from "@chakra-ui/react";
-import MiniStatistics from "src/components/dashboard/cards/MiniStatistics";
-import revenueData from "src/components/dashboard/data/revenue.data";
-import BarChart from "../charts/BarChart";
+import MiniStatistics from "src/components/MiniStatistics";
+import revenueData from "src/components/data/revenue.data";
+import BarChart from "./charts/BarChart";
 
 const Summary = () => {
   return (
