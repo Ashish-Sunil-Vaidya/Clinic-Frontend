@@ -2,13 +2,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import Login from "./pages/Login";
 import DoctorHome from "./pages/DoctorHome";
-import PatientsHistory from "./components/PatientsHistory";
 import Schedules from "./components/Schedules";
+
 import Dashboard from "./components/Dashboard";
 import GlobalProvider from "./context/GlobalContext";
 import ReceptionistHome from "./pages/ReceptionistHome";
 import Billing from "./components/Billing";
-import Appointment from "./components/Appointment";
+import AppointmentForm from "./components/AppointmentForm";
+import Patients from "./components/Patients";
 
 const routes = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "patients",
-        element: <PatientsHistory />,
+        element: <Patients/>,
       },
     ],
   },
@@ -51,7 +52,11 @@ const routes = createBrowserRouter([
       },
       {
         path: "appointment",
-        element: <Appointment />,
+        element: <AppointmentForm />,
+      },
+      {
+        path: "all-appointments",
+        element: <Patients />,
       },
     ],
   },

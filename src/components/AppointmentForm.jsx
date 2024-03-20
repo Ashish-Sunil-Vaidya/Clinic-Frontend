@@ -1,6 +1,4 @@
 import {
-  Box,
-  Flex,
   Grid,
   InputGroup,
   FormLabel,
@@ -10,18 +8,19 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-const Appointment = () => {
+const AppointmentForm = () => {
   return (
-    <Box
-      rounded="20px"
-      p="10px"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
+    <Grid
+      bg="white"
+      borderRadius="20px"
+      h="calc(100% - 10svh)"
+      gap={5}
       color="cyan.700"
+      justify="center"
+      align="center"
     >
       <Heading>Add Appointments</Heading>
-      <Grid w="100%" h="100%" gap={4} >
+      <Grid w="100%" h="100%" gap={4}>
         <Grid alignItems="center">
           <FormLabel fontSize="20px">Name</FormLabel>
           <InputGroup>
@@ -112,11 +111,11 @@ const Appointment = () => {
           </InputGroup>
         </Grid>
       </Grid>
-      <Button width="150px" mt={4} type="submit" colorScheme="blue">
+      <Button  colorScheme="cyan" color="white">
         Submit
       </Button>
-    </Box>
+    </Grid>
   );
 };
 
-export default Appointment;
+export default AppointmentForm;

@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 
 function Patient_Info() {
+    
+    console.log('===  Patient_Info.jsx [13] ===', );
     return(
         <Flex direction='column' bg='teal.200' width='100%'  p='10px' borderRadius='20px' maxW='900px'>
             <Heading fontSize='25px'>Patient Information</Heading>

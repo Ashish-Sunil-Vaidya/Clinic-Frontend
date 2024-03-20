@@ -1,18 +1,20 @@
 import {
-  Button,
-  IconButton,
-  Input,
-  InputGroup,
-  Table,
   TableContainer,
-  Tbody,
-  Td,
-  Th,
   Thead,
   Tr,
+  Th,
+  Td,
+  Tbody,
+  Table,
+  InputGroup,
+  Input,
+  IconButton,
+  Icon,
 } from "@chakra-ui/react";
-import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
+import appointmentsData from "./data/appointments.data";
+import { FaCheckCircle } from "react-icons/fa";
+import { FaCircleXmark } from "react-icons/fa6";
 
 const Schedules = () => {
   return (
@@ -52,16 +54,18 @@ const Schedules = () => {
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Sr.No.</Th>
+            <Th>SrNo</Th>
             <Th>Name</Th>
             <Th>Mobile</Th>
-            <Th>Amount</Th>
+            <Th>Gender</Th>
+            <Th>Age</Th>
             <Th>Date</Th>
-            <Th></Th>
+            <Th>Time</Th>
+            <Th>Visited?</Th>
           </Tr>
         </Thead>
         <Tbody>
-          {patientsData.map((Patient, index) => {
+          {appointmentsData.map((appointment, index) => {
             return (
               <Tr
                 key={index}
@@ -71,14 +75,19 @@ const Schedules = () => {
                 }}
               >
                 <Td>{index + 1}</Td>
-                <Td>{Patient.name}</Td>
-                <Td>{Patient.mobile}</Td>
-                <Td>{Patient.amount}</Td>
-                <Td>{Patient.date}</Td>
-                <Td display="flex" justifyContent="center">
-                  <Button colorScheme="cyan" alignSelf="center" color="white">
-                    View Details
-                  </Button>
+                <Td>{appointment.name}</Td>
+                <Td>{appointment.mobile}</Td>
+                <Td>{appointment.gender}</Td>
+                <Td>{appointment.age}</Td>
+                <Td>{appointment.date}</Td>
+                <Td>{appointment.time}</Td>
+                <Td display="flex" gap={3}>
+                  <Icon
+                    as={appointment.isVisited ? FaCheckCircle : FaCircleXmark}
+                    color={appointment.isVisited ? "green.500" : "red.500"}
+                    boxSize={6}
+                  />
+                  {appointment.isVisited ? "Yes" : "No"}
                 </Td>
               </Tr>
             );

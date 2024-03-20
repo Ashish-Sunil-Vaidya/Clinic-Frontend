@@ -43,7 +43,7 @@ const ReceptionistHome = () => {
           </Box>
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
-        <Box position="relative" overflow="hidden">
+        {/* <Box position="relative" overflow="hidden">
           <Image src={clinicImg} h="200px" rounded="md" />
           <Box
             rounded="md"
@@ -60,18 +60,9 @@ const ReceptionistHome = () => {
             Dr. Sunil Vaidya's Clinic
           </Box>
         </Box>
-        <Divider orientation="horizontal" my={3} borderWidth={2} />
+        <Divider orientation="horizontal" my={3} borderWidth={2} /> */}
         <Flex direction="column" gap={3}>
-          <NavLink to="/user/receptionist/dashboard">
-            <Button
-              w="100%"
-              colorScheme="cyan"
-              color="white"
-              onClick={() => setTabValue("Dashboard")}
-            >
-              Dashboard
-            </Button>
-          </NavLink>
+          
           <NavLink to="/user/receptionist/billing">
             <Button
               w="100%"
@@ -89,14 +80,14 @@ const ReceptionistHome = () => {
               color="white"
               onClick={() => setTabValue("Appointment")}
             >
-              Appointment
+              Add Appointment
             </Button>
           </NavLink>
-          {/* <NavLink to="/user/receptionist/payments">
+          <NavLink to="/user/receptionist/all-appointments">
             <Button w="100%" colorScheme="cyan" color="white">
-              Payments
+              Appointments
             </Button>
-          </NavLink> */}
+          </NavLink>
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
       </Box>

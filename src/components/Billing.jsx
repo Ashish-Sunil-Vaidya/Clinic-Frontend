@@ -1,5 +1,5 @@
 import {
-  Flex,
+  Grid,
   Heading,
   FormLabel,
   Input,
@@ -10,8 +10,7 @@ import {
 
 const Billing = () => {
   return (
-    <Flex
-      direction="column"
+    <Grid
       bg="white"
       borderRadius="20px"
       p={10}
@@ -43,20 +42,13 @@ const Billing = () => {
         </Select>
       </InputGroup>
       <Button
-        mt="10px"
-        width="30vh"
-        type="save"
         colorScheme="cyan"
         color="white"
-        variant="solid"
         alignSelf="center"
-
-        borderColor="teal.800"
-        borderRadius="10px"
       >
         Save
       </Button>
-    </Flex>
+    </Grid>
   );
 };
 
