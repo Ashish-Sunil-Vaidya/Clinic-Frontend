@@ -3,10 +3,24 @@ import { Outlet, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import clinicImg from "../assets/clinic.jpeg";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate  } from "react-router-dom";
 
 const DoctorHome = () => {
   const [tabValue, setTabValue] = useState("Dashboard");
+  const { currentUser, setCurrentUser, expirationTime } = useContext(GlobalContext);
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    if(!currentUser || currentUser.role !== "doctor") navigator("/login");
+    if(Date.now() > expirationTime) {
+      navigator("/login")
+      setCurrentUser(null);
+    }
+  }, [])
+
+
   return (
     <Grid
       templateColumns={{

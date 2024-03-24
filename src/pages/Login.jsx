@@ -14,7 +14,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios"
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate  } from "react-router-dom";
 // 2. Update the breakpoints as key-value pairs
 const breakpoints = {
   base: "0px",
@@ -28,11 +31,45 @@ const breakpoints = {
 const theme = extendTheme({ breakpoints });
 
 const Login = () => {
-  const [selectedValue, setSelected] = useState("Doctor");
+
+  const [role, setRole] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrMsg] = useState("");
+  const { currentUser, setCurrentUser, setExpirationTime } = useContext(GlobalContext);
+  const navigator = useNavigate();
+
+  useEffect(() => {
+    if(currentUser) {
+      if(currentUser.role === "doctor") navigator("/user/doctor")
+      else navigator("/user/receptionist")
+    }
+  }, [])
+
   const handleSelected = (value) => {
-    setSelected(value);
-    console.log('=== selected Login.jsx [34] ===', selectedValue);
+    setRole(value);
   };
+
+  const loginSubmitHandler = (e) => {
+    axios.post("https://swaseem-clinic-backend.onrender.com/api/v1/users/login", { role: role.toLowerCase(), username, password })
+    .then(response => {
+      const loggedInUser = response.data.data;
+      if(!loggedInUser) seterrMsg("Unable to login user");
+      setCurrentUser(loggedInUser);
+      setExpirationTime(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      if(loggedInUser?.role === "doctor") navigator("/user/doctor");
+      else navigator("/user/receptionist");
+    })
+    .catch(error => {
+      console.log("ewvjhghyt")
+      if(error?.response?.status === 400) setErrMsg("All feilds are required");
+      else if(error?.response?.status === 404) setErrMsg("Invalid role choosed");
+      else if(error?.response?.status === 409) setErrMsg("Incorrect Password");
+      else setErrMsg(error?.message);
+      console.log(errorMsg)
+    });
+  }
+
   return (
     <>
       <Flex
@@ -69,6 +106,7 @@ const Login = () => {
             p="25px"
             shadow={"0 0 40px lightgray"}
             maxW="400px"
+            onSubmit={loginSubmitHandler}
           >
             <Flex
               direction="column"
@@ -84,14 +122,14 @@ const Login = () => {
                   <Radio
                     value="Doctor"
                     onChange={() => handleSelected("Doctor")}
-                    selected={selectedValue === "Doctor"}
+                    selected={role === "Doctor"}
                   >
                     Doctor
                   </Radio>
                   <Radio
                     value="Receptionist"
                     onChange={() => handleSelected("Receptionist")}
-                    selected={selectedValue === "Receptionist"}
+                    selected={role === "Receptionist"}
                   >
                     Receptionist
                   </Radio>
@@ -107,22 +145,26 @@ const Login = () => {
                 fontSize="20px"
                 color="black"
                 placeholder="Enter your name"
-                text
+                value={username}
+                onChange={e => setUsername(e.target.value)}
               ></Input>
               <FormLabel my="10px" fontSize="20px">
                 Password
               </FormLabel>
               <Input
+                id={Date.now()}
                 type="password"
                 rounded="10px"
                 bgColor="gray.100"
                 fontSize="20px"
                 color="black"
                 placeholder="Enter your password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               ></Input>
 
               <Box my="10px">
-                <Button type="submit" colorScheme="cyan">
+                <Button type="submit" colorScheme="cyan" onClick={loginSubmitHandler}>
                   Submit
                 </Button>
               </Box>

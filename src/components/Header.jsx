@@ -14,8 +14,27 @@ import {
 import { FaBars } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
-
+import { useContext, useState } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate  } from "react-router-dom";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 const Header = ({ tabValue, setTabValue, role }) => {
+  const { currentUser, setCurrentUser } = useContext(GlobalContext);
+  const [errorMsg, setErrMsg] = useState("");
+
+  const handleLogout = () => {
+    axios.post("https://swaseem-clinic-backend.onrender.com/api/v1/users/logout", { credentials: 'include' })
+    .then(response => {
+      console.log(response)
+      setCurrentUser(null);
+      navigator("/");
+    })
+    .catch(error => {
+      console.log(error);
+      setErrMsg("Unauthorized request or invalid access token");
+    })
+  }
   return (
     <>
       <Box>
@@ -39,10 +58,12 @@ const Header = ({ tabValue, setTabValue, role }) => {
             <Flex align="center">
               <Avatar boxSize="40px" />
               <Box ml={2} fontSize="1.1rem" color="cyan.600">
-                {role === "doctor" ? "Dr. Sunil Vaidya" : "John Doe"}
+                {currentUser?.fullname}
               </Box>
             </Flex>
-            <Button colorScheme="red">Logout</Button>
+            <Button colorScheme="red"
+            onClick={handleLogout}
+            >Logout</Button>
           </Flex>
         </Flex>
         <Divider orientation="horizontal" borderWidth={1} />
@@ -85,7 +106,7 @@ const Header = ({ tabValue, setTabValue, role }) => {
               >
                 <Avatar boxSize="40px" />
                 <Box ml={2} fontSize="1.1rem" color="cyan.600">
-                  {role === "doctor" ? "Dr. Sunil Vaidya" : "John Doe"}
+                  {currentUser?.role}
                 </Box>
               </Flex>
               <NavLink to="/user/doctor/dashboard">
