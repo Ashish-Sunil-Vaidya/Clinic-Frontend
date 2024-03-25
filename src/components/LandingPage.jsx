@@ -1,30 +1,72 @@
-import { Box, Button, Flex, Image } from "@chakra-ui/react";
-import logo from "../assets/logo.png";
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  Image,
+  Flex,
+  Link,
+} from "@chakra-ui/react";
+
 import { NavLink } from "react-router-dom";
+
+import img from "../assets/landing-page-logo.png";
 
 const LandingPage = () => {
   return (
-    <>
-      <Flex p={4} justify="space-between">
-        <Flex
-          align="center"
-          color="cyan.500"
-          gap={2}
-          fontSize="1.2rem"
-          fontWeight="bolder"
+    <Flex h="100svh" align="center" direction="column">
+      <Flex
+        w="full"
+        justifyContent="space-between"
+        alignItems="center"
+        px={10}
+        py={5}
+      >
+        <Heading
+          as="h1"
+          size="xl"
+          bgGradient="linear(to-r, cyan.400, cyan.600)"
+          backgroundClip="text"
         >
-          <Image boxSize="50px" src={logo} />
-          Dr. Sunil Vaidya's Clinic
-        </Flex>
-        <Flex>
-          <NavLink
-            to="/login"
+          Dr. Sunil S. Vaidya Pediatric Care
+        </Heading>
+        <NavLink to="/login">
+          <Button colorScheme="cyan" variant="outline" size="md">
+            Doctor/Receptionist Login
+          </Button>
+        </NavLink>
+      </Flex>
+      <Flex align="center" justify="center" flex={1} bgColor="cyan.50">
+        <Image src={img} alt="doctor" w="300px" mx="5%"/>
+        <Flex direction="column" justify="center" align="center" px="5%">
+          <Heading
+            display="inline-block"
+            as="h2"
+            size="2xl"
+            bgGradient="linear(to-r, cyan.400, cyan.600)"
+            backgroundClip="text"
           >
-            <Button colorScheme="cyan" color="white">Login</Button>
-          </NavLink>
+            Dedicated Care for Your Little Ones
+          </Heading>
+          <Text fontSize="18px" mt={3} mb={2}>
+            Personalized and compassionate care for every child's health needs
+          </Text>
+          <Text color={"gray.500"} mb={6} textAlign="center">
+            With over [Years of Experience] years of experience, Dr. [Your
+            Father's Name] provides expert medical attention with a gentle
+            touch, ensuring your child's well-being and comfort.
+          </Text>
+          <Button
+            colorScheme="teal"
+            bgGradient="linear(to-r, cyan.400, cyan.500, cyan.600)"
+            size="lg"
+            textTransform={"uppercase"}
+          >
+            Book an Appointment
+          </Button>
         </Flex>
       </Flex>
-    </>
+    </Flex>
   );
 };
 
