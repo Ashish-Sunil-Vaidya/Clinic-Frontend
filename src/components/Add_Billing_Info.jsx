@@ -52,8 +52,6 @@ function Billing_Info() {
         colorScheme="cyan"
         variant="solid"
         alignSelf="center"
-        border="2px"
-        borderColor="teal.800"
         borderRadius="10px"
       >
         Save
