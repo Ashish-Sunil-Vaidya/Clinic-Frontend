@@ -17,7 +17,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
-import { Outlet } from "react-router-dom";
+
 import axios from "axios";
 const Patients = () => {
   const [patientsData, setPatientssData] = useState([]);
@@ -50,7 +50,7 @@ const Patients = () => {
   }, []);
   return (
     <>
-      <Outlet />
+  
       <TableContainer
         bgColor="white"
         boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
@@ -118,7 +118,7 @@ const Patients = () => {
                       alignSelf="center"
                       color="white"
                       onClick={() => {
-                        navigator("patient-detail");
+                        navigator("/user/doctor/patient-detail");
                       }}
                     >
                       View Details

@@ -43,7 +43,7 @@ const Login = () => {
 
   useEffect(() => {
     if(currentUser) {
-      if(currentUser.role === "doctor") navigator("/user/doctor")
+      if(currentUser.role === "doctor") navigator("/user/doctor/dashboard")
       else navigator("/user/receptionist")
     }
   }, [])
@@ -66,7 +66,7 @@ const Login = () => {
         duration: 9000,
         isClosable: true,
       })
-      if(loggedInUser?.role === "doctor") navigator("/user/doctor");
+      if(loggedInUser?.role === "doctor") navigator("/user/doctor/dashboard");
       else navigator("/user/receptionist");
     })
     .catch(error => {

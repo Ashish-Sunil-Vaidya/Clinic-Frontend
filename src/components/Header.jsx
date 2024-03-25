@@ -9,6 +9,8 @@ import {
   AccordionButton,
   AccordionPanel,
   Avatar,
+  MenuButton,
+  Menu,
 } from "@chakra-ui/react";
 
 import { FaBars } from "react-icons/fa";
@@ -16,39 +18,44 @@ import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useToast } from '@chakra-ui/react'
+import { useToast } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 axios.defaults.withCredentials = true;
 const Header = ({ tabValue, setTabValue, role }) => {
-  const { currentUser, setCurrentUser, setExpirationTime } = useContext(GlobalContext);
+  const { currentUser, setCurrentUser, setExpirationTime } =
+    useContext(GlobalContext);
   const navigator = useNavigate();
-  const toast = useToast()
+  const toast = useToast();
 
   const handleLogout = () => {
-    axios.post("http://localhost:8000/api/v1/users/logout", { credentials: 'include' })
-    .then(response => {
-      setCurrentUser(null);
-      setExpirationTime(0);
-      toast({
-        title: 'Logout successfull.',
-        description: "You are logged out from your account",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
+    axios
+      .post("http://localhost:8000/api/v1/users/logout", {
+        credentials: "include",
       })
-      navigator("/");
-    })
-    .catch(error => {
-      toast({
-        title: 'Logout Failed.',
-        description: "Unauthorized request",
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
+      .then((response) => {
+        setCurrentUser(null);
+        setExpirationTime(0);
+        toast({
+          title: "Logout successfull.",
+          description: "You are logged out from your account",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        navigator("/");
       })
-    })
-  }
+      .catch((error) => {
+        toast({
+          title: "Logout Failed.",
+          description: "Unauthorized request",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+  };
   return (
     <>
       <Box>
@@ -69,15 +76,19 @@ const Header = ({ tabValue, setTabValue, role }) => {
             {tabValue}
           </Box>
           <Flex gap={10}>
-            <Flex align="center">
-              <Avatar boxSize="40px" />
-              <Box ml={2} fontSize="1.1rem" color="cyan.600">
-                {currentUser?.fullname}
-              </Box>
-            </Flex>
-            <Button colorScheme="red"
-            onClick={handleLogout}
-            >Logout</Button>
+            <Menu>
+              <MenuButton >
+                <Flex align="center">
+                  <Avatar boxSize="40px" />
+                  <Box ml={2} fontSize="1.1rem" color="cyan.600">
+                    {currentUser?.fullname}
+                  </Box>
+                </Flex>
+              </MenuButton>
+            </Menu>
+            <Button colorScheme="red" onClick={handleLogout}>
+              Logout
+            </Button>
           </Flex>
         </Flex>
         <Divider orientation="horizontal" borderWidth={1} />

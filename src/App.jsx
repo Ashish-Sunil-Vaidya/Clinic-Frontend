@@ -36,12 +36,10 @@ const routes = createBrowserRouter([
       {
         path: "patients",
         element: <Patients />,
-        children: [
-          {
-            path: "patient-detail",
-            element: <Patient_Detail />,
-          },
-        ],
+      },
+      {
+        path: "patient-detail",
+        element: <Patient_Detail />,
       },
     ],
   },
