@@ -5,6 +5,7 @@ import Billing_Info from "./Add_Billing_Info.jsx";
 
 
 function Patient_Detail(){
+    
     return (
         <Flex direction='column' bg='teal.100' minH='100vh' width='100vw'>
             <Flex direction={{md:'row', sm:'column' ,base:'column'}} bg='teal.100' p='10px' gap='10px' alignItems='center'>

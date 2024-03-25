@@ -28,7 +28,7 @@ const LandingPage = () => {
           bgGradient="linear(to-r, cyan.400, cyan.600)"
           backgroundClip="text"
         >
-          Dr. Sunil S. Vaidya Pediatric Care
+          Dr. Ashish Vaidya Pediatric Care
         </Heading>
         <NavLink to="/login">
           <Button colorScheme="cyan" variant="outline" size="md">
@@ -52,12 +52,12 @@ const LandingPage = () => {
             Personalized and compassionate care for every child's health needs
           </Text>
           <Text color={"gray.500"} mb={6} textAlign="center">
-            With over [Years of Experience] years of experience, Dr. [Your
-            Father's Name] provides expert medical attention with a gentle
+            With over 30+ years of experience, Dr. Ashish Vaidya provides expert medical attention with a gentle
             touch, ensuring your child's well-being and comfort.
           </Text>
           <Button
-            colorScheme="teal"
+            colorScheme="cyan"
+            color="white"
             bgGradient="linear(to-r, cyan.400, cyan.500, cyan.600)"
             size="lg"
             textTransform={"uppercase"}

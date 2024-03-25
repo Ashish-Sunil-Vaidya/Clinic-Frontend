@@ -105,7 +105,9 @@ const Patients = () => {
                 <Td>{Patient.symptoms}</Td>
                 <Td>{Patient.last_visited?.substring(0, 10) || "Not visited"}</Td>
                 <Td display="flex" justifyContent="center">
-                  <Button colorScheme="cyan" alignSelf="center" color="white">
+                  <Button colorScheme="cyan" alignSelf="center" color="white" onClick={()=>{
+                    navigator(`user/doctor/patient-detail`)
+                  }}>
                     View Details
                   </Button>
                 </Td>

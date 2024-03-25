@@ -10,6 +10,7 @@ import ReceptionistHome from "./pages/ReceptionistHome";
 import Billing from "./components/Billing";
 import AppointmentForm from "./components/AppointmentForm";
 import Patients from "./components/Patients";
+import Patient_Detail from "./components/Patient_Detail";
 
 const routes = createBrowserRouter([
   {
@@ -34,8 +35,12 @@ const routes = createBrowserRouter([
       },
       {
         path: "patients",
-        element: <Patients/>,
+        element: <Patients />,
       },
+      {
+        path: "patient-detail",
+        element: <Patient_Detail />,
+      }
     ],
   },
   {
