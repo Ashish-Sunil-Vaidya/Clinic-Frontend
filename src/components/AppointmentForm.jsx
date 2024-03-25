@@ -7,7 +7,11 @@ import {
   Button,
   Heading,
 } from "@chakra-ui/react";
-import { useState } from "react"
+import { useState, useEffect, useContext } from "react"
+import axios from "axios"
+import { useToast } from '@chakra-ui/react'
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate } from "react-router-dom";
 const AppointmentForm = () => {
   const [patient_name, setPatientName] = useState("");
   const [mobile_no, setMobileNo] = useState("");
@@ -15,6 +19,94 @@ const AppointmentForm = () => {
   const [gender, setGender] = useState("");
   const [date_of_app, setDateOfApp] = useState("");
   const [time_of_app, setTimeOfApp] = useState("");
+  const navigator = useNavigate();
+  const toast = useToast()
+  const { currentUser, expirationTime, setCurrentUser } = useContext(GlobalContext);
+  useEffect(() => {
+    if(!currentUser || currentUser?.role != "receptionist") {
+      toast({
+        title: 'Unauthorized Request',
+        description: "Login to access this page.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      navigator("/login");
+    } else if(Date.now() > expirationTime) {
+      setCurrentUser(null);
+      toast({
+        title: 'Token expired',
+        description: "Login again",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      navigator("/login");
+    }
+  }, []);
+
+  const handleAddAppointment = () => {
+    const time = time_of_app.split(':');
+    let isPm = false;
+    if(time[0] > 12) {
+      time[0] -= 12;
+      isPm = true;
+    } 
+    let newTime = time[0] + ":" + time[1];
+    if(isPm) newTime += " PM"
+    else newTime += " AM";
+    console.log(newTime)
+    axios.post("http://localhost:8000/api/v1/users/receptionist/addAppointment", {
+      patient_name,
+      mobile_no,
+      age,
+      gender,
+      date_of_app,
+      time_of_app: newTime
+    })
+    .then(response => {
+      setPatientName("");
+      setAge("");
+      setDateOfApp("");
+      setTimeOfApp("");
+      setGender("");
+      setMobileNo("");
+      toast({
+        title: 'Booked',
+        description: "Appointment booked successfully",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    })
+    .catch(error => {
+      if(error.response?.status == 400) {
+        toast({
+          title: 'Bad request',
+          description: "All fields are required",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else if(error.response?.status == 409) {
+        toast({
+          title: 'Bad request',
+          description: "Appointment already booked",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: 'Server error',
+          description: "Something went wrong",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+    })
+  }
 
   return (
     <Grid
@@ -117,7 +209,7 @@ const AppointmentForm = () => {
             <Input
               fontSize="20px"
               width="100%"
-              placeholder="Select Date"
+              placeholder="Select Time"
               size="md"
               type="time"
               bgColor="gray.100"
@@ -129,11 +221,14 @@ const AppointmentForm = () => {
           </InputGroup>
         </Grid>
       </Grid>
-      <Button  colorScheme="cyan" color="white">
+      <Button  colorScheme="cyan" color="white"
+      onClick={handleAddAppointment}
+      >
         Submit
       </Button>
     </Grid>
   );
-};
+}
+
 
 export default AppointmentForm;

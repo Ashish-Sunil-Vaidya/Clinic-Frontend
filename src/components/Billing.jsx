@@ -6,9 +6,81 @@ import {
   Select,
   Button,
   InputGroup,
+  useStatStyles,
+  StepNumber,
 } from "@chakra-ui/react";
-
+import axios from "axios";
+import { useToast } from '@chakra-ui/react'
+import { useState, useEffect, useContext } from "react";
+import { GlobalContext } from "../context/GlobalContext";
 const Billing = () => {
+  const [patient_name, setPatientName] = useState("");
+  const [date, setDate] = useState("");
+  const [amount, setAmount] = useState(0);
+  const { currentUser, expirationTime, setCurrentUser } = useContext(GlobalContext);
+  const toast = useToast()
+  useEffect(() => {
+    if(!currentUser || currentUser?.role != "receptionist") {
+      toast({
+        title: 'Unauthorized Request',
+        description: "Login to access this page.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      navigator("/login");
+    } else if(Date.now() > expirationTime) {
+      setCurrentUser(null);
+      toast({
+        title: 'Token expired',
+        description: "Login again",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      navigator("/login");
+    }
+  }, [])
+
+
+  const handleAddPayment = () => { 
+    axios.post("http://localhost:8000/api/v1/users/receptionist/addPaymentDetails", {
+      patient_name,
+      amount,
+      date
+    })
+    .then(response => {
+      setPatientName("");
+      setAmount("");
+      setDate("");
+      toast({
+        title: 'Success',
+        description: "Payment Details Stored",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    })
+    .catch(error => {
+      if(error.response?.status == 400) {
+        toast({
+          title: 'Bad request',
+          description: "All fields are required",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      } else {
+        toast({
+          title: 'Server Error',
+          description: "Something went wrong",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      }
+  });
+  }
   return (
     <Grid
       bg="white"
@@ -24,32 +96,35 @@ const Billing = () => {
       <Heading fontSize="2rem">Billing Information</Heading>
       <InputGroup display="grid">
         <FormLabel fontSize="1.2rem">Name</FormLabel>
-        <Input type="text" placeholder="Enter name" />
+        <Input type="text" placeholder="Enter name" 
+        value={patient_name}
+        onChange={(e) => setPatientName(e.target.value)}
+        />
       </InputGroup>
       <InputGroup display="grid">
         <FormLabel fontSize="1.2rem">Amount</FormLabel>
-        <Input type="text" placeholder="Enter Amount (₹)" />
+        <Input type="text" placeholder="Enter Amount (₹)" 
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+        />
       </InputGroup>
       <InputGroup display="grid">
         <FormLabel fontSize="1.2rem">Date</FormLabel>
-        <Input type="date" placeholder="Select Date" />
+        <Input type="date" placeholder="Select Date" 
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        />
       </InputGroup>
-      <InputGroup display="grid">
-        <FormLabel fontSize="1.2rem">Payment Status</FormLabel>
-        <Select placeholder="Select option">
-          <option>Paid</option>
-          <option>Not Paid</option>
-        </Select>
-      </InputGroup>
+      
       <Button
         colorScheme="cyan"
         color="white"
         alignSelf="center"
+        onClick={handleAddPayment}
       >
         Save
       </Button>
     </Grid>
   );
-};
-
+}
 export default Billing;
