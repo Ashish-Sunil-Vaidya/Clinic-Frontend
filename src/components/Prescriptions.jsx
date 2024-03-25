@@ -115,7 +115,7 @@ function Prescriptions() {
     <Flex direction="column" width="100%" p="10px" gap="10px" maxW="1000px">
       <Flex
         direction="column"
-        bg="teal.200"
+        bg="cyan.200"
         width="100%"
         p="10px"
         borderRadius="20px"
@@ -156,7 +156,7 @@ function Prescriptions() {
 
       <Flex
         direction="column"
-        bg="teal.200"
+        bg="cyan.200"
         width="100%"
         p="10px"
         borderRadius="20px"
