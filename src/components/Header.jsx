@@ -77,7 +77,7 @@ const Header = ({ tabValue, setTabValue, role }) => {
           </Box>
           <Flex gap={10}>
             <Menu>
-              <MenuButton >
+              <MenuButton as={Button} rightIcon={<ChevronDownIcon/>} >
                 <Flex align="center">
                   <Avatar boxSize="40px" />
                   <Box ml={2} fontSize="1.1rem" color="cyan.600">
