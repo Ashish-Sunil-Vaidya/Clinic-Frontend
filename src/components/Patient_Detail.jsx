@@ -10,11 +10,11 @@ function Patient_Detail(){
         <Flex direction='column' bg='cyan.100' zIndex={9999} top={0}>
             <Flex direction={{md:'row', sm:'column' ,base:'column'}} bg='cyan.100' p='10px' gap='10px' alignItems='center'>
                 <Flex height='100%' width='100%' direction='column'  p='10px' justifyItems='center'>
-                    <Input textColor='teal.800' bg='cyan.50' fontSize='30px'  type='text' placeholder='Name Surname'/>
+                    <Input textColor='teal.800' bg='cyan.50' fontSize='1.1rem'  type='text' placeholder='Name Surname'/>
                 </Flex>
                 <Flex height='100%'  width='100%' direction='column'  p='10px'>
-                    <Input textColor='teal.800' bg='cyan.50' fontSize='20px' type='text' placeholder='Mobile'/>
-                    <Input textColor='teal.800' bg='cyan.50' fontSize='20px' type='email' placeholder='Email'/>
+                    <Input textColor='teal.800' bg='cyan.50' fontSize='1.1rem' type='text' placeholder='Mobile'/>
+                    <Input textColor='teal.800' bg='cyan.50' fontSize='1.1rem' type='email' placeholder='Email'/>
                 </Flex>
             </Flex>
              <Tabs variant='enclosed' align='center'>

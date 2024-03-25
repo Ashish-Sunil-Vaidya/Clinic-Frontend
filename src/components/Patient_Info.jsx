@@ -14,9 +14,9 @@ function Patient_Info() {
     console.log('===  Patient_Info.jsx [13] ===', );
     return(
         <Flex direction='column' bg='cyan.200' width='100%'  p='10px' borderRadius='20px' maxW='900px'>
-            <Heading fontSize='25px'>Patient Information</Heading>
+            <Heading fontSize='1.3rem'>Patient Information</Heading>
                     <FormLabel  >Age:</FormLabel>
-                     <NumberInput defaultValue='10' min='1' bg='cyan.100' fontSize={{base:'15px',md:'20px'}} >
+                     <NumberInput defaultValue='10' min='1' bg='cyan.100' fontSize={"1.1rem"} >
                                 <NumberInputField />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
@@ -24,7 +24,7 @@ function Patient_Info() {
                                 </NumberInputStepper>
                      </NumberInput>
                     <FormLabel  >Weight:</FormLabel>
-                     <NumberInput fontSize={{base:'15px',md:'20px'}}  defaultValue='10' min='1' bg='cyan.100'>
+                     <NumberInput fontSize={"1.1rem"}  defaultValue='10' min='1' bg='cyan.100'>
                                 <NumberInputField />
                                 <NumberInputStepper>
                                     <NumberIncrementStepper />
@@ -32,25 +32,25 @@ function Patient_Info() {
                                 </NumberInputStepper>
                      </NumberInput>
                      <FormLabel  >Gender:</FormLabel>
-                            <Select fontSize={{base:'15px',md:'20px'}} placeholder='Select Gender' bg='cyan.100'>
+                            <Select fontSize={"1.1rem"} placeholder='Select Gender' bg='cyan.100'>
                                 <option>Male</option>
                                 <option>Female</option>
                             </Select>
 
-                    <FormLabel my='10px' fontSize='20px' mr='10px'>Report:</FormLabel>
+                    <FormLabel my='10px' fontSize={"1.1rem"} mr='10px'>Report:</FormLabel>
                     <FormLabel  >Report 1 :</FormLabel>
-                    <Input  type='text' bg='cyan.100' fontSize={{base:'15px',md:'20px'}}  placeholder='Enter Report 1 :'/>
+                    <Input  type='text' bg='cyan.100' fontSize={"1.1rem"}  placeholder='Enter Report 1 :'/>
                     <FormLabel  >Report 2 :</FormLabel>
-                    <Input type='text' bg='cyan.100' fontSize={{base:'15px',md:'20px'}}  placeholder='Enter Report 2 :'/>
+                    <Input type='text' bg='cyan.100' fontSize={"1.1rem"}  placeholder='Enter Report 2 :'/>
 
                     <FormLabel   >Created Date:</FormLabel>
-                    <Input type='date' bg='cyan.100' fontSize={{base:'15px',md:'20px'}}  placeholder='Enter Created Date :'/>
+                    <Input type='date' bg='cyan.100' fontSize={"1.1rem"}  placeholder='Enter Created Date :'/>
 
                     <FormLabel >Last Time:</FormLabel>
-                    <Input type='date' bg='cyan.100' fontSize={{base:'15px',md:'20px'}}  placeholder='Enter Last Date :'/>
+                    <Input type='date' bg='cyan.100' fontSize={"1.1rem"}  placeholder='Enter Last Date :'/>
 
                     <FormLabel > Is Payment Completed:</FormLabel>
-                            <Select fontSize={{base:'15px',md:'20px'}} placeholder='Select Gender' bg='cyan.100'>
+                            <Select fontSize={"1.1rem"} placeholder='Select Gender' bg='cyan.100'>
                                 <option>Yes</option>
                                 <option>No</option>
                             </Select>
