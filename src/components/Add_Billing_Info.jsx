@@ -11,7 +11,7 @@ function Billing_Info() {
   return (
     <Flex
       direction="column"
-      bg="teal.200"
+      bg="cyan.200"
       width="100%"
       p="10px"
       height="50%"
@@ -22,26 +22,26 @@ function Billing_Info() {
       <FormLabel>Name:</FormLabel>
       <Input
         type="text"
-        bg="teal.100"
+        bg="cyan.100"
         placeholder="Enter name"
         fontSize={{ base: "15px", md: "20px" }}
       />
       <FormLabel>Amount:</FormLabel>
       <Input
         type="text"
-        bg="teal.100"
+        bg="cyan.100"
         placeholder="Enter Amount (₹)"
         fontSize={{ base: "15px", md: "20px" }}
       />
       <FormLabel>Date:</FormLabel>
       <Input
         type="date"
-        bg="teal.100"
+        bg="cyan.100"
         placeholder="Select Date"
         fontSize={{ base: "15px", md: "20px" }}
       />
       <FormLabel>Is Paid:</FormLabel>
-      <Select placeholder="Is paid" bg="teal.100">
+      <Select placeholder="Is paid" bg="cyan.100">
         <option>Yes</option>
         <option>Not</option>
       </Select>
@@ -49,7 +49,7 @@ function Billing_Info() {
         mt="10px"
         width="30vh"
         type="save"
-        colorScheme="teal"
+        colorScheme="cyan"
         variant="solid"
         alignSelf="center"
         border="2px"
