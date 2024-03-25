@@ -9,8 +9,8 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 function Prescriptions() {
-  const [count, setcount] = useState(1);
-  const [count_symptoms, setcount_symptoms] = useState(1);
+  const [count, setcount] = useState(2);
+  const [count_symptoms, setcount_symptoms] = useState(2);
   const [medArr, setMedArr] = useState([]);
   const [symArr, setSymArr] = useState([]);
   // function Add_Medicine (){
@@ -55,13 +55,13 @@ function Prescriptions() {
       <Input
         fontSize={{ base: "15px", md: "20px" }}
         type="text"
-        bg="teal.100"
+        bg="cyan.100"
         placeholder="Enter Medicine name :"
       />
       <Input
         fontSize={{ base: "15px", md: "20px" }}
         type="text"
-        bg="teal.100"
+        bg="cyan.100"
         placeholder="Dose"
       />
     </Flex>;
@@ -77,13 +77,13 @@ function Prescriptions() {
         <Input
           fontSize={{ base: "15px", md: "20px" }}
           type="text"
-          bg="teal.100"
+          bg="cyan.100"
           placeholder="Enter Medicine name :"
         />
         <Input
           fontSize={{ base: "15px", md: "20px" }}
           type="text"
-          bg="teal.100"
+          bg="cyan.100"
           placeholder="Dose"
         />
       </Flex>,
@@ -128,24 +128,25 @@ function Prescriptions() {
           direction={{ md: "row", sm: "column", base: "column" }}
           justifyItems="center"
         >
-          <FormLabel fontSize={{ base: "15px", md: "20px" }}>1. </FormLabel>
+          <FormLabel fontSize={{ base: "15px", md: "20px" }}> 1 </FormLabel>
           <Input
             fontSize={{ base: "15px", md: "20px" }}
             type="text"
-            bg="teal.100"
+            bg="cyan.100"
             placeholder="Enter Medicine name :"
           />
           <Input
             fontSize={{ base: "15px", md: "20px" }}
             type="text"
-            bg="teal.100"
+            bg="cyan.100"
             placeholder="Dose"
           />
         </Flex>
         <Grid>{medArr.map((med) => med)}</Grid>
         <Button
+          margin={"10px"}
           leftIcon={<AddIcon />}
-          colorScheme="teal"
+          colorScheme="cyan"
           variant="solid"
           onClick={Add_Medicine}
         >
@@ -164,18 +165,19 @@ function Prescriptions() {
         <Heading fontSize="25px">Symptoms</Heading>
         <FormLabel>Symptoms:</FormLabel>
         <Flex gap="5px" direction={{ md: "row", sm: "column", base: "column" }}>
-          <FormLabel fontSize={{ base: "15px", md: "20px" }}>1. </FormLabel>
+          <FormLabel fontSize={{ base: "15px", md: "20px" }}> 1 </FormLabel>
           <Input
             fontSize={{ base: "15px", md: "20px" }}
             type="text"
-            bg="teal.100"
+            bg="cyan.100"
             placeholder="Enter Symptoms name :"
           />
         </Flex>
         {symArr.map((sym) => sym)}
         <Button
+          margin={"10px"}
           leftIcon={<AddIcon />}
-          colorScheme="teal"
+          colorScheme="cyan"
           variant="solid"
           onClick={Add_Symptoms}
         >
@@ -186,11 +188,9 @@ function Prescriptions() {
         mt="10px"
         width="30vh"
         type="save"
-        colorScheme="teal"
+        colorScheme="cyan"
         variant="solid"
         alignSelf="center"
-        border="2px"
-        borderColor="teal.800"
         borderRadius="10px"
       >
         Save
