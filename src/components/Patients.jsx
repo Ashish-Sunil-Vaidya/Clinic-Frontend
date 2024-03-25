@@ -11,11 +11,39 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import patientsData from "./data/patients.data";
+// import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
-
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react';
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
 const Patients = () => {
-  
+  const [patientsData, setPatientssData] = useState([]);
+  const { currentUser } = useContext(GlobalContext);
+  const toast = useToast()
+  const navigator = useNavigate();
+  useEffect(() => {
+    if(!currentUser) {
+      toast({
+        title: 'Unauthorized Request',
+        description: "Login to access this page.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      navigator("/login");
+    }
+    axios.get("http://localhost:8000/api/v1/users/allPatientDetails")
+    .then(response => setPatientssData(response.data.data))
+    .catch(error => toast({
+      title: 'Unable to fetch Data',
+      description: "something went wrong when fetching appointments",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    }))
+  }, [])
   return (
     <TableContainer
       bgColor="white"
@@ -56,7 +84,7 @@ const Patients = () => {
             <Th>Sr.No.</Th>
             <Th>Name</Th>
             <Th>Mobile</Th>
-            <Th>Amount</Th>
+            <Th>Symptoms</Th>
             <Th>Date</Th>
             <Th></Th>
           </Tr>
@@ -72,10 +100,10 @@ const Patients = () => {
                 }}
               >
                 <Td>{index + 1}</Td>
-                <Td>{Patient.name}</Td>
-                <Td>{Patient.mobile}</Td>
-                <Td>{Patient.amount}</Td>
-                <Td>{Patient.date}</Td>
+                <Td>{Patient.patient_name}</Td>
+                <Td>{Patient.mobile_no}</Td>
+                <Td>{Patient.symptoms}</Td>
+                <Td>{Patient.last_visited?.substring(0, 10) || "Not visited"}</Td>
                 <Td display="flex" justifyContent="center">
                   <Button colorScheme="cyan" alignSelf="center" color="white">
                     View Details

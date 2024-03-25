@@ -18,21 +18,35 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate  } from "react-router-dom";
 import axios from "axios";
+import { useToast } from '@chakra-ui/react'
 axios.defaults.withCredentials = true;
 const Header = ({ tabValue, setTabValue, role }) => {
-  const { currentUser, setCurrentUser } = useContext(GlobalContext);
-  const [errorMsg, setErrMsg] = useState("");
+  const { currentUser, setCurrentUser, setExpirationTime } = useContext(GlobalContext);
+  const navigator = useNavigate();
+  const toast = useToast()
 
   const handleLogout = () => {
-    axios.post("https://swaseem-clinic-backend.onrender.com/api/v1/users/logout", { credentials: 'include' })
+    axios.post("http://localhost:8000/api/v1/users/logout", { credentials: 'include' })
     .then(response => {
-      console.log(response)
       setCurrentUser(null);
+      setExpirationTime(0);
+      toast({
+        title: 'Logout successfull.',
+        description: "You are logged out from your account",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
       navigator("/");
     })
     .catch(error => {
-      console.log(error);
-      setErrMsg("Unauthorized request or invalid access token");
+      toast({
+        title: 'Logout Failed.',
+        description: "Unauthorized request",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     })
   }
   return (

@@ -6,17 +6,23 @@ import Header from "../components/Header";
 import { useState, useContext, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate  } from "react-router-dom";
-
+import { useToast } from '@chakra-ui/react'
 const DoctorHome = () => {
   const [tabValue, setTabValue] = useState("Dashboard");
   const { currentUser, setCurrentUser, expirationTime } = useContext(GlobalContext);
   const navigator = useNavigate();
-
+  const toast = useToast()
   useEffect(() => {
-    if(!currentUser || currentUser.role !== "doctor") navigator("/login");
+    if(!currentUser || currentUser.role !== "doctor") toast({
+      title: 'Invalid Role.',
+      description: "Only doctor can access this page.",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    })
     if(Date.now() > expirationTime) {
-      navigator("/login")
       setCurrentUser(null);
+      navigator("/login")
     }
   }, [])
 

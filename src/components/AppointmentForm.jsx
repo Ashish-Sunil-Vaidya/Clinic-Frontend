@@ -7,8 +7,15 @@ import {
   Button,
   Heading,
 } from "@chakra-ui/react";
-
+import { useState } from "react"
 const AppointmentForm = () => {
+  const [patient_name, setPatientName] = useState("");
+  const [mobile_no, setMobileNo] = useState("");
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("");
+  const [date_of_app, setDateOfApp] = useState("");
+  const [time_of_app, setTimeOfApp] = useState("");
+
   return (
     <Grid
       bg="white"
@@ -32,6 +39,8 @@ const AppointmentForm = () => {
               color="black"
               placeholder="Enter name"
               borderRadius="10px"
+              value={patient_name}
+              onChange={(e) => setPatientName(e.target.value)}
             />
           </InputGroup>
         </Grid>
@@ -46,6 +55,8 @@ const AppointmentForm = () => {
               color="black"
               placeholder="Enter Mobile no"
               borderRadius="10px"
+              value={mobile_no}
+              onChange={(e) => setMobileNo(e.target.value)}
             />
           </InputGroup>
         </Grid>
@@ -60,6 +71,8 @@ const AppointmentForm = () => {
               bgColor="gray.100"
               color="black"
               borderRadius="10px"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
             />
           </InputGroup>
         </Grid>
@@ -73,6 +86,8 @@ const AppointmentForm = () => {
               bgColor="gray.100"
               color="black"
               borderRadius="10px"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
             >
               <option>Male</option>
               <option>Female</option>
@@ -91,23 +106,26 @@ const AppointmentForm = () => {
               bgColor="gray.100"
               color="black"
               borderRadius="10px"
+              value={date_of_app}
+              onChange={(e) => setDateOfApp(e.target.value)}
             />
           </InputGroup>
         </Grid>
         <Grid alignItems="center">
-          <FormLabel fontSize="20px">Visited</FormLabel>
+          <FormLabel fontSize="20px">Time</FormLabel>
           <InputGroup>
-            <Select
+            <Input
               fontSize="20px"
               width="100%"
-              placeholder="Is visited "
+              placeholder="Select Date"
+              size="md"
+              type="time"
               bgColor="gray.100"
               color="black"
               borderRadius="10px"
-            >
-              <option>Yes</option>
-              <option>No</option>
-            </Select>
+              value={time_of_app}
+              onChange={(e) => setTimeOfApp(e.target.value)}
+            />
           </InputGroup>
         </Grid>
       </Grid>

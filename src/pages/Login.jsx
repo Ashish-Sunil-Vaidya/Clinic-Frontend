@@ -18,6 +18,8 @@ import { useState, useContext, useEffect } from "react";
 import axios from "axios"
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate  } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
+
 // 2. Update the breakpoints as key-value pairs
 const breakpoints = {
   base: "0px",
@@ -35,9 +37,9 @@ const Login = () => {
   const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMsg, setErrMsg] = useState("");
   const { currentUser, setCurrentUser, setExpirationTime } = useContext(GlobalContext);
   const navigator = useNavigate();
+  const toast = useToast()
 
   useEffect(() => {
     if(currentUser) {
@@ -51,27 +53,57 @@ const Login = () => {
   };
 
   const loginSubmitHandler = (e) => {
-    axios.post("https://swaseem-clinic-backend.onrender.com/api/v1/users/login", { role: role.toLowerCase(), username, password })
+    axios.post("http://localhost:8000/api/v1/users/login", { role: role.toLowerCase(), username, password })
     .then(response => {
       const loggedInUser = response.data.data;
       if(!loggedInUser) seterrMsg("Unable to login user");
       setCurrentUser(loggedInUser);
       setExpirationTime(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      toast({
+        title: 'Login successfull.',
+        description: "You are logged in your account",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
       if(loggedInUser?.role === "doctor") navigator("/user/doctor");
       else navigator("/user/receptionist");
     })
     .catch(error => {
-      console.log("ewvjhghyt")
-      if(error?.response?.status === 400) setErrMsg("All feilds are required");
-      else if(error?.response?.status === 404) setErrMsg("Invalid role choosed");
-      else if(error?.response?.status === 409) setErrMsg("Incorrect Password");
-      else setErrMsg(error?.message);
-      console.log(errorMsg)
+      if(error?.response?.status === 400) toast({
+          title: 'Login Failed.',
+          description: "All feilds are required",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      else if(error?.response?.status === 404) toast({
+        title: 'Login Failed.',
+        description: "Invalid role choosed",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      else if(error?.response?.status === 409) toast({
+        title: 'Login Failed.',
+        description: "Incorrect Password",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      else toast({
+        title: 'Login Failed.',
+        description: "Something went wrong",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
     });
   }
 
   return (
     <>
+      
       <Flex
         justifyContent="center"
         direction={{ md: "row", sm: "column", base: "column" }}
