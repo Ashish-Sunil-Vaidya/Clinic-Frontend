@@ -7,7 +7,7 @@ import Billing_Info from "./Add_Billing_Info.jsx";
 function Patient_Detail(){
 
     return (
-        <Flex direction='column' bg='cyan.100' minH='100vh' width='100vw' position="absolute" zIndex={9999} top={0}>
+        <Flex direction='column' bg='cyan.100' zIndex={9999} top={0}>
             <Flex direction={{md:'row', sm:'column' ,base:'column'}} bg='cyan.100' p='10px' gap='10px' alignItems='center'>
                 <Flex height='100%' width='100%' direction='column'  p='10px' justifyItems='center'>
                     <Input textColor='teal.800' bg='cyan.50' fontSize='30px'  type='text' placeholder='Name Surname'/>
