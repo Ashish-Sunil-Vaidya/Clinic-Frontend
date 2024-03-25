@@ -1,13 +1,21 @@
 import { Box, Button, Divider, Flex, Grid, Image } from "@chakra-ui/react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import clinicImg from "../assets/clinic.jpeg";
 import Header from "../components/Header";
-
-import { useState } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import { useState, useContext, useEffect } from "react";
 
 const ReceptionistHome = () => {
   const [tabValue, setTabValue] = useState("Dashboard");
+  const { currentUser, expirationTime } = useContext(GlobalContext);
+  const navigator = useNavigate();
+  
+  useEffect(() => {
+    if(!currentUser || currentUser.role !== "receptionist") navigator("/login");
+    if(Date.now() > expirationTime) navigator("/login")
+
+  }, [])
   return (
     <Grid
       templateColumns={{

@@ -56,7 +56,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "all-appointments",
-        element: <Patients />,
+        element: <Schedules />,
       },
     ],
   },

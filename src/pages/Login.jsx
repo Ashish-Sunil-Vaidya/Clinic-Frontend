@@ -14,7 +14,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios"
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate  } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
+
 // 2. Update the breakpoints as key-value pairs
 const breakpoints = {
   base: "0px",
@@ -28,13 +33,77 @@ const breakpoints = {
 const theme = extendTheme({ breakpoints });
 
 const Login = () => {
-  const [selectedValue, setSelected] = useState("Doctor");
+
+  const [role, setRole] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { currentUser, setCurrentUser, setExpirationTime } = useContext(GlobalContext);
+  const navigator = useNavigate();
+  const toast = useToast()
+
+  useEffect(() => {
+    if(currentUser) {
+      if(currentUser.role === "doctor") navigator("/user/doctor")
+      else navigator("/user/receptionist")
+    }
+  }, [])
+
   const handleSelected = (value) => {
-    setSelected(value);
-    console.log('=== selected Login.jsx [34] ===', selectedValue);
+    setRole(value);
   };
+
+  const loginSubmitHandler = (e) => {
+    axios.post("http://localhost:8000/api/v1/users/login", { role: role.toLowerCase(), username, password })
+    .then(response => {
+      const loggedInUser = response.data.data;
+      if(!loggedInUser) seterrMsg("Unable to login user");
+      setCurrentUser(loggedInUser);
+      setExpirationTime(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      toast({
+        title: 'Login successfull.',
+        description: "You are logged in your account",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+      if(loggedInUser?.role === "doctor") navigator("/user/doctor");
+      else navigator("/user/receptionist");
+    })
+    .catch(error => {
+      if(error?.response?.status === 400) toast({
+          title: 'Login Failed.',
+          description: "All feilds are required",
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        })
+      else if(error?.response?.status === 404) toast({
+        title: 'Login Failed.',
+        description: "Invalid role choosed",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      else if(error?.response?.status === 409) toast({
+        title: 'Login Failed.',
+        description: "Incorrect Password",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      else toast({
+        title: 'Login Failed.',
+        description: "Something went wrong",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    });
+  }
+
   return (
     <>
+      
       <Flex
         justifyContent="center"
         direction={{ md: "row", sm: "column", base: "column" }}
@@ -69,6 +138,7 @@ const Login = () => {
             p="25px"
             shadow={"0 0 40px lightgray"}
             maxW="400px"
+            onSubmit={loginSubmitHandler}
           >
             <Flex
               direction="column"
@@ -84,14 +154,14 @@ const Login = () => {
                   <Radio
                     value="Doctor"
                     onChange={() => handleSelected("Doctor")}
-                    selected={selectedValue === "Doctor"}
+                    selected={role === "Doctor"}
                   >
                     Doctor
                   </Radio>
                   <Radio
                     value="Receptionist"
                     onChange={() => handleSelected("Receptionist")}
-                    selected={selectedValue === "Receptionist"}
+                    selected={role === "Receptionist"}
                   >
                     Receptionist
                   </Radio>
@@ -107,22 +177,26 @@ const Login = () => {
                 fontSize="20px"
                 color="black"
                 placeholder="Enter your name"
-                text
+                value={username}
+                onChange={e => setUsername(e.target.value)}
               ></Input>
               <FormLabel my="10px" fontSize="20px">
                 Password
               </FormLabel>
               <Input
+                id={Date.now()}
                 type="password"
                 rounded="10px"
                 bgColor="gray.100"
                 fontSize="20px"
                 color="black"
                 placeholder="Enter your password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               ></Input>
 
               <Box my="10px">
-                <Button type="submit" colorScheme="cyan">
+                <Button type="submit" colorScheme="cyan" onClick={loginSubmitHandler}>
                   Submit
                 </Button>
               </Box>

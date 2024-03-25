@@ -1,35 +1,63 @@
 import { Box, Divider, Flex, SimpleGrid } from "@chakra-ui/react";
-
+import axios from "axios";
+import { useState, useEffect, useContext } from "react";
+import { useToast } from '@chakra-ui/react'
+import { GlobalContext } from "../context/GlobalContext"
 const Dashboard = () => {
-  const patientInformation = [
-    {
-      title: "Today's Patient Count",
-      count: 10,
-    },
-    {
-      title: "Weekly Patient Count",
-      count: 50,
-    },
-    {
-      title: "Monthly Patient Count",
-      count: 200,
-    },
-  ];
+  const [patientInformation, setPatientInformation] = useState([]);
+  const [revenueInformation, setRevenueInformation] = useState([]);
+  const [averageAppointments, setAverageAppointments] = useState(0);
+  const { currentUser, expirationTime, setCurrentUser } = useContext(GlobalContext);
+  const toast = useToast()
+  
+  useEffect(() => {
+    if(!currentUser || currentUser.role !== "doctor") {
+      toast({
+        title: 'Invalid Role.',
+        description: "Only doctor can access this page.",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+    else if(Date.now() > expirationTime) {
+      setCurrentUser(null);
+      navigator("/login")
+    } 
+    else {
 
-  const revenueInformation = [
-    {
-      title: "Today's Revenue",
-      count: 10000,
-    },
-    {
-      title: "Weekly Revenue",
-      count: 50000,
-    },
-    {
-      title: "Monthly Revenue",
-      count: 200000,
-    },
-  ];
+    axios.get("http://localhost:8000/api/v1/users/doctor/revenueInfo")
+    .then(response => setPatientInformation(response.data.data))
+    .catch(error => toast({
+        title: 'Unable fetch data.',
+        description: "Something went wrong when fetching patient visit count",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      }))
+
+    axios.get("http://localhost:8000/api/v1/users/doctor/patientCountInfo")
+    .then(response => setRevenueInformation(response.data.data))
+    .catch(error => toast({
+      title: 'Unable fetch data.',
+      description: "Something went wrong when fetching revenue",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    }))
+
+    axios.get("http://localhost:8000/api/v1/users/doctor/averageAppointments")
+    .then(response => setAverageAppointments(response.data.data.avgAppointments))
+    .catch(error => toast({
+      title: 'Unable fetch data.',
+      description: "Something went wrong when fetching average appointments",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    }))
+    }
+  }, [])
+
   return (
     <SimpleGrid
       gap={3}
@@ -114,7 +142,7 @@ const Dashboard = () => {
           color="cyan.600"
           textAlign="center"
         >
-          45
+          {averageAppointments}
         </Box>
       </Flex>
     </SimpleGrid>

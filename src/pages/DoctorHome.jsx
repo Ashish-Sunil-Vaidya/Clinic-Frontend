@@ -3,10 +3,30 @@ import { Outlet, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import clinicImg from "../assets/clinic.jpeg";
 import Header from "../components/Header";
-import { useState } from "react";
-
+import { useState, useContext, useEffect } from "react";
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate  } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
 const DoctorHome = () => {
   const [tabValue, setTabValue] = useState("Dashboard");
+  const { currentUser, setCurrentUser, expirationTime } = useContext(GlobalContext);
+  const navigator = useNavigate();
+  const toast = useToast()
+  useEffect(() => {
+    if(!currentUser || currentUser.role !== "doctor") toast({
+      title: 'Invalid Role.',
+      description: "Only doctor can access this page.",
+      status: 'error',
+      duration: 9000,
+      isClosable: true,
+    })
+    if(Date.now() > expirationTime) {
+      setCurrentUser(null);
+      navigator("/login")
+    }
+  }, [])
+
+
   return (
     <Grid
       templateColumns={{
