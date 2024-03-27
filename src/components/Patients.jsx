@@ -24,6 +24,8 @@ const Patients = () => {
   const { currentUser } = useContext(GlobalContext);
   const toast = useToast();
   const navigator = useNavigate();
+  const [searchKey, setSearchKey] = useState("");
+
   useEffect(() => {
     if (!currentUser) {
       toast({
@@ -48,9 +50,28 @@ const Patients = () => {
         })
       );
   }, []);
+
+  const handleSearch = () => {
+    const {name, surname} = searchKey.split(" ");
+    axios
+      .post(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`, {
+        searchKey,
+      })
+      .then((response) => setPatientssData(response.data.data))
+      .catch((error) =>
+        toast({
+          title: "Unable to fetch Data",
+          description: "something went wrong when fetching appointments",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        })
+      );
+  };
+  
+
   return (
     <>
-  
       <TableContainer
         bgColor="white"
         boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
@@ -72,16 +93,19 @@ const Patients = () => {
             icon={<Search2Icon />}
             color="white"
             fontSize="20px"
+            onClick={handleSearch}
           />
           <Input
             type="text"
             fontSize="1.1rem"
             fontWeight="500"
-            placeholder="Search"
+            placeholder="Search Example: Name Surname"
             p="10px"
             width="100%"
             flex={1}
             border="3px solid #e2e8f0"
+            value={searchKey}
+            onChange={(e) => setSearchKey(e.target.value)}
           />
         </InputGroup>
         <Table variant="simple">

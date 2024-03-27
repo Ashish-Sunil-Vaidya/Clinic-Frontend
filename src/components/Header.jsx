@@ -11,6 +11,8 @@ import {
   Avatar,
   MenuButton,
   Menu,
+  MenuItem,
+  MenuList,
 } from "@chakra-ui/react";
 
 import { FaBars } from "react-icons/fa";
@@ -77,7 +79,11 @@ const Header = ({ tabValue, setTabValue, role }) => {
           </Box>
           <Flex gap={10}>
             <Menu>
-              <MenuButton as={Button} rightIcon={<ChevronDownIcon/>} >
+              <MenuButton
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                variant="ghost"
+              >
                 <Flex align="center">
                   <Avatar boxSize="40px" />
                   <Box ml={2} fontSize="1.1rem" color="cyan.600">
@@ -85,6 +91,14 @@ const Header = ({ tabValue, setTabValue, role }) => {
                   </Box>
                 </Flex>
               </MenuButton>
+              <MenuList>
+                <NavLink to="/edit-profile">
+                  <MenuItem>Edit Profile</MenuItem>
+                </NavLink>
+                <NavLink to="/reset-password">
+                  <MenuItem>Reset Password</MenuItem>
+                </NavLink>
+              </MenuList>
             </Menu>
             <Button colorScheme="red" onClick={handleLogout}>
               Logout

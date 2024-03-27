@@ -40,11 +40,7 @@ function Billing_Info() {
         placeholder="Select Date"
         fontSize={{ base: "15px", md: "20px" }}
       />
-      <FormLabel>Is Paid:</FormLabel>
-      <Select placeholder="Is paid" bg="cyan.100">
-        <option>Yes</option>
-        <option>Not</option>
-      </Select>
+   
       <Button
         mt="10px"
         width="30vh"

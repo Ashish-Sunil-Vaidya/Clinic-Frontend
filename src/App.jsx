@@ -3,7 +3,7 @@ import LandingPage from "./components/LandingPage";
 import Login from "./pages/Login";
 import DoctorHome from "./pages/DoctorHome";
 import Schedules from "./components/Schedules";
-
+import ResetPassword from "./components/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import GlobalProvider from "./context/GlobalContext";
 import ReceptionistHome from "./pages/ReceptionistHome";
@@ -11,6 +11,7 @@ import Billing from "./components/Billing";
 import AppointmentForm from "./components/AppointmentForm";
 import Patients from "./components/Patients";
 import Patient_Detail from "./components/Patient_Detail";
+import ProfileForm from "./components/ProfileForm";
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +21,14 @@ const routes = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPassword />,
+  },
+  {
+    path: "/edit-profile",
+    element: <ProfileForm />,
   },
   {
     path: "/user/doctor",
@@ -37,10 +46,7 @@ const routes = createBrowserRouter([
         path: "patients",
         element: <Patients />,
       },
-      {
-        path: "patient-detail",
-        element: <Patient_Detail />,
-      },
+      
     ],
   },
   {
@@ -62,6 +68,10 @@ const routes = createBrowserRouter([
       {
         path: "all-appointments",
         element: <Schedules />,
+      },
+      {
+        path: "patient-detail",
+        element: <Patient_Detail />,
       },
     ],
   },

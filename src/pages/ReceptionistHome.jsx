@@ -10,12 +10,12 @@ const ReceptionistHome = () => {
   const [tabValue, setTabValue] = useState("Dashboard");
   const { currentUser, expirationTime } = useContext(GlobalContext);
   const navigator = useNavigate();
-  
-  useEffect(() => {
-    if(!currentUser || currentUser.role !== "receptionist") navigator("/login");
-    if(Date.now() > expirationTime) navigator("/login")
 
-  }, [])
+  useEffect(() => {
+    if (!currentUser || currentUser.role !== "receptionist")
+      navigator("/login");
+    if (Date.now() > expirationTime) navigator("/login");
+  }, []);
   return (
     <Grid
       templateColumns={{
@@ -38,7 +38,7 @@ const ReceptionistHome = () => {
           md: "block",
         }}
       >
-        <Flex align="center" >
+        <Flex align="center">
           <Image
             boxSize="50px"
             objectFit="cover"
@@ -70,7 +70,6 @@ const ReceptionistHome = () => {
         </Box>
         <Divider orientation="horizontal" my={3} borderWidth={2} /> */}
         <Flex direction="column" gap={3}>
-          
           <NavLink to="/user/receptionist/billing">
             <Button
               w="100%"
@@ -96,6 +95,11 @@ const ReceptionistHome = () => {
               Appointments
             </Button>
           </NavLink>
+          <NavLink to="/user/receptionist/patient-detail">
+            <Button w="100%" colorScheme="cyan" color="white">
+              Add Patient Details
+            </Button>
+          </NavLink>
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
       </Box>
@@ -103,15 +107,19 @@ const ReceptionistHome = () => {
         zIndex={1}
         px={{ base: 0, md: 10, lg: 10, xl: 10 }}
         templateRows={{
-          base:"auto auto",
+          base: "auto auto",
           md: "10svh 90svh",
           lg: "10svh 90svh",
           xl: "10svh 90svh",
         }}
         bgColor="white"
       >
-        <Header tabValue={tabValue} setTabValue={setTabValue} role="receptionist"/>
-        
+        <Header
+          tabValue={tabValue}
+          setTabValue={setTabValue}
+          role="receptionist"
+        />
+
         <Box overflowY="auto" h="100%">
           <Outlet />
         </Box>

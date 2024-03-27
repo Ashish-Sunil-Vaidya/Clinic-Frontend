@@ -7,110 +7,106 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-function Prescriptions() {
-  const [count, setcount] = useState(2);
-  const [count_symptoms, setcount_symptoms] = useState(2);
-  const [medArr, setMedArr] = useState([]);
-  const [symArr, setSymArr] = useState([]);
-  // function Add_Medicine (){
-  //     setcount(count+1);
-  //     var Medicine = document.getElementById('Medicine');
-  //     var Flex = document.createElement('Flex');
-  //     Flex.direction={md:'row', sm:'column' ,base:'column'};
-  //     Flex.gap='5px';
-  //     var FormLabel = document.createElement('FormLabel');
-  //     var Input1 = document.createElement('Input');
-  //     Input1.fontSize={base:'15px',md:'20px'};
-  //     Input1.type='text';
-  //     Input1.bg='teal.100';
-  //     Input1.placeholder='Enter Medicine name :';
-  //     var Input2 = document.createElement('Input');
-  //     Input2.fontSize={base:'15px',md:'20px'};
-  //     Input2.type='text';
-  //     Input2.bg='teal.100';
-  //     Input2.placeholder='Dose';
-  //     FormLabel.textContent='Medicine: '+count;
-  //     Flex.appendChild(FormLabel);
-  //     Flex.appendChild(Input1);
-  //     Flex.appendChild(Input2);
-  //     Medicine.appendChild(Flex);
-  // }
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { GlobalContext } from "../context/GlobalContext";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
+function Prescriptions({ patient_name }) {
+  const [medicine, setMedicine] = useState("");
+  const [dosage, setDosage] = useState("");
+  const [reports, setReports] = useState("");
+  const [reportFile, setReportFile] = useState(null);
+  const { currentUser, setCurrentUser, expirationTime } =
+    useContext(GlobalContext);
+  const toast = useToast();
+  useEffect(() => {
+    if (!currentUser || currentUser?.role != "receptionist") {
+      toast({
+        title: "Unauthorized Request",
+        description: "Only receptionist can access this page.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      navigator("/login");
+    } else if (Date.now() > expirationTime) {
+      setCurrentUser(null);
+      toast({
+        title: "Token expired",
+        description: "Login again",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      navigator("/login");
+    }
+  }, []);
 
-  // function Add (){
-  // return(
-  //     <Flex gap='5px' direction={{md:'row', sm:'column' ,base:'column'}}>
-  //     <FormLabel >Medicine-{count}</FormLabel>
-  //         <Input fontSize={{base:'15px',md:'20px'}} type='text' bg='teal.100' placeholder='Enter Medicine name :'/>
-  //         <Input fontSize={{base:'15px',md:'20px'}} type='text' bg='teal.100' placeholder='Dose'/>
-  //     </Flex>
-  // )
-  // }
-  function Add_Medicine() {
-    setcount(count + 1);
-    // const Medicine = document.getElementById("Medicine");
-    // Medicine.appendChild(
-    <Flex gap="5px" direction={{ md: "row", sm: "column", base: "column" }}>
-      <FormLabel fontSize={{ base: "15px", md: "20px" }}>{count}</FormLabel>
-      <Input
-        fontSize={{ base: "15px", md: "20px" }}
-        type="text"
-        bg="cyan.100"
-        placeholder="Enter Medicine name :"
-      />
-      <Input
-        fontSize={{ base: "15px", md: "20px" }}
-        type="text"
-        bg="cyan.100"
-        placeholder="Dose"
-      />
-    </Flex>;
-    // );
-    setMedArr([
-      ...medArr,
-      <Flex
-        key={count}
-        gap="5px"
-        direction={{ md: "row", sm: "column", base: "column" }}
-      >
-        <FormLabel fontSize={{ base: "15px", md: "20px" }}>{count}</FormLabel>
-        <Input
-          fontSize={{ base: "15px", md: "20px" }}
-          type="text"
-          bg="cyan.100"
-          placeholder="Enter Medicine name :"
-        />
-        <Input
-          fontSize={{ base: "15px", md: "20px" }}
-          type="text"
-          bg="cyan.100"
-          placeholder="Dose"
-        />
-      </Flex>,
-    ]);
-  }
-  function Add_Symptoms() {
-    setcount_symptoms(count_symptoms + 1);
+  const handleAddMedicine = () => {
+    console.log(medicine, dosage, patient_name);
+    axios
+      .post("http://localhost:8000/api/v1/users/receptionist/addMedicine", {
+        patient_name,
+        medicine_name: medicine,
+        dosage,
+      })
+      .then((response) => {
+        setMedicine("");
+        setDosage("");
+        toast({
+          title: "Success",
+          description: "Medicine Details Stored",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Medicine Details not stored",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+  };
 
-    setSymArr([
-      ...symArr,
-      <Flex
-        key={count_symptoms}
-        gap="5px"
-        direction={{ md: "row", sm: "column", base: "column" }}
-      >
-        <FormLabel fontSize={{ base: "15px", md: "20px" }}>
-          {count_symptoms}
-        </FormLabel>
-        <Input
-          fontSize={{ base: "15px", md: "20px" }}
-          type="text"
-          bg="teal.100"
-          placeholder="Enter Symptoms name :"
-        />
-      </Flex>,
-    ]);
-  }
+  const handleAddReport = () => {
+    console.log(reports, reportFile, patient_name);
+    const formData = new FormData();
+    formData.set("patient_name", patient_name);
+    formData.set("report_name", reports);
+    formData.append("reportFile", reportFile);
+
+    axios
+      .post(
+        "http://localhost:8000/api/v1/users/receptionist/addReport",
+        formData
+      )
+      .then((response) => {
+        setMedicine("");
+        setDosage("");
+        toast({
+          title: "Success",
+          description: "Report Stored",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Report not stored",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+  };
+
   return (
     <Flex direction="column" width="100%" p="10px" gap="10px" maxW="1000px">
       <Flex
@@ -128,73 +124,52 @@ function Prescriptions() {
           direction={{ md: "row", sm: "column", base: "column" }}
           justifyItems="center"
         >
-          <FormLabel fontSize={{ base: "15px", md: "20px" }}> 1 </FormLabel>
           <Input
             fontSize={{ base: "15px", md: "20px" }}
             type="text"
             bg="cyan.100"
             placeholder="Enter Medicine name :"
+            value={medicine}
+            onChange={(e) => setMedicine(e.target.value)}
           />
           <Input
             fontSize={{ base: "15px", md: "20px" }}
             type="text"
             bg="cyan.100"
-            placeholder="Dose"
+            placeholder="Dosage"
+            value={dosage}
+            onChange={(e) => setDosage(e.target.value)}
           />
+          <Button colorScheme="cyan" color="white" onClick={handleAddMedicine}>
+            Save
+          </Button>
         </Flex>
-        <Grid>{medArr.map((med) => med)}</Grid>
-        <Button
-          margin={"10px"}
-          leftIcon={<AddIcon />}
-          colorScheme="cyan"
-          variant="solid"
-          onClick={Add_Medicine}
-        >
-          Add Medicine
-        </Button>
-      </Flex>
 
-      <Flex
-        direction="column"
-        bg="cyan.200"
-        width="100%"
-        p="10px"
-        borderRadius="20px"
-        id="Symptoms"
-      >
-        <Heading fontSize="25px">Symptoms</Heading>
-        <FormLabel>Symptoms:</FormLabel>
-        <Flex gap="5px" direction={{ md: "row", sm: "column", base: "column" }}>
-          <FormLabel fontSize={{ base: "15px", md: "20px" }}> 1 </FormLabel>
+        <FormLabel> Reports : </FormLabel>
+        <Flex
+          gap="5px"
+          direction={{ md: "row", sm: "column", base: "column" }}
+          justifyItems="center"
+        >
           <Input
             fontSize={{ base: "15px", md: "20px" }}
             type="text"
             bg="cyan.100"
-            placeholder="Enter Symptoms name :"
+            placeholder="Enter Report name :"
+            value={reports}
+            onChange={(e) => setReports(e.target.value)}
           />
+          <Input
+            fontSize={{ base: "15px", md: "20px" }}
+            type="file"
+            bg="cyan.100"
+            onChange={(e) => setReportFile(e.target.files[0])}
+          />
+          <Button colorScheme="cyan" color="white" onClick={handleAddReport}>
+            Save
+          </Button>
         </Flex>
-        {symArr.map((sym) => sym)}
-        <Button
-          margin={"10px"}
-          leftIcon={<AddIcon />}
-          colorScheme="cyan"
-          variant="solid"
-          onClick={Add_Symptoms}
-        >
-          Add Symptoms
-        </Button>
       </Flex>
-      <Button
-        mt="10px"
-        width="30vh"
-        type="save"
-        colorScheme="cyan"
-        variant="solid"
-        alignSelf="center"
-        borderRadius="10px"
-      >
-        Save
-      </Button>
     </Flex>
   );
 }
