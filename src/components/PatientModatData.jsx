@@ -14,8 +14,9 @@ import {
 const PatientModatData = ({
     isOpen,
     onClose,
-    searchData
+    searchedData
   }) => {
+    console.log('=== searchData PatientModatData.jsx [19] ===', searchedData);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
