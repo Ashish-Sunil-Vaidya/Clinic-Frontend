@@ -61,6 +61,7 @@ const PatientModatData = ({ isOpen, onClose, searchedData }) => {
           </ListItem>
           <ListItem>
             Report : 
+            {/* <Flex direction={'row'} width={'fit-content'} gap='5px' padding='5px'> */}
             {searchedData !== null
                 ? searchedData.report.map((repo, index) => {
                     console.log(
@@ -68,13 +69,16 @@ const PatientModatData = ({ isOpen, onClose, searchedData }) => {
                       repo
                     );
                     return (
-                      <UnorderedList key={index}>
+          
+                      <UnorderedList key={index} dir="row">
                         <ListItem>{repo.report_name} : 
                         <Image src={repo.url}/></ListItem>
                       </UnorderedList>
+
                     );
                   })
                 : ""}
+                {/* </Flex> */}
           </ListItem>
         </UnorderedList>
         <ModalFooter>
