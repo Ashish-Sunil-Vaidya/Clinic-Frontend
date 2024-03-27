@@ -10,6 +10,7 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure
 } from "@chakra-ui/react";
 // import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -17,14 +18,17 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
-
 import axios from "axios";
+import PatientModatData from "./PatientModatData";
+
+
 const Patients = () => {
-  const [patientsData, setPatientssData] = useState([]);
+  const [searchData, setSearchData] = useState([]);
   const { currentUser } = useContext(GlobalContext);
   const toast = useToast();
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (!currentUser) {
@@ -39,7 +43,7 @@ const Patients = () => {
     }
     axios
       .get("http://localhost:8000/api/v1/users/allPatientDetails")
-      .then((response) => setPatientssData(response.data.data))
+      .then((response) => setSearchData(response.data.data))
       .catch((error) =>
         toast({
           title: "Unable to fetch Data",
@@ -52,12 +56,12 @@ const Patients = () => {
   }, []);
 
   const handleSearch = () => {
-    const {name, surname} = searchKey.split(" ");
+    const { name, surname } = searchKey.split(" ");
     axios
       .post(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`, {
         searchKey,
       })
-      .then((response) => setPatientssData(response.data.data))
+      .then((response) => setSearchData(response.data.data))
       .catch((error) =>
         toast({
           title: "Unable to fetch Data",
@@ -68,7 +72,6 @@ const Patients = () => {
         })
       );
   };
-  
 
   return (
     <>
@@ -120,7 +123,7 @@ const Patients = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {patientsData.map((Patient, index) => {
+            {searchData.map((Patient, index) => {
               return (
                 <Tr
                   key={index}
@@ -154,6 +157,7 @@ const Patients = () => {
           </Tbody>
         </Table>
       </TableContainer>
+      {searchData && <PatientModatData />}
     </>
   );
 };

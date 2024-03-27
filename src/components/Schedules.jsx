@@ -13,6 +13,7 @@ import {
   // Card,
   // CardHeader,
   // CardBody,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState, useContext } from "react";
@@ -20,6 +21,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import PatientModatData from "./PatientModatData";
 
 const Schedules = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
@@ -28,6 +30,7 @@ const Schedules = () => {
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
   const [searchedData, setSearchedData] = useState(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (!currentUser) {
@@ -110,78 +113,88 @@ const Schedules = () => {
   });
 
   return (
-    <TableContainer
-      bgColor="white"
-      boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
-      my={10}
-      mx={3}
-      rounded="md"
-    >
-      <InputGroup
-        width="100%"
-        alignItems="center"
-        display="flex"
-        justifySelf="center"
-        p="10px"
-        gap={3}
+    <>
+      <TableContainer
+        bgColor="white"
+        boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
+        my={10}
+        mx={3}
+        rounded="md"
       >
-        <IconButton
-          colorScheme="cyan"
-          aria-label="Search database"
-          icon={<Search2Icon />}
-          color="white"
-          fontSize="20px"
-          onClick={getPatientDetails}
-        />
-        <Input
-          type="text"
-          fontSize="1.1rem"
-          fontWeight="500"
-          placeholder="Search Example: Name Surname"
-          p="10px"
+        <InputGroup
           width="100%"
-          flex={1}
-          border="3px solid #e2e8f0"
-          value={searchKey}
-          onChange={(e) => setSearchKey(e.target.value)}
-        />
-      </InputGroup>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th>SrNo</Th>
-            <Th>Name</Th>
-            <Th>Mobile</Th>
-            <Th>Gender</Th>
-            <Th>Age</Th>
-            <Th>Date</Th>
-            <Th>Time</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {filteredAppointments.map((appointment, index) => {
-            return (
-              <Tr
-                key={index}
-                _hover={{
-                  bg: "cyan.50",
-                  cursor: "pointer",
-                }}
-                onClick={() => getPatientDetails(appointment.patient_name)}
-              >
-                <Td>{index + 1}</Td>
-                <Td>{appointment.patient_name}</Td>
-                <Td>{appointment.mobile_no}</Td>
-                <Td>{appointment.gender}</Td>
-                <Td>{appointment.age}</Td>
-                <Td>{appointment.date_of_app.substring(0, 10)}</Td>
-                <Td>{appointment.time_of_app}</Td>
-              </Tr>
-            );
-          })}
-        </Tbody>
-      </Table>
-    </TableContainer>
+          alignItems="center"
+          display="flex"
+          justifySelf="center"
+          p="10px"
+          gap={3}
+        >
+          <IconButton
+            colorScheme="cyan"
+            aria-label="Search database"
+            icon={<Search2Icon />}
+            color="white"
+            fontSize="20px"
+            onClick={getPatientDetails}
+          />
+          <Input
+            type="text"
+            fontSize="1.1rem"
+            fontWeight="500"
+            placeholder="Search Example: Name Surname"
+            p="10px"
+            width="100%"
+            flex={1}
+            border="3px solid #e2e8f0"
+            value={searchKey}
+            onChange={(e) => setSearchKey(e.target.value)}
+          />
+        </InputGroup>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>SrNo</Th>
+              <Th>Name</Th>
+              <Th>Mobile</Th>
+              <Th>Gender</Th>
+              <Th>Age</Th>
+              <Th>Date</Th>
+              <Th>Time</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {filteredAppointments.map((appointment, index) => {
+              return (
+                <Tr
+                  key={index}
+                  _hover={{
+                    bg: "cyan.50",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    onOpen();
+                    getPatientDetails(appointment.patient_name);
+                  }}
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{appointment.patient_name}</Td>
+                  <Td>{appointment.mobile_no}</Td>
+                  <Td>{appointment.gender}</Td>
+                  <Td>{appointment.age}</Td>
+                  <Td>{appointment.date_of_app.substring(0, 10)}</Td>
+                  <Td>{appointment.time_of_app}</Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <PatientModatData
+        isOpen={isOpen}
+        onClose={onClose}
+        searchedData={searchedData}
+      />
+    </>
   );
 };
 
