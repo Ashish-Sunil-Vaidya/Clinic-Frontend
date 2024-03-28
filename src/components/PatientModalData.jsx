@@ -20,7 +20,7 @@ const PatientModalData = ({ isOpen, onClose, searchedData }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
-          {searchedData !== null ? searchedData.patient_name : ""}
+          {searchedData !== null ? searchedData?.patient_name : ""}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -28,19 +28,19 @@ const PatientModalData = ({ isOpen, onClose, searchedData }) => {
         </ModalBody>
         <UnorderedList fontSize={"20px"} padding={"30px"}>
           <ListItem>
-            Mobile No. : {searchedData !== null ? searchedData.mobile_no : ""}
+            Mobile No. : {searchedData !== null ? searchedData?.mobile_no : ""}
           </ListItem>
           <ListItem>
-            Age : {searchedData !== null ? searchedData.agev : ""}
+            Age : {searchedData !== null ? searchedData?.age : ""}
           </ListItem>
           <ListItem>
-            Weight : {searchedData !== null ? searchedData.weight : ""}
+            Weight : {searchedData !== null ? searchedData?.weight : ""}
           </ListItem>
           <ListItem>
-            Gender : {searchedData !== null ? searchedData.gender : ""}
+            Gender : {searchedData !== null ? searchedData?.gender : ""}
           </ListItem>
           <ListItem>
-            Symptoms : {searchedData !== null ? searchedData.symptoms : ""}
+            Symptoms : {searchedData !== null ? searchedData?.symptoms : ""}
           </ListItem>
           {/* <ListItem>
             Prescriptions :
