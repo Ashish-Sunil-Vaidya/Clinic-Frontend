@@ -51,24 +51,6 @@ const ReceptionistHome = () => {
           </Box>
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
-        {/* <Box position="relative" overflow="hidden">
-          <Image src={clinicImg} h="200px" rounded="md" />
-          <Box
-            rounded="md"
-            zIndex={0}
-            position="absolute"
-            textAlign="center"
-            py="1rem"
-            fontWeight="bold"
-            w="100%"
-            bottom={0}
-            color="white"
-            bgColor="rgb(0,0,0,.5)"
-          >
-            Dr. Sunil Vaidya's Clinic
-          </Box>
-        </Box>
-        <Divider orientation="horizontal" my={3} borderWidth={2} /> */}
         <Flex direction="column" gap={3}>
           <NavLink to="/user/receptionist/billing">
             <Button
@@ -95,11 +77,11 @@ const ReceptionistHome = () => {
               Appointments
             </Button>
           </NavLink>
-          <NavLink to="/user/receptionist/patient-detail">
+          {/* <NavLink to="/user/receptionist/patient-detail">
             <Button w="100%" colorScheme="cyan" color="white">
               Add Patient Details
             </Button>
-          </NavLink>
+          </NavLink> */}
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
       </Box>

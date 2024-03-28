@@ -1,6 +1,7 @@
 import {
   Button,
   Flex,
+  FormControl,
   FormLabel,
   Grid,
   Heading,
@@ -12,7 +13,7 @@ import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
-function Prescriptions({ patient_name }) {
+function AddPrescriptions({ patient_name }) {
   const [medicine, setMedicine] = useState("");
   const [dosage, setDosage] = useState("");
   const [reports, setReports] = useState("");
@@ -44,7 +45,6 @@ function Prescriptions({ patient_name }) {
   }, []);
 
   const handleAddMedicine = () => {
-    console.log(medicine, dosage, patient_name);
     axios
       .post("http://localhost:8000/api/v1/users/receptionist/addMedicine", {
         patient_name,
@@ -116,62 +116,71 @@ function Prescriptions({ patient_name }) {
         p="10px"
         borderRadius="20px"
         id="Medicine"
+        gap={9}
       >
-        <Heading fontSize="25px">Prescription</Heading>
-        <FormLabel> Medicines : </FormLabel>
-        <Flex
-          gap="5px"
-          direction={{ md: "row", sm: "column", base: "column" }}
-          justifyItems="center"
-        >
-          <Input
-            fontSize={{ base: "15px", md: "20px" }}
-            type="text"
-            bg="cyan.100"
-            placeholder="Enter Medicine name :"
-            value={medicine}
-            onChange={(e) => setMedicine(e.target.value)}
-          />
-          <Input
-            fontSize={{ base: "15px", md: "20px" }}
-            type="text"
-            bg="cyan.100"
-            placeholder="Dosage"
-            value={dosage}
-            onChange={(e) => setDosage(e.target.value)}
-          />
-          <Button colorScheme="cyan" color="white" onClick={handleAddMedicine}>
-            Save
-          </Button>
-        </Flex>
+        <FormControl>
+          <Heading fontSize="25px">Prescription</Heading>
+          <Flex justify="space-between" mb={3}>
+            <FormLabel fontSize="1.2rem">Medicines</FormLabel>
+            <Button colorScheme="cyan" color="white" onClick={handleAddReport}>
+              Save
+            </Button>
+          </Flex>
+          <Grid
+            gap="5px"
+            direction={{ md: "row", sm: "column", base: "column" }}
+            justifyItems="center"
+          >
+            <Input
+              fontSize={{ base: "15px", md: "20px" }}
+              type="text"
+              bg="cyan.100"
+              placeholder="Enter Medicine name"
+              value={medicine}
+              onChange={(e) => setMedicine(e.target.value)}
+            />
+            <Input
+              fontSize={{ base: "15px", md: "20px" }}
+              type="text"
+              bg="cyan.100"
+              placeholder="Dosage"
+              value={dosage}
+              onChange={(e) => setDosage(e.target.value)}
+            />
+          </Grid>
+        </FormControl>
 
-        <FormLabel> Reports : </FormLabel>
-        <Flex
-          gap="5px"
-          direction={{ md: "row", sm: "column", base: "column" }}
-          justifyItems="center"
-        >
-          <Input
-            fontSize={{ base: "15px", md: "20px" }}
-            type="text"
-            bg="cyan.100"
-            placeholder="Enter Report name :"
-            value={reports}
-            onChange={(e) => setReports(e.target.value)}
-          />
-          <Input
-            fontSize={{ base: "15px", md: "20px" }}
-            type="file"
-            bg="cyan.100"
-            onChange={(e) => setReportFile(e.target.files[0])}
-          />
-          <Button colorScheme="cyan" color="white" onClick={handleAddReport}>
-            Save
-          </Button>
-        </Flex>
+        <FormControl>
+          <Flex justify="space-between" mb={3}>
+            <FormLabel fontSize="1.2rem">Reports</FormLabel>
+            <Button colorScheme="cyan" color="white" onClick={handleAddReport}>
+              Save
+            </Button>
+          </Flex>
+          <Grid
+            gap="5px"
+            direction={{ md: "row", sm: "column", base: "column" }}
+            justifyItems="center"
+          >
+            <Input
+              fontSize={{ base: "15px", md: "20px" }}
+              type="text"
+              bg="cyan.100"
+              placeholder="Enter Report name"
+              value={reports}
+              onChange={(e) => setReports(e.target.value)}
+            />
+            <Input
+              fontSize={{ base: "15px", md: "20px" }}
+              type="file"
+              bg="cyan.100"
+              onChange={(e) => setReportFile(e.target.files[0])}
+            />
+          </Grid>
+        </FormControl>
       </Flex>
     </Flex>
   );
 }
 
-export default Prescriptions;
+export default AddPrescriptions;

@@ -1,17 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "./components/LandingPage";
+import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import DoctorHome from "./pages/DoctorHome";
 import Schedules from "./components/Schedules";
-import ResetPassword from "./components/ResetPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import GlobalProvider from "./context/GlobalContext";
 import ReceptionistHome from "./pages/ReceptionistHome";
-import Billing from "./components/Billing";
+import Billing from "./pages/Billing";
 import AppointmentForm from "./components/AppointmentForm";
-import Patients from "./components/Patients";
-import Patient_Detail from "./components/Patient_Detail";
-import ProfileForm from "./components/ProfileForm";
+import PatientsHistory from "./components/PatientsHistory";
+// import Patient_Detail from "./components/Patient_Detail";
+import ProfileForm from "./pages/ProfileForm";
+import Reciept from "./pages/Reciept";
 
 const routes = createBrowserRouter([
   {
@@ -44,9 +45,8 @@ const routes = createBrowserRouter([
       },
       {
         path: "patients",
-        element: <Patients />,
+        element: <PatientsHistory />,
       },
-      
     ],
   },
   {
@@ -70,8 +70,8 @@ const routes = createBrowserRouter([
         element: <Schedules />,
       },
       {
-        path: "patient-detail",
-        element: <Patient_Detail />,
+        path: "patient/reciept/:id",
+        element: <Reciept />,
       },
     ],
   },

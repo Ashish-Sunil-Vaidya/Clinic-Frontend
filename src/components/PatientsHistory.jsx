@@ -22,7 +22,7 @@ import axios from "axios";
 import PatientModalData from "./PatientModalData";
 
 
-const Patients = () => {
+const PatientsHistory = () => {
   const [searchData, setSearchData] = useState([]);
   const { currentUser } = useContext(GlobalContext);
   const toast = useToast();
@@ -162,4 +162,4 @@ const Patients = () => {
   );
 };
 
-export default Patients;
+export default PatientsHistory;
