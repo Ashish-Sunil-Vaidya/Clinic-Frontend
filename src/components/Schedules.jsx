@@ -21,7 +21,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import PatientModatData from "./PatientModatData";
+import PatientModalData from "./PatientModalData";
 
 const Schedules = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
@@ -190,7 +190,7 @@ const Schedules = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      <PatientModatData
+      <PatientModalData
         isOpen={isOpen}
         onClose={onClose}
         searchedData={searchedData}

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import PatientModatData from "./PatientModatData";
+import PatientModalData from "./PatientModalData";
 
 
 const Patients = () => {
@@ -157,7 +157,7 @@ const Patients = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {searchData && <PatientModatData />}
+      {searchData && <PatientModalData />}
     </>
   );
 };
