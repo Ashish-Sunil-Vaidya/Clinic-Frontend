@@ -42,7 +42,7 @@ const PatientModalData = ({ isOpen, onClose, searchedData }) => {
           <ListItem>
             Symptoms : {searchedData !== null ? searchedData.symptoms : ""}
           </ListItem>
-          {/* <ListItem>
+          <ListItem>
             Prescriptions :
             <UnorderedList>
               {searchedData !== null
@@ -64,8 +64,8 @@ const PatientModalData = ({ isOpen, onClose, searchedData }) => {
           </ListItem>
           <ListItem>
             Report :
-            {/* <Flex direction={'row'} width={'fit-content'} gap='5px' padding='5px'> */}
-            {/* {searchedData !== null
+             <Flex direction={'row'} width={'fit-content'} gap='5px' padding='5px'> 
+             {searchedData !== null
               ? searchedData.report.map((repo, index) => {
                   console.log(
                     "=== prescription PatientModalData.jsx [55] ===",
@@ -79,19 +79,19 @@ const PatientModalData = ({ isOpen, onClose, searchedData }) => {
                       </ListItem>
                     </UnorderedList>
                   );
-                }) */}
-              {/* : ""} */} 
-            {/* </Flex> */}
-          {/* </ListItem> */}
+                }) 
+              : ""} 
+            </Flex>
+           </ListItem>
         </UnorderedList>
-        <ModalFooter>
+        {/* <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Preview Bill
           </Button>
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Go to Billing
           </Button>
-        </ModalFooter>
+        </ModalFooter> */}
       </ModalContent>
     </Modal>
   );

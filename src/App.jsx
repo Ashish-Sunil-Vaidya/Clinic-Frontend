@@ -7,7 +7,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import GlobalProvider from "./context/GlobalContext";
 import ReceptionistHome from "./pages/ReceptionistHome";
-import Billing from "./pages/Billing";
+import Billing from "./components/Billing";
 import AppointmentForm from "./components/AppointmentForm";
 import PatientsHistory from "./components/PatientsHistory";
 // import Patient_Detail from "./components/Patient_Detail";
