@@ -1,89 +1,103 @@
 import {
   Modal,
-  ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
-  UnorderedList,
-  ListItem,
-  Button,
-  Flex,
+  Box,
   Image,
+  Grid,
+  Text,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Link,
+  Button,
+  SimpleGrid
 } from "@chakra-ui/react";
+
+import {ExternalLinkIcon} from '@chakra-ui/icons'
 
 const PatientModalData = ({ isOpen, onClose, searchedData }) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
+    <Modal isOpen={isOpen} onClose={onClose} size="full">
       <ModalContent>
         <ModalHeader>
           {searchedData !== null ? searchedData?.patient_name : ""}
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          {console.log("===  PatientModetData ===", searchedData)}
-        </ModalBody>
-        <UnorderedList fontSize={"20px"} padding={"30px"}>
-          <ListItem>
-            Mobile No. : {searchedData !== null ? searchedData?.mobile_no : ""}
-          </ListItem>
-          <ListItem>
-            Age : {searchedData !== null ? searchedData?.age : ""}
-          </ListItem>
-          <ListItem>
-            Weight : {searchedData !== null ? searchedData?.weight : ""}
-          </ListItem>
-          <ListItem>
-            Gender : {searchedData !== null ? searchedData?.gender : ""}
-          </ListItem>
-          <ListItem>
-            Symptoms : {searchedData !== null ? searchedData?.symptoms : ""}
-          </ListItem>
-          <ListItem>
-            Prescriptions :
-            <UnorderedList>
+        <ModalBody display="grid" gridTemplateColumns="500px auto" gap={4}>
+          <Table variant="simple">
+            <Tbody>
+              <Tr>
+                <Td fontWeight="bold">Age</Td>
+                <Td>{searchedData !== null ? searchedData?.age : ""}</Td>
+              </Tr>
+              <Tr>
+                <Td fontWeight="bold">Weight</Td>
+                <Td>{searchedData !== null ? searchedData?.weight : ""}</Td>
+              </Tr>
+              <Tr>
+                <Td fontWeight="bold">Gender</Td>
+                <Td>{searchedData !== null ? searchedData?.gender : ""}</Td>
+              </Tr>
+              <Tr>
+                <Td fontWeight="bold">Symptoms</Td>
+                <Td>{searchedData !== null ? searchedData?.symptoms : ""}</Td>
+              </Tr>
+              <Tr>
+                <Td fontWeight="bold">Prescriptions</Td>
+                <Td>
+                  <Table variant="unstyled">
+                    <Thead>
+                      <Tr>
+                        <Th>Medicine Name</Th>
+                        <Th>Dosage</Th>
+                      </Tr>
+                    </Thead>
+                    {searchedData !== null
+                      ? searchedData.prescriptions.map(
+                          (prescription, index) => {
+                            return (
+                              <Tr key={index} gap={3}>
+                                <Td>{prescription.medicine_name}</Td>
+                                <Td>{prescription.dosage}</Td>
+                              </Tr>
+                            );
+                          }
+                        )
+                      : ""}
+                  </Table>
+                </Td>
+              </Tr>
+            </Tbody>
+          </Table>
+          <Box mt={4} >
+            <Text fontWeight="bold" fontSize="xl" mb={4}>
+              Reports
+            </Text>
+            <SimpleGrid
+              columns={[1,1,2,3]}
+              gap={4}
+            >
               {searchedData !== null
-                ? searchedData.prescriptions.map((prescription, index) => {
-                    console.log(
-                      "=== prescription PatientModalData.jsx [55] ===",
-                      prescription
-                    );
+                ? searchedData.report.map((repo, index) => {
+
                     return (
-                      <UnorderedList key={index}>
-                        <ListItem>
-                          {prescription.medicine_name} : {prescription.dosage}
-                        </ListItem>
-                      </UnorderedList>
+                      <Grid key={index} placeItems="center" gap={3}>
+                        <Text textAlign="center" fontWeight="bold">{repo.report_name.toUpperCase()}</Text>
+                        <Image src={repo.url} width="80%"/>
+                        <Button colorScheme="cyan" color="white" as={Link} textAlign="center" verticalAlign="center" href={repo.url}>View Report   <ExternalLinkIcon ml={3} /></Button>
+                      </Grid>
                     );
                   })
                 : ""}
-            </UnorderedList>
-          </ListItem>
-          <ListItem>
-            Report :
-             <Flex direction={'row'} width={'fit-content'} gap='5px' padding='5px'> 
-             {searchedData !== null
-              ? searchedData.report.map((repo, index) => {
-                  console.log(
-                    "=== prescription PatientModalData.jsx [55] ===",
-                    repo
-                  );
-                  return (
-                    <UnorderedList key={index} dir="row">
-                      <ListItem>
-                        {repo.report_name} :
-                        <Image src={repo.url} />
-                      </ListItem>
-                    </UnorderedList>
-                  );
-                }) 
-              : ""} 
-            </Flex>
-           </ListItem>
-        </UnorderedList>
+            </SimpleGrid>
+          </Box>
+        </ModalBody>
         {/* <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Preview Bill
