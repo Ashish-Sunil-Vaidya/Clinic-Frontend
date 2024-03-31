@@ -15,10 +15,10 @@ import {
 } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
-import axios from "axios"
+import axios from "axios";
 import { GlobalContext } from "../context/GlobalContext";
-import { useNavigate  } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
 
 // 2. Update the breakpoints as key-value pairs
 const breakpoints = {
@@ -33,77 +33,96 @@ const breakpoints = {
 const theme = extendTheme({ breakpoints });
 
 const Login = () => {
-
   const [role, setRole] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { currentUser, setCurrentUser, setExpirationTime } = useContext(GlobalContext);
+  const { currentUser, setCurrentUser, setExpirationTime } =
+    useContext(GlobalContext);
   const navigator = useNavigate();
-  const toast = useToast()
+  const toast = useToast();
 
   useEffect(() => {
-    if(currentUser) {
-      if(currentUser.role === "doctor") navigator("/user/doctor/dashboard")
-      else navigator("/user/receptionist")
+    if (currentUser) {
+      if (currentUser.role === "doctor") navigator("/user/doctor/dashboard");
+      else navigator("/user/receptionist/billing");
     }
-  }, [])
+  }, []);
 
   const handleSelected = (value) => {
     setRole(value);
   };
 
   const loginSubmitHandler = (e) => {
-    axios.post("http://localhost:8000/api/v1/users/login", { role: role.toLowerCase(), username, password })
-    .then(response => {
-      const loggedInUser = response.data.data;
-      if(!loggedInUser) seterrMsg("Unable to login user");
-      setCurrentUser(loggedInUser);
-      setExpirationTime(Date.now() + 7 * 24 * 60 * 60 * 1000);
-      toast({
-        title: 'Login successfull.',
-        description: "You are logged in your account",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
+    e.preventDefault();
+    if (toast.isActive("t1")) {
+      toast.closeAll();
+    }
+
+    axios
+      .post("http://localhost:8000/api/v1/users/login", {
+        role: role.toLowerCase(),
+        username,
+        password,
       })
-      if(loggedInUser?.role === "doctor") navigator("/user/doctor/dashboard");
-      else navigator("/user/receptionist");
-    })
-    .catch(error => {
-      if(error?.response?.status === 400) toast({
-          title: 'Login Failed.',
-          description: "All feilds are required",
-          status: 'error',
-          duration: 9000,
+      .then((response) => {
+        const loggedInUser = response.data.data;
+        if (!loggedInUser) seterrMsg("Unable to login user");
+        setCurrentUser(loggedInUser);
+        setExpirationTime(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        toast({
+          id: "t1",
+          title: "Login successful.",
+          description: "You are logged into your account",
+          status: "success",
+          duration: 3000,
           isClosable: true,
-        })
-      else if(error?.response?.status === 404) toast({
-        title: 'Login Failed.',
-        description: "Invalid role choosed",
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
+        });
+        if (loggedInUser?.role === "doctor")
+          navigator("/user/doctor/dashboard");
+        else navigator("/user/receptionist/billing");
       })
-      else if(error?.response?.status === 409) toast({
-        title: 'Login Failed.',
-        description: "Incorrect Password",
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-      else toast({
-        title: 'Login Failed.',
-        description: "Something went wrong",
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      })
-    });
-  }
+      .catch((error) => {
+        if (error?.response?.status === 400)
+          toast({
+            id: "t1",
+            title: "Login Failed.",
+            description: "All fields are required",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        else if (error?.response?.status === 404)
+          toast({
+            id: "t1",
+            title: "Login Failed.",
+            description: "Invalid role chosen",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        else if (error?.response?.status === 409)
+          toast({
+            id: "t1",
+            title: "Login Failed.",
+            description: "Incorrect Password",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        else
+          toast({
+            id: "t1",
+            title: "Login Failed.",
+            description: "Something went wrong",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+      });
+  };
 
   return (
     <>
-      
       <Flex
         justifyContent="center"
         direction={{ md: "row", sm: "column", base: "column" }}
@@ -178,7 +197,7 @@ const Login = () => {
                 color="black"
                 placeholder="Enter your name"
                 value={username}
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
               ></Input>
               <FormLabel my="10px" fontSize="20px">
                 Password
@@ -192,11 +211,15 @@ const Login = () => {
                 color="black"
                 placeholder="Enter your password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               ></Input>
 
               <Box my="10px">
-                <Button type="submit" colorScheme="cyan" onClick={loginSubmitHandler}>
+                <Button
+                  type="submit"
+                  colorScheme="cyan"
+                  onClick={loginSubmitHandler}
+                >
                   Submit
                 </Button>
               </Box>

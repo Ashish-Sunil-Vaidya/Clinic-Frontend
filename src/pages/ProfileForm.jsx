@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios"
 import { Spinner } from '@chakra-ui/react'
+
 const ProfileForm = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -31,14 +32,22 @@ const ProfileForm = () => {
   const navigator = useNavigate();
   const toast = useToast();
 
+  
+
   useEffect(() => {
-    if (!currentUser) toast({
-      title: 'Unauthorized request',
-      description: "Login to access this page",
-      status: 'error',
-      duration: 9000,
-      isClosable: true,
-    })
+    if(toast.isActive("t1")) {
+      toast.closeAll();
+    }
+    if (!currentUser) {
+      toast({
+        id: 't1',
+        title: 'Unauthorized request',
+        description: "Login to access this page",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
     else if (Date.now() > expirationTime) {
       setCurrentUser(null);
       navigator("/login")
@@ -64,8 +73,12 @@ const ProfileForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(toast.isActive("t1")) {
+      toast.closeAll();
+    }
     if (isChanged == false) {
       toast({
+        id: 't1',
         title: 'Bad request',
         description: "Change some details for updating your profile",
         status: 'error',
@@ -73,9 +86,11 @@ const ProfileForm = () => {
         isClosable: true,
       })
     } else {
+      console.log('=== formData ProfileForm.jsx [76] ===', formData);
       axios.post("http://localhost:8000/api/v1/users/updateProfile", { ...formData, role: currentUser.role })
         .then(response => {
           toast({
+            id: 't1',
             title: 'Updated Successfully',
             description: "Your profile updated successfully.",
             status: 'success',
@@ -85,25 +100,34 @@ const ProfileForm = () => {
           setCurrentUser(response?.data?.data);
         })
         .catch(error => {
-          if (error.response.status == 400) toast({
-            title: 'Error',
-            description: "All fields are required.",
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          })
-          else toast({
-            title: 'Server error',
-            description: "Something went wrong.",
-            status: 'error',
-            duration: 9000,
-            isClosable: true,
-          })
+          if (error.response.status == 400) {
+            toast({
+              id: 't1',
+              title: 'Error',
+              description: "All fields are required.",
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            })
+          }
+          else {
+            toast({
+              id: 't1',
+              title: 'Server error',
+              description: "Something went wrong.",
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            })
+          }
         })
     }
   };
-  // http://localhost:5173/edit-profile
+
   const handleAvatarChange = () => {
+    if(toast.isActive("t1")) {
+      toast.closeAll();
+    }
     setIsLoading(true);
     const profileData = new FormData();
     profileData.set("avatar", avatar)
@@ -112,6 +136,7 @@ const ProfileForm = () => {
         setAvatarUrl(res.data.data.avatar);
         setIsLoading(false);
         toast({
+          id: 't1',
           title: 'Updated Successfully',
           description: "Avatar updated successfully.",
           status: 'success',
@@ -123,20 +148,26 @@ const ProfileForm = () => {
       })
       .catch(err => {
         setIsLoading(false);
-        if (avatar && err.response.status == 400) toast({
-          title: 'Server error',
-          description: "Something went wrong.",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-        else toast({
-          title: 'Bad request',
-          description: "Select picture to set avatar",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
+        if (avatar && err.response.status == 400) {
+          toast({
+            id: 't1',
+            title: 'Server error',
+            description: "Something went wrong.",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
+        else {
+          toast({
+            id: 't1',
+            title: 'Bad request',
+            description: "Select picture to set avatar",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        }
         setAvatarUrl(currentUser.avatar)
       })
   }
@@ -176,21 +207,15 @@ const ProfileForm = () => {
             colorScheme='teal'
             variant='outline'
             w="100%" onClick={handleAvatarChange}
+            isLoading={isLoading}
+            loadingText="Uploading"
           >
             Upload
-            {isLoading && <Spinner
-              thickness='4px'
-              speed='0.65s'
-              emptyColor='gray.200'
-              color='blue.500'
-              size='md'
-            />}
           </Button>
           <Button w="100%" colorScheme="red" onClick={() => setAvatarUrl(currentUser?.avatar)}>
             Cancel
           </Button>
-        </>
-        }
+        </>}
       </FormControl>
 
       <Flex
@@ -239,8 +264,6 @@ const ProfileForm = () => {
           />
         </FormControl>
 
-
-
         <FormControl>
           <FormLabel m={0}>Email</FormLabel>
           <Input
@@ -250,11 +273,8 @@ const ProfileForm = () => {
             onChange={handleChange}
           />
         </FormControl>
-        <Button type="submit"
-        >Update Profile</Button>
+        <Button type="submit">Update Profile</Button>
       </Flex>
-
-
     </Grid>
   );
 };

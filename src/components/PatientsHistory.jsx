@@ -28,7 +28,7 @@ const PatientsHistory = () => {
   const toast = useToast();
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (!currentUser) {
@@ -157,7 +157,7 @@ const PatientsHistory = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {searchData && <PatientModalData />}
+      {/* {searchData && <PatientModalData />} */}
     </>
   );
 };

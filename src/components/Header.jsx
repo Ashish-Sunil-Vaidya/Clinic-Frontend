@@ -25,7 +25,7 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 axios.defaults.withCredentials = true;
-const Header = ({ tabValue, setTabValue, role }) => {
+const Header = ({ tabValue, setTabValue }) => {
   const { currentUser, setCurrentUser, setExpirationTime } =
     useContext(GlobalContext);
   const navigator = useNavigate();
@@ -43,7 +43,7 @@ const Header = ({ tabValue, setTabValue, role }) => {
           title: "Logout successfull.",
           description: "You are logged out from your account",
           status: "success",
-          duration: 9000,
+          duration: 3000,
           isClosable: true,
         });
         navigator("/");
@@ -85,7 +85,7 @@ const Header = ({ tabValue, setTabValue, role }) => {
                 variant="ghost"
               >
                 <Flex align="center">
-                  <Avatar boxSize="40px" />
+                  <Avatar boxSize="40px" src={currentUser?.avatar}/>
                   <Box ml={2} fontSize="1.1rem" color="cyan.600">
                     {currentUser?.fullname}
                   </Box>
