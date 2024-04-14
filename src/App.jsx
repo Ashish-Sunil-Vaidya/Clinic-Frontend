@@ -14,6 +14,7 @@ import PatientsHistory from "./components/PatientsHistory";
 import ProfileForm from "./pages/ProfileForm";
 import Reciept from "./pages/Reciept";
 import PatientModalData from "./components/PatientModalData";
+import PatientDetail from "./components/PatientDetail";
 
 const routes = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ const routes = createBrowserRouter([
       {
         path: "appointment",
         element: <AppointmentForm />,
+      },
+      {
+        path:"add-details",
+        element: <PatientDetail />,
       },
       {
         path: "all-appointments",

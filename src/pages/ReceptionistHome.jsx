@@ -77,11 +77,11 @@ const ReceptionistHome = () => {
               Appointments
             </Button>
           </NavLink>
-          {/* <NavLink to="/user/receptionist/patient-detail">
+          <NavLink to="/user/receptionist/add-details">
             <Button w="100%" colorScheme="cyan" color="white">
               Add Patient Details
             </Button>
-          </NavLink> */}
+          </NavLink>
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
       </Box>

@@ -122,7 +122,7 @@ function AddPrescriptions({ patient_name }) {
           <Heading fontSize="25px">Prescription</Heading>
           <Flex justify="space-between" mb={3}>
             <FormLabel fontSize="1.2rem">Medicines</FormLabel>
-            <Button colorScheme="cyan" color="white" onClick={handleAddReport}>
+            <Button colorScheme="cyan" color="white" onClick={handleAddMedicine}>
               Save
             </Button>
           </Flex>
