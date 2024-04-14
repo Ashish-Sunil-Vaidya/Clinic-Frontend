@@ -22,14 +22,14 @@ const Billing = () => {
 
   useEffect(() => {
     if (!currentUser || currentUser?.role !== "receptionist") {
-      toast({
-        title: "Unauthorized Request",
-        description: "Login to access this page.",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-      navigator("/login");
+      // toast({
+      //   title: "Unauthorized Request",
+      //   description: "Login to access this page.",
+      //   status: "error",
+      //   duration: 9000,
+      //   isClosable: true,
+      // });
+      navigator("/");
     } else if (Date.now() > expirationTime) {
       setCurrentUser(null);
       toast({

@@ -13,6 +13,7 @@ import PatientsHistory from "./components/PatientsHistory";
 // import Patient_Detail from "./components/Patient_Detail";
 import ProfileForm from "./pages/ProfileForm";
 import Reciept from "./pages/Reciept";
+import PatientModalData from "./components/PatientModalData";
 
 const routes = createBrowserRouter([
   {
@@ -47,16 +48,16 @@ const routes = createBrowserRouter([
         path: "patients",
         element: <PatientsHistory />,
       },
+      {
+        path: "patient/:id",
+        element: <PatientModalData />,
+      },
     ],
   },
   {
     path: "/user/receptionist",
     element: <ReceptionistHome />,
     children: [
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
       {
         path: "billing",
         element: <Billing />,
@@ -73,6 +74,7 @@ const routes = createBrowserRouter([
         path: "patient/reciept/:id",
         element: <Reciept />,
       },
+      
     ],
   },
 ]);

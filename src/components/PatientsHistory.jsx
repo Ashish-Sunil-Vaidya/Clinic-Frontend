@@ -10,7 +10,7 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 // import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -21,14 +21,12 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import PatientModalData from "./PatientModalData";
 
-
 const PatientsHistory = () => {
-  const [searchData, setSearchData] = useState([]);
+  const [patientsHistory, setPatientsHistory] = useState([]);
   const { currentUser } = useContext(GlobalContext);
   const toast = useToast();
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
-  // const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (!currentUser) {
@@ -43,7 +41,7 @@ const PatientsHistory = () => {
     }
     axios
       .get("http://localhost:8000/api/v1/users/allPatientDetails")
-      .then((response) => setSearchData(response.data.data))
+      .then((response) => setPatientsHistory(response.data.data))
       .catch((error) =>
         toast({
           title: "Unable to fetch Data",
@@ -55,13 +53,15 @@ const PatientsHistory = () => {
       );
   }, []);
 
-  const handleSearch = () => {
-    const { name, surname } = searchKey.split(" ");
+  const handleSearch = (patientName) => {
+    const [name, surname] = patientName.split(" ");
     axios
-      .post(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`, {
-        searchKey,
+      .get(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`)
+      .then((response) => {
+        navigator(`/user/doctor/patient/${name}%20${surname}`, {
+          state: { data: response.data.data },
+        });
       })
-      .then((response) => setSearchData(response.data.data))
       .catch((error) =>
         toast({
           title: "Unable to fetch Data",
@@ -72,6 +72,10 @@ const PatientsHistory = () => {
         })
       );
   };
+
+  const filteredData = patientsHistory.filter(({ patient_name }) => {
+    return patient_name.toLowerCase().includes(searchKey.toLowerCase());
+  });
 
   return (
     <>
@@ -96,7 +100,7 @@ const PatientsHistory = () => {
             icon={<Search2Icon />}
             color="white"
             fontSize="20px"
-            onClick={handleSearch}
+            // onClick={handleSearch}
           />
           <Input
             type="text"
@@ -123,7 +127,7 @@ const PatientsHistory = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {searchData.map((Patient, index) => {
+            {filteredData.map((Patient, index) => {
               return (
                 <Tr
                   key={index}
@@ -145,7 +149,7 @@ const PatientsHistory = () => {
                       alignSelf="center"
                       color="white"
                       onClick={() => {
-                        navigator("/user/doctor/patient-detail");
+                        handleSearch(Patient?.patient_name);
                       }}
                     >
                       View Details

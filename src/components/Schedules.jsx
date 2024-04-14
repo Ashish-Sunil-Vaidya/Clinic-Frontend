@@ -61,19 +61,24 @@ const Schedules = () => {
   }, []);
 
   const getPatientDetails = (patientName) => {
+    if(toast.isActive("t1")){
+      toast.closeAll();
+    }
     const [name, surname] = patientName.split(" ");
     axios
       .get(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
-        setSearchedData(response.data.data);
-        console.log("===  Schedules.jsx [65] ===", searchedData);
+        navigator(`/user/doctor/patient/${name}%20${surname}`, {
+          state: { data: response.data.data },
+        });
       })
       .catch((error) => {
         switch (error.response.status) {
           case 400:
             toast({
+              id:"t1",
               title: "Bad Request",
-              description: "Please provide a valid name",
+              description: "Data not found",
               status: "error",
               duration: 9000,
               isClosable: true,
@@ -81,6 +86,7 @@ const Schedules = () => {
             break;
           case 404:
             toast({
+              id:"t1",
               title: "Not Found",
               description: "No data found for the following name",
               status: "error",
@@ -90,6 +96,7 @@ const Schedules = () => {
             break;
           case 500:
             toast({
+              id:"t1",
               title: "Internal Server Error",
               description: "Something went wrong when fetching appointments",
               status: "error",
@@ -99,6 +106,7 @@ const Schedules = () => {
             break;
           default:
             toast({
+              id:"t1",
               title: "Unable to fetch Data",
               description: "something went wrong when fetching appointments",
               status: "error",
@@ -173,7 +181,6 @@ const Schedules = () => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    onOpen();
                     getPatientDetails(appointment.patient_name);
                   }}
                 >
@@ -190,11 +197,6 @@ const Schedules = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      <PatientModalData
-        isOpen={isOpen}
-        onClose={onClose}
-        searchedData={searchedData}
-      />
     </>
   );
 };
