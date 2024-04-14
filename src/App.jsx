@@ -71,10 +71,9 @@ const routes = createBrowserRouter([
         element: <Schedules />,
       },
       {
-        path: "patient/reciept/:id",
-        element: <Reciept />,
+        path: "patient/:id",
+        element: <PatientModalData />,
       },
-      
     ],
   },
 ]);

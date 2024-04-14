@@ -21,7 +21,6 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import PatientModalData from "./PatientModalData";
 
 const Schedules = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
@@ -29,8 +28,7 @@ const Schedules = () => {
   const toast = useToast();
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
-  const [searchedData, setSearchedData] = useState(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
   // Demo Commit
 
   useEffect(() => {
@@ -61,22 +59,28 @@ const Schedules = () => {
   }, []);
 
   const getPatientDetails = (patientName) => {
-    if(toast.isActive("t1")){
+    if (toast.isActive("t1")) {
       toast.closeAll();
     }
     const [name, surname] = patientName.split(" ");
     axios
       .get(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
-        navigator(`/user/doctor/patient/${name}%20${surname}`, {
-          state: { data: response.data.data },
-        });
+        if (currentUser.role === "doctor") {
+          navigator(`/user/doctor/patient/${name}%20${surname}`, {
+            state: { data: response.data.data },
+          });
+        } else {
+          navigator(`/user/receptionist/patient/${name}%20${surname}`, {
+            state: { data: response.data.data },
+          });
+        }
       })
       .catch((error) => {
         switch (error.response.status) {
           case 400:
             toast({
-              id:"t1",
+              id: "t1",
               title: "Bad Request",
               description: "Data not found",
               status: "error",
@@ -86,7 +90,7 @@ const Schedules = () => {
             break;
           case 404:
             toast({
-              id:"t1",
+              id: "t1",
               title: "Not Found",
               description: "No data found for the following name",
               status: "error",
@@ -96,7 +100,7 @@ const Schedules = () => {
             break;
           case 500:
             toast({
-              id:"t1",
+              id: "t1",
               title: "Internal Server Error",
               description: "Something went wrong when fetching appointments",
               status: "error",
@@ -106,7 +110,7 @@ const Schedules = () => {
             break;
           default:
             toast({
-              id:"t1",
+              id: "t1",
               title: "Unable to fetch Data",
               description: "something went wrong when fetching appointments",
               status: "error",
