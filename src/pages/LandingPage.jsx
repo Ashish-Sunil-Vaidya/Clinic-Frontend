@@ -32,7 +32,7 @@ const LandingPage = () => {
         </Heading>
         <NavLink to="/login">
           <Button colorScheme="cyan" variant="outline" size="md">
-            Doctor/Receptionist Login
+          Login
           </Button>
         </NavLink>
       </Flex>

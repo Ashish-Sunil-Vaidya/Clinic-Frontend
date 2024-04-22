@@ -8,108 +8,137 @@ import {
   Heading,
   FormControl,
 } from "@chakra-ui/react";
-import { useState, useEffect, useContext } from "react"
-import axios from "axios"
-import { useToast } from '@chakra-ui/react'
-import { GlobalContext } from "../context/GlobalContext";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { useToast } from "@chakra-ui/react";
+import { GlobalContext } from "../../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
+import {
+  isValidAge,
+  isValidFullName,
+  isValidMobileNo,
+} from "../helpers/formValidationHelpers";
 
-const AppointmentForm = () => {
+const AddAppointment = () => {
   const [patient_name, setPatientName] = useState("");
   const [mobile_no, setMobileNo] = useState("");
   const [age, setAge] = useState(0);
   const [gender, setGender] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [date_of_app, setDateOfApp] = useState("");
   const [time_of_app, setTimeOfApp] = useState("");
   const navigator = useNavigate();
-  const toast = useToast()
-  const { currentUser, expirationTime, setCurrentUser } = useContext(GlobalContext);
+  const toast = useToast();
+  const { currentUser, expirationTime, setCurrentUser } =
+    useContext(GlobalContext);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    if(!currentUser || currentUser?.role !== "receptionist") {
+    if (!currentUser || currentUser?.role !== "receptionist") {
       toast({
-        title: 'Unauthorized Request',
+        title: "Unauthorized Request",
         description: "Login to access this page.",
-        status: 'error',
+        status: "error",
         duration: 9000,
         isClosable: true,
-      })
+      });
       navigator("/login");
-    } else if(Date.now() > expirationTime) {
-      setCurrentUser(null);
+    } else if (Date.now() > expirationTime) {
+      setCurrentUser("");
       toast({
-        title: 'Token expired',
+        title: "Token expired",
         description: "Login again",
-        status: 'error',
+        status: "error",
         duration: 9000,
         isClosable: true,
-      })
+      });
       navigator("/login");
     }
   }, []);
 
   const handleAddAppointment = () => {
-    const time = time_of_app.split(':');
+    setIsLoading(true);
+    const time = time_of_app.split(":");
     let isPm = false;
-    if(time[0] > 12) {
+    if (time[0] > 12) {
       time[0] -= 12;
       isPm = true;
-    } 
+    }
     let newTime = time[0] + ":" + time[1];
-    if(isPm) newTime += " PM"
+    if (isPm) newTime += " PM";
     else newTime += " AM";
-    console.log(newTime)
-    axios.post("http://localhost:8000/api/v1/users/receptionist/addAppointment", {
-      patient_name,
-      mobile_no,
-      age,
-      gender,
-      date_of_app,
-      time_of_app: newTime
-    })
-    .then(response => {
-      setPatientName("");
-      setAge("");
-      setDateOfApp("");
-      setTimeOfApp("");
-      setGender("");
-      setMobileNo("");
-      toast({
-        title: 'Booked',
-        description: "Appointment booked successfully",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
+    axios
+      .post("http://localhost:8000/api/v1/users/receptionist/addAppointment", {
+        patient_name,
+        mobile_no,
+        age,
+        gender,
+        date_of_app,
+        time_of_app: newTime,
       })
-    })
-    .catch(error => {
-      if(error.response?.status === 400) {
-        toast({
-          title: 'Bad request',
-          description: "All fields are required",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      } else if(error.response?.status === 409) {
-        toast({
-          title: 'Bad request',
-          description: "Appointment already booked",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      } else {
-        toast({
-          title: 'Server error',
-          description: "Something went wrong",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
-      }
-    })
-  }
+      .then((response) => {
+        if (
+          isValidAge(age) &&
+          isValidMobileNo(mobile_no) &&
+          isValidFullName(patient_name)
+        ) {
+          setIsLoading(false);
+          setError(false);
+          setPatientName("");
+          setAge(0);
+          setDateOfApp("");
+          setTimeOfApp("");
+          setGender("");
+          setMobileNo("");
+          toast({
+            title: "Booked",
+            description: "Appointment booked successfully",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          setError(true);
+          setIsLoading(false);
+          toast({
+            title: "Invalid Data",
+            description: "Please enter valid data",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      })
+      .catch((error) => {
+        setError(true);
+        setIsLoading(false);
+        if (error.response?.status === 400) {
+          toast({
+            title: "Bad request",
+            description: "All fields are required",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else if (error.response?.status === 409) {
+          toast({
+            title: "Bad request",
+            description: "Appointment already booked",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Server error",
+            description: "Something went wrong",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      });
+  };
 
   return (
     <Grid
@@ -136,6 +165,7 @@ const AppointmentForm = () => {
               borderRadius="10px"
               value={patient_name}
               onChange={(e) => setPatientName(e.target.value)}
+              isInvalid={error && !patient_name}
             />
           </InputGroup>
         </FormControl>
@@ -152,6 +182,9 @@ const AppointmentForm = () => {
               borderRadius="10px"
               value={mobile_no}
               onChange={(e) => setMobileNo(e.target.value)}
+              isInvalid={
+                (error && !mobile_no) || (error && !isValidMobileNo(mobile_no))
+              }
             />
           </InputGroup>
         </FormControl>
@@ -161,13 +194,13 @@ const AppointmentForm = () => {
             <Input
               fontSize="20px"
               width="100%"
-              defaultValue={18}
-              min={1}
               bgColor="gray.100"
               color="black"
               borderRadius="10px"
               value={age}
               onChange={(e) => setAge(e.target.value)}
+              isInvalid={(error && !age) || (error && !isValidAge(age))}
+              type="number"
             />
           </InputGroup>
         </FormControl>
@@ -183,6 +216,7 @@ const AppointmentForm = () => {
               borderRadius="10px"
               value={gender}
               onChange={(e) => setGender(e.target.value)}
+              isInvalid={error && !gender}
             >
               <option>Male</option>
               <option>Female</option>
@@ -203,6 +237,7 @@ const AppointmentForm = () => {
               borderRadius="10px"
               value={date_of_app}
               onChange={(e) => setDateOfApp(e.target.value)}
+              isInvalid={error && !date_of_app}
             />
           </InputGroup>
         </FormControl>
@@ -220,6 +255,7 @@ const AppointmentForm = () => {
               borderRadius="10px"
               value={time_of_app}
               onChange={(e) => setTimeOfApp(e.target.value)}
+              isInvalid={error && !time_of_app}
             />
           </InputGroup>
         </FormControl>
@@ -228,11 +264,13 @@ const AppointmentForm = () => {
         colorScheme="cyan"
         color="white"
         onClick={handleAddAppointment}
+        isLoading={isLoading}
+        loadingText={"Saving Details..."}
       >
         Submit
       </Button>
     </Grid>
   );
-}
+};
 
-export default AppointmentForm;
+export default AddAppointment;

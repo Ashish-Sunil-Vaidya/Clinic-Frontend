@@ -1,14 +1,12 @@
 import { Box, Button, Divider, Flex, Grid, Image } from "@chakra-ui/react";
 import { Outlet, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
-import clinicImg from "../assets/clinic.jpeg";
 import Header from "../components/Header";
-import { useState, useContext, useEffect } from "react";
+import {  useContext, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate  } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
 const DoctorHome = () => {
-  const [tabValue, setTabValue] = useState("Dashboard");
   const { currentUser, setCurrentUser, expirationTime } = useContext(GlobalContext);
   const navigator = useNavigate();
   const toast = useToast()
@@ -86,7 +84,6 @@ const DoctorHome = () => {
               w="100%"
               colorScheme="cyan"
               color="white"
-              onClick={() => setTabValue("Dashboard")}
             >
               Dashboard
             </Button>
@@ -96,7 +93,6 @@ const DoctorHome = () => {
               w="100%"
               colorScheme="cyan"
               color="white"
-              onClick={() => setTabValue("Schedules")}
             >
               Schedules
             </Button>
@@ -106,7 +102,6 @@ const DoctorHome = () => {
               w="100%"
               colorScheme="cyan"
               color="white"
-              onClick={() => setTabValue("Patients History")}
             >
               Patients History
             </Button>
@@ -130,7 +125,7 @@ const DoctorHome = () => {
         }}
         bgColor="white"
       >
-        <Header tabValue={tabValue} setTabValue={setTabValue} role="doctor" />
+        <Header role="doctor" />
 
         <Box overflowY="auto" h="100%">
           <Outlet />

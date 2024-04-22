@@ -10,7 +10,6 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
 // import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -19,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import PatientModalData from "./PatientModalData";
 
 const PatientsHistory = () => {
   const [patientsHistory, setPatientsHistory] = useState([]);
@@ -94,14 +92,7 @@ const PatientsHistory = () => {
           p="10px"
           gap={3}
         >
-          <IconButton
-            colorScheme="cyan"
-            aria-label="Search database"
-            icon={<Search2Icon />}
-            color="white"
-            fontSize="20px"
-            // onClick={handleSearch}
-          />
+      
           <Input
             type="text"
             fontSize="1.1rem"
@@ -161,7 +152,7 @@ const PatientsHistory = () => {
           </Tbody>
         </Table>
       </TableContainer>
-      {/* {searchData && <PatientModalData />} */}
+
     </>
   );
 };

@@ -30,13 +30,16 @@ const Header = ({ tabValue, setTabValue }) => {
     useContext(GlobalContext);
   const navigator = useNavigate();
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = () => {
+    setIsLoading(true);
     axios
       .post("http://localhost:8000/api/v1/users/logout", {
         credentials: "include",
       })
       .then((response) => {
+        setIsLoading(false);
         setCurrentUser(null);
         setExpirationTime(0);
         toast({
@@ -49,6 +52,7 @@ const Header = ({ tabValue, setTabValue }) => {
         navigator("/");
       })
       .catch((error) => {
+        setIsLoading(false);
         toast({
           title: "Logout Failed.",
           description: "Unauthorized request",
@@ -85,7 +89,7 @@ const Header = ({ tabValue, setTabValue }) => {
                 variant="ghost"
               >
                 <Flex align="center">
-                  <Avatar boxSize="40px" src={currentUser?.avatar}/>
+                  <Avatar boxSize="40px" src={currentUser?.avatar} />
                   <Box ml={2} fontSize="1.1rem" color="cyan.600">
                     {currentUser?.fullname}
                   </Box>
@@ -100,7 +104,12 @@ const Header = ({ tabValue, setTabValue }) => {
                 </NavLink>
               </MenuList>
             </Menu>
-            <Button colorScheme="red" onClick={handleLogout}>
+            <Button
+              colorScheme="red"
+              onClick={handleLogout}
+              isLoading={isLoading}
+              loadingText="Logging out"
+            >
               Logout
             </Button>
           </Flex>
@@ -178,7 +187,14 @@ const Header = ({ tabValue, setTabValue }) => {
                   Patients History
                 </Button>
               </NavLink>
-              <Button colorScheme="red">Logout</Button>
+              <Button
+                colorScheme="red"
+                isLoading={isLoading}
+                onClick={handleLogout}
+                loadingText="Logging out"
+              >
+                Logout
+              </Button>
             </Flex>
           </AccordionPanel>
         </AccordionItem>

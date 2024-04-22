@@ -58,7 +58,7 @@ const Schedules = () => {
       );
   }, []);
 
-  const getPatientDetails = (patientName) => {
+  const getAddPatientDetailss = (patientName) => {
     if (toast.isActive("t1")) {
       toast.closeAll();
     }
@@ -148,7 +148,7 @@ const Schedules = () => {
             icon={<Search2Icon />}
             color="white"
             fontSize="20px"
-            onClick={getPatientDetails}
+            onClick={getAddPatientDetailss}
           />
           <Input
             type="text"
@@ -185,7 +185,7 @@ const Schedules = () => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    getPatientDetails(appointment.patient_name);
+                    getAddPatientDetailss(appointment.patient_name);
                   }}
                 >
                   <Td>{index + 1}</Td>

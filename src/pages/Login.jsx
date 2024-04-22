@@ -8,9 +8,9 @@ import {
   FormLabel,
   RadioGroup,
   HStack,
-  Radio,
-  Input,
   Box,
+  Input,
+  Grid,
   Button,
 } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
@@ -33,18 +33,20 @@ const breakpoints = {
 const theme = extendTheme({ breakpoints });
 
 const Login = () => {
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("doctor");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { currentUser, setCurrentUser, setExpirationTime } =
     useContext(GlobalContext);
   const navigator = useNavigate();
   const toast = useToast();
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
       if (currentUser.role === "doctor") navigator("/user/doctor/dashboard");
-      else navigator("/user/receptionist/billing");
+      else navigator("/user/receptionist/AddBilling");
     }
   }, []);
 
@@ -53,6 +55,7 @@ const Login = () => {
   };
 
   const loginSubmitHandler = (e) => {
+    setIsLoading(true);
     e.preventDefault();
     if (toast.isActive("t1")) {
       toast.closeAll();
@@ -65,8 +68,9 @@ const Login = () => {
         password,
       })
       .then((response) => {
+        setError(false);
+        setIsLoading(false);
         const loggedInUser = response.data.data;
-        if (!loggedInUser) seterrMsg("Unable to login user");
         setCurrentUser(loggedInUser);
         setExpirationTime(Date.now() + 7 * 24 * 60 * 60 * 1000);
         toast({
@@ -79,9 +83,11 @@ const Login = () => {
         });
         if (loggedInUser?.role === "doctor")
           navigator("/user/doctor/dashboard");
-        else navigator("/user/receptionist/billing");
+        else navigator("/user/receptionist/AddBilling");
       })
       .catch((error) => {
+        setError(true);
+        setIsLoading(false);
         if (error?.response?.status === 400)
           toast({
             id: "t1",
@@ -100,7 +106,8 @@ const Login = () => {
             duration: 9000,
             isClosable: true,
           });
-        else if (error?.response?.status === 409)
+        else if (error?.response?.status === 409) {
+          setPassword("");
           toast({
             id: "t1",
             title: "Login Failed.",
@@ -109,7 +116,7 @@ const Login = () => {
             duration: 9000,
             isClosable: true,
           });
-        else
+        } else
           toast({
             id: "t1",
             title: "Login Failed.",
@@ -130,13 +137,11 @@ const Login = () => {
         height="100vh"
         gap={{ md: "10%", sm: "1px", base: "0px" }}
         width="100"
-        bg="cyan.100"
       >
         <Flex>
           <Container maxW="600px" minW="60px" centerContent>
             <Image
               width={{ md: "100%", sm: "90%", base: "80%" }}
-              borderRadius="full"
               src="./src/assets/Logo.png"
               filter="drop-shadow(0px 0px 20px #0bc5ea)"
             ></Image>
@@ -150,80 +155,105 @@ const Login = () => {
         >
           <FormControl
             width={{ sm: "90%", base: "90%" }}
-            isRequired
-            bgColor="cyan.300"
-            borderRadius="40px"
+            bgColor="cyan.50"
             minW="300px"
-            p="25px"
-            shadow={"0 0 40px lightgray"}
+            p={10}
             maxW="400px"
             onSubmit={loginSubmitHandler}
           >
-            <Flex
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Heading color="black.200">Login</Heading>
-              <Box my="10px" fontSize="20px">
-                User Type
-              </Box>
-              <RadioGroup defaultValue="">
-                <HStack spacing="20px" fontWeight="600">
-                  <Radio
-                    value="Doctor"
-                    onChange={() => handleSelected("Doctor")}
-                    selected={role === "Doctor"}
+            <Grid gap={3}>
+              <Heading color="black.200" textAlign="center">
+                Login
+              </Heading>
+              <FormControl>
+                <FormLabel color="black">User Type</FormLabel>
+                <RadioGroup defaultValue="">
+                  <Grid
+                    templateColumns="repeat(2, 1fr)"
+                    position="relative"
+                    py={1}
+                    border="2px solid"
+                    borderColor="cyan.500"
+                    rounded="md"
+                    transition={"color 0.3s"}
                   >
-                    Doctor
-                  </Radio>
-                  <Radio
-                    value="Receptionist"
-                    onChange={() => handleSelected("Receptionist")}
-                    selected={role === "Receptionist"}
-                  >
-                    Receptionist
-                  </Radio>
-                </HStack>
-              </RadioGroup>
-              <FormLabel my="10px" fontSize="20px">
-                Username
-              </FormLabel>
-              <Input
-                type="text"
-                rounded="10px"
-                bgColor="gray.100"
-                fontSize="20px"
-                color="black"
-                placeholder="Enter your name"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              ></Input>
-              <FormLabel my="10px" fontSize="20px">
-                Password
-              </FormLabel>
-              <Input
-                id={Date.now()}
-                type="password"
-                rounded="10px"
-                bgColor="gray.100"
-                fontSize="20px"
-                color="black"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></Input>
+                    <Box
+                      textAlign="center"
+                      zIndex={2}
+                      fontSize="1.2rem"
+                      fontWeight={600}
+                      color={role === "doctor" ? "white" : "cyan.500"}
+                      onClick={() => handleSelected("doctor")}
+                    >
+                      Doctor
+                    </Box>
+                    <Box
+                      textAlign="center"
+                      zIndex={2}
+                      fontSize="1.2rem"
+                      fontWeight={600}
+                      color={role === "doctor" ? "cyan.500" : "white"}
+                      onClick={() => handleSelected("receptionist")}
+                    >
+                      Receptionist
+                    </Box>
+                    <Box
+                      position="absolute"
+                      width="50%"
+                      height="100%"
+                      bg="cyan.500"
+                      zIndex={0}
+                      transform={
+                        role === "doctor"
+                          ? "translateX(0%)"
+                          : "translateX(100%)"
+                      }
+                      transition={"transform 0.3s"}
+                    ></Box>
+                  </Grid>
+                </RadioGroup>
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel my="0px">Username</FormLabel>
+                <Input
+                  type="text"
+                  rounded="10px"
+                  fontSize="20px"
+                  color="black"
+                  bgColor="white"
+                  placeholder="Enter your name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  isInvalid={error && !username}
+                ></Input>
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel my="0px">Password</FormLabel>
+                <Input
+                  id={Date.now()}
+                  type="password"
+                  rounded="10px"
+                  fontSize="20px"
+                  color="black"
+                  bgColor="white"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  isInvalid={error && !password}
+                ></Input>
+              </FormControl>
 
-              <Box my="10px">
-                <Button
-                  type="submit"
-                  colorScheme="cyan"
-                  onClick={loginSubmitHandler}
-                >
-                  Submit
-                </Button>
-              </Box>
-            </Flex>
+              <Button
+                type="submit"
+                colorScheme="cyan"
+                onClick={loginSubmitHandler}
+                color="white"
+                isLoading={isLoading}
+                loadingText="Logging in"
+              >
+                Login
+              </Button>
+            </Grid>
           </FormControl>
         </Flex>
       </Flex>

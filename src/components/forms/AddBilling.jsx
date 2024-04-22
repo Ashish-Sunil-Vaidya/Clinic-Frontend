@@ -9,16 +9,18 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
-import { GlobalContext } from "../context/GlobalContext";
+import { GlobalContext } from "../../context/GlobalContext";
+import { isValidAmount, isValidFullName } from "../helpers/formValidationHelpers";
 
-const Billing = () => {
+const AddBilling = () => {
   const [patient_name, setPatientName] = useState("");
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState(0);
-  const { currentUser, expirationTime, setCurrentUser } = useContext(
-    GlobalContext
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const { currentUser, expirationTime, setCurrentUser } =
+    useContext(GlobalContext);
   const toast = useToast();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (!currentUser || currentUser?.role !== "receptionist") {
@@ -44,25 +46,48 @@ const Billing = () => {
   }, []);
 
   const handleAddPayment = () => {
+    setIsLoading(true);
     axios
-      .post("http://localhost:8000/api/v1/users/receptionist/addPaymentDetails", {
-        patient_name,
-        amount,
-        date,
-      })
+      .post(
+        "http://localhost:8000/api/v1/users/receptionist/addPaymentDetails",
+        {
+          patient_name,
+          amount,
+          date,
+        }
+      )
       .then((response) => {
-        setPatientName("");
-        setAmount("");
-        setDate("");
-        toast({
-          title: "Success",
-          description: "Payment Details Stored",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
+        if (isValidAmount(amount) && date && isValidFullName(patient_name)) {
+          setError(false);
+          setIsLoading(false);
+          setPatientName("");
+          setAmount("");
+          setDate("");
+          toast({
+            title: "Success",
+            description: "Payment Details Stored",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          if(!isValidAmount(amount)) setAmount("");
+          if(!isValidFullName(patient_name)) setPatientName("");
+
+          setIsLoading(false);
+          setError(true);
+          toast({
+            title: "Invalid Input",
+            description: "Please enter valid details",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
       })
       .catch((error) => {
+        setError(true);
+        setIsLoading(false);
         if (error.response?.status === 400) {
           toast({
             title: "Bad request",
@@ -72,6 +97,7 @@ const Billing = () => {
             isClosable: true,
           });
         } else {
+          setIsLoading(false);
           toast({
             title: "Server Error",
             description: "Something went wrong",
@@ -88,19 +114,20 @@ const Billing = () => {
       bg="white"
       borderRadius="20px"
       p={10}
-      h="calc(100% - 10svh)"      
+      h="calc(100% - 10svh)"
       color="cyan.700"
       justify="center"
       align="center"
     >
-      <Heading fontSize="2rem">Billing Information</Heading>
+      <Heading fontSize="2rem">Add Billing Information</Heading>
       <FormControl>
         <FormLabel fontSize="1.2rem">Name</FormLabel>
         <Input
           type="text"
-          placeholder="Enter name"
+          placeholder="Enter First Name and Last Name"
           value={patient_name}
           onChange={(e) => setPatientName(e.target.value)}
+          isInvalid={error && !patient_name}
         />
       </FormControl>
       <FormControl>
@@ -110,6 +137,7 @@ const Billing = () => {
           placeholder="Enter Amount (₹)"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          isInvalid={error && !amount || error && !isValidAmount(amount)}
         />
       </FormControl>
       <FormControl>
@@ -119,6 +147,7 @@ const Billing = () => {
           placeholder="Select Date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          isInvalid={error && !date}
         />
       </FormControl>
 
@@ -127,6 +156,8 @@ const Billing = () => {
         color="white"
         alignSelf="center"
         onClick={handleAddPayment}
+        isLoading={isLoading}
+        loadingText={"Saving Details..."}
       >
         Save
       </Button>
@@ -134,4 +165,4 @@ const Billing = () => {
   );
 };
 
-export default Billing;
+export default AddBilling;
