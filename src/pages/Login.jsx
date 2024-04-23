@@ -21,16 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
 // 2. Update the breakpoints as key-value pairs
-const breakpoints = {
-  base: "0px",
-  sm: "320px",
-  md: "768px",
-  lg: "960px",
-  xl: "1200px",
-  "2xl": "1536px",
-};
 
-const theme = extendTheme({ breakpoints });
 
 const Login = () => {
   const [role, setRole] = useState("doctor");
@@ -46,11 +37,8 @@ const Login = () => {
   useEffect(() => {
     if (currentUser) {
       if (currentUser.role === "doctor") navigator("/user/doctor/dashboard");
-<<<<<<< HEAD
       else navigator("/user/receptionist/add-details");
-=======
-      else navigator("/user/receptionist/AddBilling");
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
+    
     }
   }, []);
 
@@ -87,11 +75,8 @@ const Login = () => {
         });
         if (loggedInUser?.role === "doctor")
           navigator("/user/doctor/dashboard");
-<<<<<<< HEAD
         else navigator("/user/receptionist/add-details");
-=======
-        else navigator("/user/receptionist/AddBilling");
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
+       
       })
       .catch((error) => {
         setError(true);
@@ -149,15 +134,10 @@ const Login = () => {
         <Flex>
           <Container maxW="600px" minW="60px" centerContent>
             <Image
-<<<<<<< HEAD
               width={{ md: "90%", sm: "80%", base: "70%" }}
               src="./src/assets/login-logo.png"
             
-=======
-              width={{ md: "100%", sm: "90%", base: "80%" }}
-              src="./src/assets/Logo.png"
               filter="drop-shadow(0px 0px 20px #0bc5ea)"
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
             ></Image>
           </Container>
         </Flex>

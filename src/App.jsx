@@ -15,10 +15,7 @@ import ProfileForm from "./components/forms/ProfileForm";
 // import Reciept from "./pages/Reciept";
 import PatientData from "./components/PatientData";
 import AddPatientDetails from "./components/forms/AddPatientDetails";
-<<<<<<< HEAD
 import UpdateDetails from "./components/UpdateDetails";
-=======
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
 
 const routes = createBrowserRouter([
   {
@@ -64,13 +61,10 @@ const routes = createBrowserRouter([
     element: <ReceptionistHome />,
     children: [
       {
-<<<<<<< HEAD
-=======
         path: "AddBilling",
         element: <AddBilling />,
       },
       {
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         path: "appointment",
         element: <AddAppointment />,
       },
@@ -85,7 +79,6 @@ const routes = createBrowserRouter([
       {
         path: "patient/:id",
         element: <PatientData />,
-<<<<<<< HEAD
       },
       {
         path: "patients",
@@ -94,8 +87,6 @@ const routes = createBrowserRouter([
       {
         path: "patient/update/:id",
         element: <UpdateDetails />,
-=======
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
       },
     ],
   },

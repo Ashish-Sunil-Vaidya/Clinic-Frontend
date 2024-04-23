@@ -10,19 +10,12 @@ import {
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { GlobalContext } from "../../context/GlobalContext";
-<<<<<<< HEAD
 import {
   isValidAmount,
   isValidFullName,
 } from "../helpers/formValidationHelpers";
 
 const AddBilling = ({ patient_name }) => {
-=======
-import { isValidAmount, isValidFullName } from "../helpers/formValidationHelpers";
-
-const AddBilling = () => {
-  const [patient_name, setPatientName] = useState("");
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,10 +48,7 @@ const AddBilling = () => {
   }, []);
 
   const handleAddPayment = () => {
-<<<<<<< HEAD
     // if (isValidAmount(amount) && date) {
-=======
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
     setIsLoading(true);
     axios
       .post(
@@ -70,7 +60,6 @@ const AddBilling = () => {
         }
       )
       .then((response) => {
-<<<<<<< HEAD
         setError(false);
         setIsLoading(false);
         setAmount("");
@@ -90,35 +79,6 @@ const AddBilling = () => {
           duration: 9000,
           isClosable: true,
         });
-=======
-        if (isValidAmount(amount) && date && isValidFullName(patient_name)) {
-          setError(false);
-          setIsLoading(false);
-          setPatientName("");
-          setAmount("");
-          setDate("");
-          toast({
-            title: "Success",
-            description: "Payment Details Stored",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-        } else {
-          if(!isValidAmount(amount)) setAmount("");
-          if(!isValidFullName(patient_name)) setPatientName("");
-
-          setIsLoading(false);
-          setError(true);
-          toast({
-            title: "Invalid Input",
-            description: "Please enter valid details",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        }
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
       })
       .catch((error) => {
         setError(true);
@@ -161,20 +121,12 @@ const AddBilling = () => {
     <Grid
       borderRadius="20px"
       p={10}
-<<<<<<< HEAD
-=======
-      h="calc(100% - 10svh)"
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
       color="cyan.700"
       justify="center"
       align="center"
       width="100%"
       gap={3}
     >
-<<<<<<< HEAD
-=======
-      <Heading fontSize="2rem">Add Billing Information</Heading>
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
       <FormControl>
         <FormLabel fontSize="1.1rem" m={0}>
           Name
@@ -187,13 +139,8 @@ const AddBilling = () => {
           type="text"
           placeholder="Enter First Name and Last Name"
           value={patient_name}
-<<<<<<< HEAD
           isInvalid={error && !patient_name}
           readOnly
-=======
-          onChange={(e) => setPatientName(e.target.value)}
-          isInvalid={error && !patient_name}
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         />
       </FormControl>
       <FormControl>
@@ -209,11 +156,7 @@ const AddBilling = () => {
           placeholder="Enter Amount (₹)"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-<<<<<<< HEAD
           isInvalid={(error && !amount) || (error && !isValidAmount(amount))}
-=======
-          isInvalid={error && !amount || error && !isValidAmount(amount)}
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         />
       </FormControl>
       <FormControl>

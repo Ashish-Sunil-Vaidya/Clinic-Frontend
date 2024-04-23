@@ -83,11 +83,7 @@ const Schedules = () => {
       );
   }, []);
 
-<<<<<<< HEAD
   const openPatientDetails = (patientName) => {
-=======
-  const getAddPatientDetailss = (patientName) => {
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
     if (toast.isActive("t1")) {
       toast.closeAll();
     }
@@ -194,7 +190,6 @@ const Schedules = () => {
           fontWeight="500"
           placeholder="Search Example: Name Surname"
           width="100%"
-<<<<<<< HEAD
           flex={1}
           border="3px solid #e2e8f0"
           value={searchKey}
@@ -387,74 +382,6 @@ const Schedules = () => {
         </Flex>
       </Box>
     </Grid>
-=======
-          alignItems="center"
-          display="flex"
-          justifySelf="center"
-          p="10px"
-          gap={3}
-        >
-          <IconButton
-            colorScheme="cyan"
-            aria-label="Search database"
-            icon={<Search2Icon />}
-            color="white"
-            fontSize="20px"
-            onClick={getAddPatientDetailss}
-          />
-          <Input
-            type="text"
-            fontSize="1.1rem"
-            fontWeight="500"
-            placeholder="Search Example: Name Surname"
-            p="10px"
-            width="100%"
-            flex={1}
-            border="3px solid #e2e8f0"
-            value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
-          />
-        </InputGroup>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>SrNo</Th>
-              <Th>Name</Th>
-              <Th>Mobile</Th>
-              <Th>Gender</Th>
-              <Th>Age</Th>
-              <Th>Date</Th>
-              <Th>Time</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filteredAppointments.map((appointment, index) => {
-              return (
-                <Tr
-                  key={index}
-                  _hover={{
-                    bg: "cyan.50",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    getAddPatientDetailss(appointment.patient_name);
-                  }}
-                >
-                  <Td>{index + 1}</Td>
-                  <Td>{appointment.patient_name}</Td>
-                  <Td>{appointment.mobile_no}</Td>
-                  <Td>{appointment.gender}</Td>
-                  <Td>{appointment.age}</Td>
-                  <Td>{appointment.date_of_app.substring(0, 10)}</Td>
-                  <Td>{appointment.time_of_app}</Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </>
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
   );
 };
 

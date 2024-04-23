@@ -13,10 +13,6 @@ import {
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { GlobalContext } from "../../context/GlobalContext";
-<<<<<<< HEAD
-=======
-import { useNavigate } from "react-router-dom";
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
 import { useToast } from "@chakra-ui/react";
 
 function AddPrescriptions({ patient_name }) {
@@ -114,11 +110,6 @@ function AddPrescriptions({ patient_name }) {
           ...isLoading,
           report: false,
         });
-<<<<<<< HEAD
-=======
-        setMedicine("");
-        setDosage("");
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         toast({
           title: "Success",
           description: "Report Stored",
@@ -144,7 +135,6 @@ function AddPrescriptions({ patient_name }) {
   };
 
   return (
-<<<<<<< HEAD
     
       <Flex width="100%" gap={10} h="100%" direction={{
         base: "column",
@@ -155,31 +145,6 @@ function AddPrescriptions({ patient_name }) {
       }}>
         <FormControl>
           <FormLabel fontSize="1.2rem">Medicines</FormLabel>
-=======
-    <Flex direction="column" width="100%" p="10px" gap="10px" maxW="1000px">
-      <Flex
-        direction="column"
-        width="100%"
-        p="10px"
-        borderRadius="20px"
-        id="Medicine"
-        gap={9}
-      >
-        <FormControl>
-          <Heading fontSize="25px">Prescription</Heading>
-          <Flex justify="space-between" mb={3}>
-            <FormLabel fontSize="1.2rem">Medicines</FormLabel>
-            <Button
-              colorScheme="cyan"
-              color="white"
-              onClick={handleAddMedicine}
-              isLoading={isLoading.medicine}
-              loadingText={"Saving..."}
-            >
-              Save
-            </Button>
-          </Flex>
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           <Grid
             gap="5px"
         
@@ -193,11 +158,8 @@ function AddPrescriptions({ patient_name }) {
               value={medicine}
               onChange={(e) => setMedicine(e.target.value)}
               isInvalid={error && !medicine}
-<<<<<<< HEAD
               border="2px solid"
               borderColor="cyan.400"
-=======
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
             />
             <Textarea
               fontSize={{ base: "15px", md: "20px" }}
@@ -206,14 +168,11 @@ function AddPrescriptions({ patient_name }) {
               value={dosage}
               onChange={(e) => setDosage(e.target.value)}
               isInvalid={error && !dosage}
-<<<<<<< HEAD
               border="2px solid"
               borderColor="cyan.400"
               h="100%"
               flex={1}
               bg="white"
-=======
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
             />
             <Button
               colorScheme="cyan"
@@ -230,25 +189,9 @@ function AddPrescriptions({ patient_name }) {
           </Grid>
         </FormControl>
 
-<<<<<<< HEAD
         <FormControl >
           <FormLabel fontSize="1.2rem">Reports</FormLabel>
 
-=======
-        <FormControl>
-          <Flex justify="space-between" mb={3}>
-            <FormLabel fontSize="1.2rem">Reports</FormLabel>
-            <Button
-              colorScheme="cyan"
-              color="white"
-              onClick={handleAddReport}
-              isLoading={isLoading.report}
-              loadingText={"Saving..."}
-            >
-              Save
-            </Button>
-          </Flex>
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           <Grid
             gap="5px"
             direction={{ md: "row", sm: "column", base: "column" }}
@@ -263,17 +206,8 @@ function AddPrescriptions({ patient_name }) {
               value={reportName}
               onChange={(e) => setReportName(e.target.value)}
               isInvalid={error && !reportName}
-<<<<<<< HEAD
               border="2px solid"
               borderColor="cyan.400"
-=======
-            />
-            <Input
-              fontSize={{ base: "15px", md: "20px" }}
-              type="file"
-              onChange={(e) => setReportFile(e.target.files[0])}
-              isInvalid={error && !reportFile}
->>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
             />
             <Box
               border="2px solid"
