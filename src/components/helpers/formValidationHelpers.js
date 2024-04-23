@@ -21,6 +21,6 @@ export const isValidWeight = (weight) => {
 }
 
 export const isValidFullName = (fullName) => {
-    const fullNameRegex = /^[a-zA-Z]\s[a-zA-Z]+$/;
+    const fullNameRegex = /^[a-zA-Z]+\s[a-zA-Z]+$/;
     return fullNameRegex.test(fullName);
 }

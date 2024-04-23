@@ -6,6 +6,7 @@ import {
   Grid,
   Image,
   Text,
+  Link,
 } from "@chakra-ui/react";
 import { Outlet, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -55,7 +56,7 @@ const DoctorHome = () => {
         xl: "minmax(200px,17%) auto",
       }}
       h="100svh"
-      bgColor="cyan.400"
+     
     >
       <Box
         zIndex={2}
@@ -65,10 +66,10 @@ const DoctorHome = () => {
           xl: "block",
           md: "block",
         }}
+        bg="cyan.400"
       >
         <Text
           color="white"
-  
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -81,23 +82,27 @@ const DoctorHome = () => {
           Menu
         </Text>
         {/* <Divider orientation="horizontal" my={3} borderWidth={2} /> */}
-        <Flex direction="column">
+        <Flex direction="column" >
           {tabs.map((tab, index) => (
-            <NavLink to={tab.path} key={index}>
-              <Box
-                p={3}
-                w="100%"
-                variant="outline"
-                textAlign="center"
-                fontWeight={600}
-                fontSize="1.2rem"
-                color={activeTab === tab.name ? "cyan.500" : "white"}
-                onClick={() => setActiveTab(tab.name)}
-                bgColor={activeTab === tab.name ? "white" : "transparent"}
-              >
-                {tab.name}
-              </Box>
-            </NavLink>
+            <Link
+              to={tab.path}
+              key={index}
+              as={NavLink}
+              _activeLink={{
+                bgColor: "white",
+                color: "cyan.400",
+              }}
+              p={3}
+              textAlign="center"
+              fontWeight={600}
+              fontSize="1.2rem"
+              color="white"
+              _hover={{
+                textDecoration: "none",
+              }}
+            >
+              {tab.name}
+            </Link>
           ))}
         </Flex>
       </Box>
@@ -110,13 +115,10 @@ const DoctorHome = () => {
           lg: "10svh 90svh",
           xl: "10svh 90svh",
         }}
-        bgColor="white"
+       
       >
         <Header role="doctor" />
-
-        <Box overflowY="auto" h="100%">
-          <Outlet />
-        </Box>
+        <Outlet />
       </Grid>
     </Grid>
   );

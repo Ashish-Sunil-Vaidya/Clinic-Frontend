@@ -6,12 +6,13 @@ import {
   Grid,
   Heading,
   Input,
+  Box,
+  Text,
+  Textarea,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { GlobalContext } from "../../context/GlobalContext";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 
 function AddPrescriptions({ patient_name }) {
@@ -134,89 +135,139 @@ function AddPrescriptions({ patient_name }) {
   };
 
   return (
-    <Flex direction="column" width="100%" p="10px" gap="10px" maxW="1000px">
-      <Flex
-        direction="column"
-        width="100%"
-        p="10px"
-        borderRadius="20px"
-        id="Medicine"
-        gap={9}
-      >
+    
+      <Flex width="100%" gap={10} h="100%" direction={{
+        base: "column",
+        md: "row",
+        lg: "row",
+        xl: "row",
+      
+      }}>
         <FormControl>
-          <Heading fontSize="25px">Prescription</Heading>
-          <Flex justify="space-between" mb={3}>
-            <FormLabel fontSize="1.2rem">Medicines</FormLabel>
-            <Button
-              colorScheme="cyan"
-              color="white"
-              onClick={handleAddMedicine}
-              isLoading={isLoading.medicine}
-              loadingText={"Saving..."}
-            >
-              Save
-            </Button>
-          </Flex>
+          <FormLabel fontSize="1.2rem">Medicines</FormLabel>
           <Grid
             gap="5px"
-            direction={{ md: "row", sm: "column", base: "column" }}
+        
             justifyItems="center"
           >
             <Input
+              bg="white"
               fontSize={{ base: "15px", md: "20px" }}
               type="text"
               placeholder="Enter Medicine name"
               value={medicine}
               onChange={(e) => setMedicine(e.target.value)}
               isInvalid={error && !medicine}
+              border="2px solid"
+              borderColor="cyan.400"
             />
-            <Input
+            <Textarea
               fontSize={{ base: "15px", md: "20px" }}
               type="text"
               placeholder="Dosage"
               value={dosage}
               onChange={(e) => setDosage(e.target.value)}
               isInvalid={error && !dosage}
+              border="2px solid"
+              borderColor="cyan.400"
+              h="100%"
+              flex={1}
+              bg="white"
             />
-          </Grid>
-        </FormControl>
-
-        <FormControl>
-          <Flex justify="space-between" mb={3}>
-            <FormLabel fontSize="1.2rem">Reports</FormLabel>
             <Button
               colorScheme="cyan"
               color="white"
               onClick={handleAddReport}
               isLoading={isLoading.report}
               loadingText={"Saving..."}
+              border="2px solid"
+              borderColor="cyan.400"
+              width="100%"
             >
               Save
             </Button>
-          </Flex>
+          </Grid>
+        </FormControl>
+
+        <FormControl >
+          <FormLabel fontSize="1.2rem">Reports</FormLabel>
+
           <Grid
             gap="5px"
             direction={{ md: "row", sm: "column", base: "column" }}
             justifyItems="center"
+            
           >
             <Input
+              bg="white"
               fontSize={{ base: "15px", md: "20px" }}
               type="text"
               placeholder="Enter Report name"
               value={reportName}
               onChange={(e) => setReportName(e.target.value)}
               isInvalid={error && !reportName}
+              border="2px solid"
+              borderColor="cyan.400"
             />
-            <Input
-              fontSize={{ base: "15px", md: "20px" }}
-              type="file"
-              onChange={(e) => setReportFile(e.target.files[0])}
-              isInvalid={error && !reportFile}
-            />
+            <Box
+              border="2px solid"
+              borderColor="cyan.400"
+              w="100%"
+              rounded="md"
+              position="relative"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              bg="white"
+              h="100px"
+            >
+              <Input
+                bg="white"
+                fontSize={{ base: "15px", md: "20px" }}
+                type="file"
+                onChange={(e) => setReportFile(e.target.files[0])}
+                isInvalid={error && !reportFile}
+                opacity={0}
+                position="absolute"
+                top={0}
+                left={0}
+                right={0}
+                bottom={0}
+            
+              />
+              {!reportFile && (
+                <Text color="cyan.400">Drag or Click here to add file</Text>
+              )}
+              {reportFile && (
+                <Text color="cyan.400">
+                  <Box>File Uploaded</Box>
+                  <Button
+                    colorScheme="red"
+                    onClick={() => {
+                      setReportFile(null);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Text>
+              )}
+            </Box>
+            <Button
+              colorScheme="cyan"
+              color="white"
+              onClick={handleAddReport}
+              isLoading={isLoading.report}
+              loadingText={"Saving..."}
+              border="2px solid"
+              borderColor="cyan.400"
+              w="100%"
+            >
+              Save
+            </Button>
           </Grid>
         </FormControl>
       </Flex>
-    </Flex>
+  
   );
 }
 

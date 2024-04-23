@@ -1,13 +1,22 @@
-import { Box, Button, Divider, Flex, Grid, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Image,
+  Link,
+  Text,
+} from "@chakra-ui/react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import clinicImg from "../assets/clinic.jpeg";
 import Header from "../components/Header";
 import { GlobalContext } from "../context/GlobalContext";
 import { useState, useContext, useEffect } from "react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 const ReceptionistHome = () => {
-  const [tabValue, setTabValue] = useState("");
   const { currentUser, expirationTime } = useContext(GlobalContext);
   const navigator = useNavigate();
 
@@ -16,21 +25,26 @@ const ReceptionistHome = () => {
       navigator("/login");
     if (Date.now() > expirationTime) navigator("/login");
   }, []);
+
+  const tabs = [
+    { name: "Add Appointment", path: "/user/receptionist/appointment" },
+    { name: "Appointments", path: "/user/receptionist/all-appointments" },
+    { name: "Add Patient Details", path: "/user/receptionist/add-details" },
+    { name: "Patient Details", path: "/user/receptionist/patients" },
+  ];
   return (
     <Grid
       templateColumns={{
         base: "1fr",
-        md: "minmax(200px,20%) auto",
-        lg: "minmax(200px,20%) auto",
-        xl: "minmax(200px,20%) auto",
+        md: "minmax(200px,17%) auto",
+        lg: "minmax(200px,17%) auto",
+        xl: "minmax(200px,17%) auto",
       }}
       h="100svh"
+      bgColor="cyan.400"
     >
       <Box
         zIndex={2}
-        p={4}
-        borderRight="2px"
-        borderColor="gray.100"
         display={{
           base: "none",
           lg: "block",
@@ -38,47 +52,43 @@ const ReceptionistHome = () => {
           md: "block",
         }}
       >
-        <Flex align="center">
-          <Image
-            boxSize="50px"
-            objectFit="cover"
-            src={logo}
-            alt="Code Surgery Squad"
-            borderRadius="50%"
-          />
-          <Box fontSize="1.1rem" color="cyan.600" ml={2}>
-            Home
-          </Box>
-        </Flex>
-        <Divider orientation="horizontal" my={3} borderWidth={2} />
-        <Flex direction="column" gap={3}>
-          <NavLink to="/user/receptionist/appointment">
-            <Button
-              w="100%"
-              colorScheme="cyan"
+        <Text
+          color="white"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+          py={5}
+          fontSize="1.3rem"
+          bgColor="cyan.500"
+        >
+          <HamburgerIcon />
+          Menu
+        </Text>
+        {/* <Divider orientation="horizontal" my={3} borderWidth={2} /> */}
+        <Flex direction="column">
+          {tabs.map((tab, index) => (
+            <Link
+              to={tab.path}
+              key={index}
+              as={NavLink}
+              _activeLink={{
+                bgColor: "white",
+                color: "cyan.400",
+              }}
+              p={3}
+              textAlign="center"
+              fontWeight={600}
+              fontSize="1.2rem"
               color="white"
-              onClick={() => setTabValue("Appointment")}
+              _hover={{
+                textDecoration: "none",
+              }}
             >
-              Add Appointment
-            </Button>
-          </NavLink>
-          <NavLink to="/user/receptionist/add-details">
-            <Button w="100%" colorScheme="cyan" color="white">
-              Add Patient Details
-            </Button>
-          </NavLink>
-          <NavLink to="/user/receptionist/all-appointments">
-            <Button w="100%" colorScheme="cyan" color="white">
-              Appointments
-            </Button>
-          </NavLink>
-          <NavLink to="/user/receptionist/patients">
-            <Button w="100%" colorScheme="cyan" color="white">
-              Patient Details
-            </Button>
-          </NavLink>
+              {tab.name}
+            </Link>
+          ))}
         </Flex>
-        <Divider orientation="horizontal" my={3} borderWidth={2} />
       </Box>
       <Grid
         zIndex={1}
@@ -91,15 +101,8 @@ const ReceptionistHome = () => {
         }}
         bgColor="white"
       >
-        <Header
-          tabValue={tabValue}
-          setTabValue={setTabValue}
-          role="receptionist"
-        />
-
-        <Box overflowY="auto" h="100%">
-          <Outlet />
-        </Box>
+        <Header role="doctor" />
+        <Outlet />
       </Grid>
     </Grid>
   );

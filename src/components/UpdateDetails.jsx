@@ -33,10 +33,10 @@ import AddBilling from "./forms/AddBilling.jsx";
     },[location]);
 
     return (
-      <Flex direction="column" bg="cyan.100" zIndex={9999} top={0}>
+      <Flex direction="column"   top={0}>
         <Tabs variant="enclosed" align="center">
           
-          <TabPanels bg="cyan.200">
+          <TabPanels >
             <TabPanel>
               <Flex justifyContent="center">
                 {searchedData && <AddPatientDetails patientsObject={searchedData}

@@ -1,9 +1,8 @@
 import {
   Flex,
-  Divider,
   Button,
   Box,
-  Image,
+  Link,
   Accordion,
   AccordionItem,
   AccordionButton,
@@ -13,6 +12,7 @@ import {
   Menu,
   MenuItem,
   MenuList,
+  Text,
 } from "@chakra-ui/react";
 
 import { FaBars } from "react-icons/fa";
@@ -62,76 +62,87 @@ const Header = () => {
         });
       });
   };
+
+  const doctorTabs = [
+    { name: "Dashboard", path: "/user/doctor/dashboard" },
+    { name: "Schedules", path: "/user/doctor/schedules" },
+    { name: "Patients", path: "/user/doctor/patients" },
+  ];
+
+  const receptionistTabs = [
+    { name: "Add Appointment", path: "/user/receptionist/appointment" },
+    { name: "Appointments", path: "/user/receptionist/all-appointments" },
+    { name: "Add Patient Details", path: "/user/receptionist/add-details" },
+    { name: "Patient Details", path: "/user/receptionist/patients" },
+  ];
+
   return (
     <>
       {/* <Box> */}
-        <Flex
-          align="center"
-          justify="flex-end"
-          py={4}
-          gap={8}
-          display={{
-            base: "none",
-            md: "flex",
-            lg: "flex",
-            xl: "flex",
-          }}
-        >
-
-          <Flex gap={10}>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rightIcon={<ChevronDownIcon />}
-                variant="ghost"
-              >
-                <Flex align="center">
-                  <Avatar boxSize="40px" src={currentUser?.avatar} />
-                  <Box ml={2} fontSize="1.1rem" color="cyan.600">
-                    {currentUser?.fullname}
-                  </Box>
-                </Flex>
-              </MenuButton>
-              <MenuList>
-                <NavLink to="/edit-profile">
-                  <MenuItem>Edit Profile</MenuItem>
-                </NavLink>
-                <NavLink to="/reset-password">
-                  <MenuItem>Reset Password</MenuItem>
-                </NavLink>
-              </MenuList>
-            </Menu>
-            <Button
-              colorScheme="red"
-              onClick={handleLogout}
-              isLoading={isLoading}
-              loadingText="Logging out"
+      <Flex
+        align="center"
+        justify="flex-end"
+        py={4}
+        gap={8}
+        display={{
+          base: "none",
+          md: "flex",
+          lg: "flex",
+          xl: "flex",
+        }}
+      >
+        <Flex gap={10}>
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              variant="ghost"
             >
-              Logout
-            </Button>
-          </Flex>
+              <Flex align="center">
+                <Avatar boxSize="40px" src={currentUser?.avatar} />
+                <Box ml={2} fontSize="1.1rem" color="cyan.600">
+                  {currentUser?.fullname}
+                </Box>
+              </Flex>
+            </MenuButton>
+            <MenuList>
+              <NavLink to="/edit-profile">
+                <MenuItem>Edit Profile</MenuItem>
+              </NavLink>
+              <NavLink to="/reset-password">
+                <MenuItem>Reset Password</MenuItem>
+              </NavLink>
+            </MenuList>
+          </Menu>
+          <Button
+            colorScheme="red"
+            onClick={handleLogout}
+            isLoading={isLoading}
+            loadingText="Logging out"
+          >
+            Logout
+          </Button>
         </Flex>
-        {/* <Divider orientation="horizontal" borderWidth={1} /> */}
+      </Flex>
+      {/* <Divider orientation="horizontal" borderWidth={1} /> */}
       {/* </Box> */}
       <Accordion
         allowToggle
         bgColor="white"
-        boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
         display={{ base: "block", md: "none", lg: "none", xl: "none" }}
       >
-        <AccordionItem border={0}>
-          <AccordionButton justifyContent="space-between" px={6} py={3}>
-            <Flex alignItems="center">
-              <Image
-                boxSize="60px"
-                objectFit="cover"
-                src={logo}
-                alt="Code Surgery Squad"
-                borderRadius="50%"
-              />
-        
-            </Flex>
-            <Box color="cyan.600">
+        <AccordionItem border={0} >
+          <AccordionButton
+            justifyContent="space-between"
+            p={6}
+            bgColor="cyan.400"
+            color="white"
+            _hover={{
+              bgColor: "cyan.600",
+            }}
+          >
+            <Text>Menu</Text>
+            <Box>
               <FaBars fontSize="1.5rem" />
             </Box>
           </AccordionButton>
@@ -147,41 +158,62 @@ const Header = () => {
                 p="3"
                 bgColor="cyan.50"
               >
-                <Avatar boxSize="40px" />
+                <Avatar
+                  boxSize="40px"
+                  src={
+                    currentUser?.avatar
+                      ? currentUser.avatar
+                      : "https://bit.ly/broken-link"
+                  }
+                />
                 <Box ml={2} fontSize="1.1rem" color="cyan.600">
-                  {currentUser?.role}
+                  {currentUser?.fullname}
                 </Box>
               </Flex>
-              <NavLink to="/user/doctor/dashboard">
-                <Button
-                  w="100%"
-                  colorScheme="cyan"
-                  color="white"
-                  onClick={() => setTabValue("Dashboard")}
-                >
-                  Dashboard
-                </Button>
-              </NavLink>
-              <NavLink to="/user/doctor/schedules">
-                <Button
-                  w="100%"
-                  colorScheme="cyan"
-                  color="white"
-                  onClick={() => setTabValue("Schedules")}
-                >
-                  Schedules
-                </Button>
-              </NavLink>
-              <NavLink to="/user/doctor/patients">
-                <Button
-                  w="100%"
-                  colorScheme="cyan"
-                  color="white"
-                  onClick={() => setTabValue("Patients History")}
-                >
-                  Patients History
-                </Button>
-              </NavLink>
+              {currentUser?.role === "doctor" &&
+                doctorTabs.map((tab, index) => (
+                  <Link
+                    to={tab.path}
+                    key={index}
+                    as={NavLink}
+                    _activeLink={{
+                      bgColor: "cyan.400",
+                      color: "white",
+                    }}
+                    p={5}
+                    _hover={{
+                      textDecoration: "none",
+                    }}
+                    fontWeight={600}
+                    fontSize="1.2rem"
+                    rounded="md"
+                    textAlign="center"
+                  >
+                    {tab.name}
+                  </Link>
+                ))}
+              {currentUser?.role === "receptionist" &&
+                receptionistTabs.map((tab, index) => (
+                  <Link
+                    to={tab.path}
+                    key={index}
+                    as={NavLink}
+                    _activeLink={{
+                      bgColor: "cyan.400",
+                      color: "white",
+                    }}
+                    _hover={{
+                      textDecoration: "none",
+                    }}
+                    p={3}
+                    fontWeight={600}
+                    fontSize="1.2rem"
+                    rounded="md"
+                    textAlign="center"
+                  >
+                    {tab.name}
+                  </Link>
+                ))}
               <Button
                 colorScheme="red"
                 isLoading={isLoading}

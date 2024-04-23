@@ -28,7 +28,7 @@ const LandingPage = () => {
           bgGradient="linear(to-r, cyan.400, cyan.600)"
           backgroundClip="text"
         >
-          Dr. Ashish Vaidya Pediatric Care
+          Dr. Syed Waseem Pediatric Care
         </Heading>
         <NavLink to="/login">
           <Button colorScheme="cyan" variant="outline" size="md">
@@ -52,10 +52,10 @@ const LandingPage = () => {
             Personalized and compassionate care for every child's health needs
           </Text>
           <Text color={"gray.500"} mb={6} textAlign="center">
-            With over 30+ years of experience, Dr. Ashish Vaidya provides expert medical attention with a gentle
+            With over 30+ years of experience,Dr. Syed Waseem provides expert medical attention with a gentle
             touch, ensuring your child's well-being and comfort.
           </Text>
-          <Button
+          {/* <Button
             colorScheme="cyan"
             color="white"
             bgGradient="linear(to-r, cyan.400, cyan.500, cyan.600)"
@@ -63,7 +63,7 @@ const LandingPage = () => {
             textTransform={"uppercase"}
           >
             Book an Appointment
-          </Button>
+          </Button> */}
         </Flex>
       </Flex>
     </Flex>

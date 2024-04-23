@@ -83,7 +83,7 @@ const Login = () => {
         });
         if (loggedInUser?.role === "doctor")
           navigator("/user/doctor/dashboard");
-        else navigator("/user/receptionist/AddBilling");
+        else navigator("/user/receptionist/add-details");
       })
       .catch((error) => {
         setError(true);
@@ -141,9 +141,9 @@ const Login = () => {
         <Flex>
           <Container maxW="600px" minW="60px" centerContent>
             <Image
-              width={{ md: "100%", sm: "90%", base: "80%" }}
-              src="./src/assets/Logo.png"
-              filter="drop-shadow(0px 0px 20px #0bc5ea)"
+              width={{ md: "90%", sm: "80%", base: "70%" }}
+              src="./src/assets/login-logo.png"
+            
             ></Image>
           </Container>
         </Flex>

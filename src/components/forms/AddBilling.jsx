@@ -49,62 +49,62 @@ const AddBilling = ({ patient_name }) => {
 
   const handleAddPayment = () => {
     // if (isValidAmount(amount) && date) {
-      setIsLoading(true);
-      axios
-        .post(
-          "http://localhost:8000/api/v1/users/receptionist/addPaymentDetails",
-          {
-            patient_name,
-            amount,
-            date,
-          }
-        )
-        .then((response) => {
-          setError(false);
-          setIsLoading(false);
-          setAmount("");
-          setDate("");
-          toast({
-            title: "Success",
-            description: "Payment Details Stored",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-
-          toast({
-            title: "Success",
-            description: "Payment Details Stored",
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-        })
-        .catch((error) => {
-          setError(true);
-          setIsLoading(false);
-          if (error.response?.status === 400) {
-            toast({
-              title: "Bad request",
-              description: "All fields are required",
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-            });
-          } else {
-            setIsLoading(false);
-            toast({
-              title: "Server Error",
-              description: "Something went wrong",
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-            });
-          }
+    setIsLoading(true);
+    axios
+      .post(
+        "http://localhost:8000/api/v1/users/receptionist/addPaymentDetails",
+        {
+          patient_name,
+          amount,
+          date,
+        }
+      )
+      .then((response) => {
+        setError(false);
+        setIsLoading(false);
+        setAmount("");
+        setDate("");
+        toast({
+          title: "Success",
+          description: "Payment Details Stored",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
         });
+
+        toast({
+          title: "Success",
+          description: "Payment Details Stored",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        setError(true);
+        setIsLoading(false);
+        if (error.response?.status === 400) {
+          toast({
+            title: "Bad request",
+            description: "All fields are required",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          setIsLoading(false);
+          toast({
+            title: "Server Error",
+            description: "Something went wrong",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      });
     // } else {
     //   if (!isValidAmount(amount)) setAmount(0);
-      
+
     //   setIsLoading(false);
     //   setError(true);
     //   toast({
@@ -119,18 +119,23 @@ const AddBilling = ({ patient_name }) => {
 
   return (
     <Grid
-      bg="white"
       borderRadius="20px"
       p={10}
-      h="calc(100% - 10svh)"
       color="cyan.700"
       justify="center"
       align="center"
+      width="100%"
+      gap={3}
     >
-      <Heading fontSize="2rem">Add Billing Information</Heading>
       <FormControl>
-        <FormLabel fontSize="1.2rem">Name</FormLabel>
+        <FormLabel fontSize="1.1rem" m={0}>
+          Name
+        </FormLabel>
         <Input
+          
+          bg="white"
+          border="2px solid"
+          borderColor="cyan.500"
           type="text"
           placeholder="Enter First Name and Last Name"
           value={patient_name}
@@ -139,8 +144,14 @@ const AddBilling = ({ patient_name }) => {
         />
       </FormControl>
       <FormControl>
-        <FormLabel fontSize="1.2rem">Amount</FormLabel>
+        <FormLabel fontSize="1.1rem" m={0}>
+          Amount
+        </FormLabel>
         <Input
+          
+          bg="white"
+          border="2px solid"
+          borderColor="cyan.500"
           type="text"
           placeholder="Enter Amount (₹)"
           value={amount}
@@ -149,8 +160,14 @@ const AddBilling = ({ patient_name }) => {
         />
       </FormControl>
       <FormControl>
-        <FormLabel fontSize="1.2rem">Date</FormLabel>
+        <FormLabel fontSize="1.1rem" m={0}>
+          Date
+        </FormLabel>
         <Input
+          
+          bg="white"
+          border="2px solid"
+          borderColor="cyan.500"
           type="date"
           placeholder="Select Date"
           value={date}

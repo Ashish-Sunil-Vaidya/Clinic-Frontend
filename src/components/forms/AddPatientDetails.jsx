@@ -24,7 +24,7 @@ function AddPatientDetails({patientsObject}) {
     }
   }, [])
   return (
-    <Flex direction="column" zIndex={9999} top={0}>
+    <Flex w="100%" direction="column">
       <Flex
         direction={{ md: "row", sm: "column", base: "column" }}
         p="10px"
@@ -34,7 +34,6 @@ function AddPatientDetails({patientsObject}) {
         <Flex
           height="100%"
           width="100%"
-          direction="column"
           gap={3}
           p="10px"
           justifyItems="center"
@@ -44,25 +43,25 @@ function AddPatientDetails({patientsObject}) {
             type="text"
             placeholder="Name Surname"
             value={patient_name}
-            disabled
+            readOnly
           />
           <Input
             fontSize="1.1rem"
             type="text"
             placeholder="Mobile"
             value={mobile_no}
-            disabled
+            readOnly
           />
           <Input
             fontSize="1.1rem"
             type="text"
             placeholder="Symptoms"
             value={symptoms}
-            disabled
+            readOnly
           />
         </Flex>
       </Flex>
-      <Tabs variant="soft-rounded" align="center">
+      <Tabs variant="soft-rounded" h="100%" gap={3} align="center" display="flex" flexDirection="column">
         <TabList>
           <Tab
             fontSize="20px"
@@ -89,7 +88,7 @@ function AddPatientDetails({patientsObject}) {
             Billing Details
           </Tab>
         </TabList>
-        <TabPanels>
+        <TabPanels flex={1} bgColor="cyan.50">
           <TabPanel>
             <Flex justifyContent="center">
               <AddPatientInfo

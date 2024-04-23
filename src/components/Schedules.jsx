@@ -8,12 +8,21 @@ import {
   Table,
   InputGroup,
   Input,
-  IconButton,
-  // Text,
-  // Card,
-  // CardHeader,
-  // CardBody,
-  useDisclosure,
+  Grid,
+  Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Menu,
+  MenuButton,
+  MenuList,
+  Button,
+  Divider,
+  AbsoluteCenter,
+  Flex,
+  Text
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState, useContext } from "react";
@@ -24,6 +33,7 @@ import axios from "axios";
 
 const Schedules = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
+  const [dailyAppointments, setDailyAppointments] = useState([]);
   const { currentUser } = useContext(GlobalContext);
   const toast = useToast();
   const navigator = useNavigate();
@@ -56,9 +66,24 @@ const Schedules = () => {
           isClosable: true,
         })
       );
+
+    axios
+      .get("http://localhost:8000/api/v1/users/dailyAppointments")
+      .then((response) => {
+        setDailyAppointments(response.data.data);
+      })
+      .catch((error) =>
+        toast({
+          title: "Unable to fetch Data",
+          description: "something went wrong when fetching appointments",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        })
+      );
   }, []);
 
-  const getAddPatientDetailss = (patientName) => {
+  const openPatientDetails = (patientName) => {
     if (toast.isActive("t1")) {
       toast.closeAll();
     }
@@ -121,87 +146,242 @@ const Schedules = () => {
       });
   };
 
+  const openUpdateDetails = (patientName) => {
+    const [name, surname] = patientName.split(" ");
+    axios
+      .get(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`)
+      .then((response) => {
+        let endPoint =
+          currentUser.role === "doctor"
+            ? `/user/doctor/patient/${name}%20${surname}`
+            : `/user/receptionist/patient/update/${name}%20${surname}`;
+        navigator(endPoint, {
+          state: { data: response.data.data },
+        });
+      })
+      .catch((error) =>
+        toast({
+          title: "Unable to fetch Data",
+          description: "something went wrong when fetching appointments",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        })
+      );
+  };
+
   const filteredAppointments = appointmentsData.filter(({ patient_name }) => {
     return patient_name.toLowerCase().includes(searchKey.toLowerCase());
   });
 
   return (
-    <>
-      <TableContainer
+    <Grid templateRows="5% 95%" flex={1}>
+      <InputGroup
+        width="100%"
+        alignItems="center"
+        display="flex"
+        justifySelf="center"
+        gap={3}
         bgColor="white"
-        boxShadow="0 0 2px 2px rgb(0,0,0,.05)"
-        my={10}
-        mx={3}
-        rounded="md"
       >
-        <InputGroup
+        <Input
+          type="text"
+          fontSize="1.1rem"
+          fontWeight="500"
+          placeholder="Search Example: Name Surname"
           width="100%"
-          alignItems="center"
-          display="flex"
-          justifySelf="center"
-          p="10px"
-          gap={3}
-        >
-          <IconButton
-            colorScheme="cyan"
-            aria-label="Search database"
-            icon={<Search2Icon />}
-            color="white"
-            fontSize="20px"
-            onClick={getAddPatientDetailss}
-          />
-          <Input
-            type="text"
-            fontSize="1.1rem"
-            fontWeight="500"
-            placeholder="Search Example: Name Surname"
-            p="10px"
-            width="100%"
-            flex={1}
-            border="3px solid #e2e8f0"
-            value={searchKey}
-            onChange={(e) => setSearchKey(e.target.value)}
-          />
-        </InputGroup>
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>SrNo</Th>
-              <Th>Name</Th>
-              <Th>Mobile</Th>
-              <Th>Gender</Th>
-              <Th>Age</Th>
-              <Th>Date</Th>
-              <Th>Time</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {filteredAppointments.map((appointment, index) => {
-              return (
-                <Tr
-                  key={index}
-                  _hover={{
-                    bg: "cyan.50",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    getAddPatientDetailss(appointment.patient_name);
-                  }}
-                >
-                  <Td>{index + 1}</Td>
-                  <Td>{appointment.patient_name}</Td>
-                  <Td>{appointment.mobile_no}</Td>
-                  <Td>{appointment.gender}</Td>
-                  <Td>{appointment.age}</Td>
-                  <Td>{appointment.date_of_app.substring(0, 10)}</Td>
-                  <Td>{appointment.time_of_app}</Td>
-                </Tr>
-              );
-            })}
-          </Tbody>
-        </Table>
-      </TableContainer>
-    </>
+          flex={1}
+          border="3px solid #e2e8f0"
+          value={searchKey}
+          onChange={(e) => setSearchKey(e.target.value)}
+        />
+      </InputGroup>
+      <Box h="100%" overflowY="auto">
+        <Accordion allowToggle defaultIndex={[0]} p={10}>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Daily Appointments
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              <TableContainer m={3} rounded="md">
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>SrNo</Th>
+                      <Th>Name</Th>
+                      <Th>Mobile</Th>
+                      <Th>Gender</Th>
+                      <Th>Age</Th>
+                      <Th>Date</Th>
+                      <Th>Time</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {dailyAppointments.map((appointment, index) => {
+                      return (
+                        <Tr
+                          key={index}
+                          position="relative"
+                          _hover={{
+                            bg: "cyan.50",
+                          }}
+                        >
+                          <Td>{index + 1}</Td>
+                          <Td>{appointment.patient_name}</Td>
+                          <Td>{appointment.mobile_no}</Td>
+                          <Td>{appointment.gender}</Td>
+                          <Td>{appointment.age}</Td>
+                          <Td>{appointment.date_of_app.substring(0, 10)}</Td>
+                          <Td>{appointment.time_of_app}</Td>
+                          <Menu>
+                            <MenuButton
+                              position="absolute"
+                              right="0"
+                              top="0"
+                              left="0"
+                              bottom="0"
+                              _hover={{
+                                cursor: "pointer",
+                              }}
+                              _active={{
+                                bg: "cyan.50",
+                                opacity: "0.5",
+                              }}
+                            ></MenuButton>
+                            <MenuList display="grid" p={3} gap={3}>
+                              <Button
+                                color="white"
+                                colorScheme="cyan"
+                                onClick={() => {
+                                  openPatientDetails(appointment.patient_name);
+                                }}
+                              >
+                                View
+                              </Button>
+                              <Button
+                                color="white"
+                                colorScheme="teal"
+                                onClick={() => {
+                                  openUpdateDetails(appointment.patient_name);
+                                }}
+                              >
+                                Update
+                              </Button>
+                            </MenuList>
+                          </Menu>
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  Other Appointments
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              <TableContainer m={3} rounded="md">
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>SrNo</Th>
+                      <Th>Name</Th>
+                      <Th>Mobile</Th>
+                      <Th>Gender</Th>
+                      <Th>Age</Th>
+                      <Th>Date</Th>
+                      <Th>Time</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {filteredAppointments.map((appointment, index) => {
+                      return (
+                        <Tr
+                          key={index}
+                          _hover={{
+                            bg: "cyan.50",
+                            cursor: "pointer",
+                          }}
+                          position="relative"
+                        >
+                          <Td>{index + 1}</Td>
+                          <Td>{appointment.patient_name}</Td>
+                          <Td>{appointment.mobile_no}</Td>
+                          <Td>{appointment.gender}</Td>
+                          <Td>{appointment.age}</Td>
+                          <Td>{appointment.date_of_app.substring(0, 10)}</Td>
+                          <Td>{appointment.time_of_app}</Td>
+                          <Menu>
+                            <MenuButton
+                              position="absolute"
+                              right="0"
+                              top="0"
+                              left="0"
+                              bottom="0"
+                              _hover={{
+                                cursor: "pointer",
+                              }}
+                              _active={{
+                                bg: "cyan.50",
+                                opacity: "0.5",
+                              }}
+                            ></MenuButton>
+                            <MenuList display="grid" p={3} gap={3}>
+                              <Button
+                                color="white"
+                                colorScheme="cyan"
+                                onClick={() => {
+                                  openPatientDetails(appointment.patient_name);
+                                }}
+                              >
+                                View
+                              </Button>
+                              <Button
+                                color="white"
+                                colorScheme="teal"
+                                onClick={() => {
+                                  openUpdateDetails(appointment.patient_name);
+                                }}
+                              >
+                                Update
+                              </Button>
+                            </MenuList>
+                          </Menu>
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+        <Box position="relative" color="red.500" fontWeight={500} padding="10">
+          <Divider borderColor="red.500" />
+          <AbsoluteCenter bg="white" px="4">
+            Danger Zone
+          </AbsoluteCenter>
+        </Box>
+        <Flex justify="center" align="center" direction="column" gap={4} m={5} p={3} bg="red.50">
+          <Text color="red.500">
+            Delete All Appointments of last month
+          </Text>
+          <Button colorScheme="red">Delete</Button>
+        </Flex>
+      </Box>
+    </Grid>
   );
 };
 

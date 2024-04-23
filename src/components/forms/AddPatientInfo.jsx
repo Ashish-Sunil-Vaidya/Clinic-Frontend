@@ -227,10 +227,14 @@ function AddPatientInfo({
       maxW="900px"
       gap={3}
     >
-      <Heading fontSize="1.3rem">Patient Information</Heading>
       <FormControl>
-        <FormLabel m={0}>Patient Name</FormLabel>
+        <FormLabel m={0} color="cyan.700">
+          Patient Name
+        </FormLabel>
         <Input
+          bg="white"
+          border="2px solid"
+          borderColor="cyan.400"
           type="text"
           fontSize={"1.1rem"}
           placeholder="Enter Patient Name:"
@@ -241,63 +245,96 @@ function AddPatientInfo({
         />
       </FormControl>
 
-      <FormControl>
-        <FormLabel m={0}>Mobile No</FormLabel>
-        <Input
-          type="tel"
-          fontSize={"1.1rem"}
-          placeholder="Enter Mobile No:"
-          value={mobile_no}
-          onChange={(e) => setMobileNo(e.target.value)}
-          isInvalid={
-            (error && !mobile_no) || (error && !isValidMobileNo(mobile_no))
-          }
-        />
-      </FormControl>
+      <Flex gap={3}>
+        <FormControl>
+          <FormLabel m={0} color="cyan.700">
+            Mobile No
+          </FormLabel>
+          <Input
+            bg="white"
+            border="2px solid"
+            borderColor="cyan.400"
+            type="tel"
+            fontSize={"1.1rem"}
+            placeholder="Enter Mobile No:"
+            value={mobile_no}
+            onChange={(e) => setMobileNo(e.target.value)}
+            isInvalid={
+              (error && !mobile_no) || (error && !isValidMobileNo(mobile_no))
+            }
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel m={0} color="cyan.700">
+            Last Visited
+          </FormLabel>
+          <Input
+            bg="white"
+            border="2px solid"
+            borderColor="cyan.400"
+            type="date"
+            fontSize={"1.1rem"}
+            placeholder="Enter Last Visited Date:"
+            value={last_visited}
+            onChange={(e) => setLastVisited(e.target.value)}
+            isInvalid={error && !last_visited}
+          />
+        </FormControl>
+      </Flex>
 
       <HStack>
         <FormControl>
-          <FormLabel m={0}>Age</FormLabel>
+          <FormLabel m={0} color="cyan.700">
+            Age
+          </FormLabel>
           <NumberInput
+          bg="white"
             fontSize={"1.1rem"}
             isInvalid={(error && !age) || (error && !isValidAge(age))}
             value={age}
           >
             <NumberInputField
+            bg="white"
+              border="2px solid"
+              borderColor="cyan.400"
               onChange={(e) => {
                 setAge(e.target.value);
               }}
             />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
           </NumberInput>
         </FormControl>
 
         <FormControl>
-          <FormLabel m={0}>Weight</FormLabel>
+          <FormLabel m={0} color="cyan.700">
+            Weight
+          </FormLabel>
           <NumberInput
+          bg="white"
             fontSize={"1.1rem"}
             value={weight}
             isInvalid={(error && !weight) || (error && !isValidWeight(weight))}
           >
-            <NumberInputField onChange={(e) => setWeight(e.target.value)} />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
+            <NumberInputField
+              onChange={(e) => setWeight(e.target.value)}
+              border="2px solid"
+              borderColor="cyan.400"
+            />
           </NumberInput>
         </FormControl>
 
         <FormControl>
-          <FormLabel m={0}>Gender</FormLabel>
+          <FormLabel m={0} color="cyan.700">
+            Gender
+          </FormLabel>
           <Select
+          bg="white"
             fontSize={"1.1rem"}
             placeholder="Select Gender"
             value={gender}
             isInvalid={error && !gender}
             onChange={(e) => setGender(e.target.value)}
+            border="2px solid"
+            borderColor="cyan.400"
           >
             <option>Male</option>
             <option>Female</option>
@@ -306,25 +343,18 @@ function AddPatientInfo({
       </HStack>
 
       <FormControl>
-        <FormLabel m={0}>Symptoms</FormLabel>
+        <FormLabel m={0} color="cyan.700">
+          Symptoms
+        </FormLabel>
         <Textarea
+        bg="white"
           fontSize={"1.1rem"}
           placeholder="Enter Symptoms:"
           value={symptoms}
           onChange={(e) => setSymptoms(e.target.value)}
           isInvalid={error && !symptoms}
-        />
-      </FormControl>
-
-      <FormControl>
-        <FormLabel m={0}>Last Visited</FormLabel>
-        <Input
-          type="date"
-          fontSize={"1.1rem"}
-          placeholder="Enter Last Visited Date:"
-          value={last_visited}
-          onChange={(e) => setLastVisited(e.target.value)}
-          isInvalid={error && !last_visited}
+          border="2px solid"
+          borderColor="cyan.400"
         />
       </FormControl>
 
