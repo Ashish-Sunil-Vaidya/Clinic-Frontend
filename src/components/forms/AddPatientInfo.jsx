@@ -33,7 +33,10 @@ function AddPatientInfo({
   setMobileNo,
   symptoms,
   setSymptoms,
+<<<<<<< HEAD
   patientsObject,
+=======
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [age, setAge] = useState(0);
@@ -68,6 +71,7 @@ function AddPatientInfo({
     }
   }, []);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (patientsObject) {
       setAge(patientsObject.age);
@@ -76,6 +80,8 @@ function AddPatientInfo({
     }
   }, []);
 
+=======
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
   const handleAddPatient = () => {
     setIsLoading(true);
     axios
@@ -98,6 +104,10 @@ function AddPatientInfo({
           isValidMobileNo(mobile_no)
         ) {
           setError(false);
+<<<<<<< HEAD
+=======
+          setPatientName("");
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           setMobileNo("");
           setAge(0);
           setWeight(0);
@@ -136,6 +146,7 @@ function AddPatientInfo({
             duration: 9000,
             isClosable: true,
           });
+<<<<<<< HEAD
         } else {
           toast({
             title: "Error",
@@ -206,6 +217,9 @@ function AddPatientInfo({
             duration: 9000,
             isClosable: true,
           });
+=======
+         
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         } else {
           toast({
             title: "Error",
@@ -227,6 +241,7 @@ function AddPatientInfo({
       maxW="900px"
       gap={3}
     >
+<<<<<<< HEAD
       <FormControl>
         <FormLabel m={0} color="cyan.700">
           Patient Name
@@ -235,12 +250,19 @@ function AddPatientInfo({
           bg="white"
           border="2px solid"
           borderColor="cyan.400"
+=======
+      <Heading fontSize="1.3rem">Patient Information</Heading>
+      <FormControl>
+        <FormLabel m={0}>Patient Name</FormLabel>
+        <Input
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           type="text"
           fontSize={"1.1rem"}
           placeholder="Enter Patient Name:"
           value={patient_name}
           onChange={(e) => setPatientName(e.target.value)}
           isInvalid={error && !patient_name}
+<<<<<<< HEAD
           readOnly={patientsObject ? true : false}
         />
       </FormControl>
@@ -301,10 +323,48 @@ function AddPatientInfo({
                 setAge(e.target.value);
               }}
             />
+=======
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel m={0}>Mobile No</FormLabel>
+        <Input
+          type="tel"
+          fontSize={"1.1rem"}
+          placeholder="Enter Mobile No:"
+          value={mobile_no}
+          onChange={(e) => setMobileNo(e.target.value)}
+          isInvalid={
+            (error && !mobile_no) || (error && !isValidMobileNo(mobile_no))
+          }
+        />
+      </FormControl>
+
+      <HStack>
+        <FormControl>
+          <FormLabel m={0}>Age</FormLabel>
+          <NumberInput
+            fontSize={"1.1rem"}
+            isInvalid={(error && !age) || (error && !isValidAge(age))}
+          >
+            <NumberInputField
+              value={age}
+              onChange={(e) => {
+                setAge(e.target.value);
+                console.log(age);
+              }}
+            />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           </NumberInput>
         </FormControl>
 
         <FormControl>
+<<<<<<< HEAD
           <FormLabel m={0} color="cyan.700">
             Weight
           </FormLabel>
@@ -319,22 +379,45 @@ function AddPatientInfo({
               border="2px solid"
               borderColor="cyan.400"
             />
+=======
+          <FormLabel m={0}>Weight</FormLabel>
+          <NumberInput
+            fontSize={"1.1rem"}
+            isInvalid={(error && !weight) || (error && !isValidWeight(weight))}
+          >
+            <NumberInputField
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+            />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           </NumberInput>
         </FormControl>
 
         <FormControl>
+<<<<<<< HEAD
           <FormLabel m={0} color="cyan.700">
             Gender
           </FormLabel>
           <Select
           bg="white"
+=======
+          <FormLabel m={0}>Gender</FormLabel>
+          <Select
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
             fontSize={"1.1rem"}
             placeholder="Select Gender"
             value={gender}
             isInvalid={error && !gender}
             onChange={(e) => setGender(e.target.value)}
+<<<<<<< HEAD
             border="2px solid"
             borderColor="cyan.400"
+=======
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           >
             <option>Male</option>
             <option>Female</option>
@@ -343,18 +426,38 @@ function AddPatientInfo({
       </HStack>
 
       <FormControl>
+<<<<<<< HEAD
         <FormLabel m={0} color="cyan.700">
           Symptoms
         </FormLabel>
         <Textarea
         bg="white"
+=======
+        <FormLabel m={0}>Symptoms</FormLabel>
+        <Textarea
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           fontSize={"1.1rem"}
           placeholder="Enter Symptoms:"
           value={symptoms}
           onChange={(e) => setSymptoms(e.target.value)}
           isInvalid={error && !symptoms}
+<<<<<<< HEAD
           border="2px solid"
           borderColor="cyan.400"
+=======
+        />
+      </FormControl>
+
+      <FormControl>
+        <FormLabel m={0}>Last Visited</FormLabel>
+        <Input
+          type="date"
+          fontSize={"1.1rem"}
+          placeholder="Enter Last Visited Date:"
+          value={last_visited}
+          onChange={(e) => setLastVisited(e.target.value)}
+          isInvalid={error && !last_visited}
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         />
       </FormControl>
 
@@ -367,7 +470,11 @@ function AddPatientInfo({
         variant="solid"
         alignSelf="center"
         borderRadius="10px"
+<<<<<<< HEAD
         onClick={patientsObject ? handleUpdateDetails : handleAddPatient}
+=======
+        onClick={handleAddPatient}
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         isLoading={isLoading}
         loadingText={"Saving Details..."}
       >

@@ -10,10 +10,13 @@ import {
   Th,
   Thead,
   Tr,
+<<<<<<< HEAD
   Menu,
   MenuButton,
   MenuList,
   Button,
+=======
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
 } from "@chakra-ui/react";
 // import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -163,6 +166,7 @@ const PatientsHistory = () => {
           fontWeight="500"
           placeholder="Search Example: Name Surname"
           p="10px"
+<<<<<<< HEAD
           width="100%"
           flex={1}
           border="3px solid #e2e8f0"
@@ -245,6 +249,72 @@ const PatientsHistory = () => {
         </TableContainer>
       </Box>
     </Grid>
+=======
+          gap={3}
+        >
+      
+          <Input
+            type="text"
+            fontSize="1.1rem"
+            fontWeight="500"
+            placeholder="Search Example: Name Surname"
+            p="10px"
+            width="100%"
+            flex={1}
+            border="3px solid #e2e8f0"
+            value={searchKey}
+            onChange={(e) => setSearchKey(e.target.value)}
+          />
+        </InputGroup>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>Sr.No.</Th>
+              <Th>Name</Th>
+              <Th>Mobile</Th>
+              <Th>Symptoms</Th>
+              <Th>Date</Th>
+              <Th></Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {filteredData.map((Patient, index) => {
+              return (
+                <Tr
+                  key={index}
+                  _hover={{
+                    bg: "cyan.50",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Td>{index + 1}</Td>
+                  <Td>{Patient.patient_name}</Td>
+                  <Td>{Patient.mobile_no}</Td>
+                  <Td>{Patient.symptoms}</Td>
+                  <Td>
+                    {Patient.last_visited?.substring(0, 10) || "Not visited"}
+                  </Td>
+                  <Td display="flex" justifyContent="center">
+                    <Button
+                      colorScheme="cyan"
+                      alignSelf="center"
+                      color="white"
+                      onClick={() => {
+                        handleSearch(Patient?.patient_name);
+                      }}
+                    >
+                      View Details
+                    </Button>
+                  </Td>
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </TableContainer>
+
+    </>
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
   );
 };
 

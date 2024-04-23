@@ -7,8 +7,11 @@ import {
   Button,
   Heading,
   FormControl,
+<<<<<<< HEAD
   Flex,
   VStack,
+=======
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
 } from "@chakra-ui/react";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
@@ -60,6 +63,7 @@ const AddAppointment = () => {
 
   const handleAddAppointment = () => {
     setIsLoading(true);
+<<<<<<< HEAD
     if (
       isValidAge(age) &&
       isValidMobileNo(mobile_no) &&
@@ -87,6 +91,32 @@ const AddAppointment = () => {
           }
         )
         .then((response) => {
+=======
+    const time = time_of_app.split(":");
+    let isPm = false;
+    if (time[0] > 12) {
+      time[0] -= 12;
+      isPm = true;
+    }
+    let newTime = time[0] + ":" + time[1];
+    if (isPm) newTime += " PM";
+    else newTime += " AM";
+    axios
+      .post("http://localhost:8000/api/v1/users/receptionist/addAppointment", {
+        patient_name,
+        mobile_no,
+        age,
+        gender,
+        date_of_app,
+        time_of_app: newTime,
+      })
+      .then((response) => {
+        if (
+          isValidAge(age) &&
+          isValidMobileNo(mobile_no) &&
+          isValidFullName(patient_name)
+        ) {
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
           setIsLoading(false);
           setError(false);
           setPatientName("");
@@ -102,6 +132,7 @@ const AddAppointment = () => {
             duration: 9000,
             isClosable: true,
           });
+<<<<<<< HEAD
         })
         .catch((error) => {
           setError(true);
@@ -147,18 +178,68 @@ const AddAppointment = () => {
         isClosable: true,
       });
     }
+=======
+        } else {
+          setError(true);
+          setIsLoading(false);
+          toast({
+            title: "Invalid Data",
+            description: "Please enter valid data",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      })
+      .catch((error) => {
+        setError(true);
+        setIsLoading(false);
+        if (error.response?.status === 400) {
+          toast({
+            title: "Bad request",
+            description: "All fields are required",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else if (error.response?.status === 409) {
+          toast({
+            title: "Bad request",
+            description: "Appointment already booked",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Server error",
+            description: "Something went wrong",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        }
+      });
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
   };
 
   return (
     <Grid
       bg="white"
       borderRadius="20px"
+<<<<<<< HEAD
       color="cyan.700"
       justifyContent="center"
+=======
+      gap={5}
+      color="cyan.700"
+      justify="center"
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
       align="center"
       p={5}
     >
       <Heading>Add Appointments</Heading>
+<<<<<<< HEAD
       <Grid w="100%" h="90%" gap={4} bgColor="cyan.50" p={10}>
         <FormControl>
           <FormLabel fontSize="18px" m={0}>
@@ -170,18 +251,33 @@ const AddAppointment = () => {
               width="100%"
               type="text"
               bgColor="white"
+=======
+      <Grid w="100%" h="100%" gap={4}>
+        <FormControl>
+          <FormLabel fontSize="20px">Name</FormLabel>
+          <InputGroup>
+            <Input
+              fontSize="20px"
+              width="100%"
+              type="text"
+              bgColor="gray.100"
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
               color="black"
               placeholder="Enter name"
               borderRadius="10px"
               value={patient_name}
               onChange={(e) => setPatientName(e.target.value)}
               isInvalid={error && !patient_name}
+<<<<<<< HEAD
               borderColor="cyan.400"
               borderWidth="2px"
+=======
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
             />
           </InputGroup>
         </FormControl>
         <FormControl>
+<<<<<<< HEAD
           <FormLabel fontSize="18px" m={0}>
             Mobile
           </FormLabel>
@@ -191,6 +287,15 @@ const AddAppointment = () => {
               width="100%"
               type="text"
               bgColor="white"
+=======
+          <FormLabel fontSize="20px">Mobile</FormLabel>
+          <InputGroup>
+            <Input
+              fontSize="20px"
+              width="100%"
+              type="text"
+              bgColor="gray.100"
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
               color="black"
               placeholder="Enter Mobile no"
               borderRadius="10px"
@@ -199,6 +304,7 @@ const AddAppointment = () => {
               isInvalid={
                 (error && !mobile_no) || (error && !isValidMobileNo(mobile_no))
               }
+<<<<<<< HEAD
               borderColor="cyan.400"
               borderWidth="2px"
             />
@@ -307,6 +413,92 @@ const AddAppointment = () => {
           Submit
         </Button>
       </Grid>
+=======
+            />
+          </InputGroup>
+        </FormControl>
+        <FormControl>
+          <FormLabel fontSize="20px">Age</FormLabel>
+          <InputGroup>
+            <Input
+              fontSize="20px"
+              width="100%"
+              bgColor="gray.100"
+              color="black"
+              borderRadius="10px"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              isInvalid={(error && !age) || (error && !isValidAge(age))}
+              type="number"
+            />
+          </InputGroup>
+        </FormControl>
+        <FormControl>
+          <FormLabel fontSize="20px">Gender</FormLabel>
+          <InputGroup>
+            <Select
+              fontSize="20px"
+              width="100%"
+              placeholder="Select Gender"
+              bgColor="gray.100"
+              color="black"
+              borderRadius="10px"
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              isInvalid={error && !gender}
+            >
+              <option>Male</option>
+              <option>Female</option>
+            </Select>
+          </InputGroup>
+        </FormControl>
+        <FormControl>
+          <FormLabel fontSize="20px">Date</FormLabel>
+          <InputGroup>
+            <Input
+              fontSize="20px"
+              width="100%"
+              placeholder="Select Date"
+              size="md"
+              type="date"
+              bgColor="gray.100"
+              color="black"
+              borderRadius="10px"
+              value={date_of_app}
+              onChange={(e) => setDateOfApp(e.target.value)}
+              isInvalid={error && !date_of_app}
+            />
+          </InputGroup>
+        </FormControl>
+        <FormControl>
+          <FormLabel fontSize="20px">Time</FormLabel>
+          <InputGroup>
+            <Input
+              fontSize="20px"
+              width="100%"
+              placeholder="Select Time"
+              size="md"
+              type="time"
+              bgColor="gray.100"
+              color="black"
+              borderRadius="10px"
+              value={time_of_app}
+              onChange={(e) => setTimeOfApp(e.target.value)}
+              isInvalid={error && !time_of_app}
+            />
+          </InputGroup>
+        </FormControl>
+      </Grid>
+      <Button
+        colorScheme="cyan"
+        color="white"
+        onClick={handleAddAppointment}
+        isLoading={isLoading}
+        loadingText={"Saving Details..."}
+      >
+        Submit
+      </Button>
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
     </Grid>
   );
 };

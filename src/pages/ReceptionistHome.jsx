@@ -52,6 +52,7 @@ const ReceptionistHome = () => {
           md: "block",
         }}
       >
+<<<<<<< HEAD
         <Text
           color="white"
           display="flex"
@@ -88,6 +89,52 @@ const ReceptionistHome = () => {
               {tab.name}
             </Link>
           ))}
+=======
+        <Flex align="center">
+          <Image
+            boxSize="50px"
+            objectFit="cover"
+            src={logo}
+            alt="Code Surgery Squad"
+            borderRadius="50%"
+          />
+          <Box fontSize="1.1rem" color="cyan.600" ml={2}>
+            Home
+          </Box>
+        </Flex>
+        <Divider orientation="horizontal" my={3} borderWidth={2} />
+        <Flex direction="column" gap={3}>
+          <NavLink to="/user/receptionist/AddBilling">
+            <Button
+              w="100%"
+              colorScheme="cyan"
+              color="white"
+              onClick={() => setTabValue("AddBilling")}
+            >
+              Add Billing
+            </Button>
+          </NavLink>
+          <NavLink to="/user/receptionist/appointment">
+            <Button
+              w="100%"
+              colorScheme="cyan"
+              color="white"
+              onClick={() => setTabValue("Appointment")}
+            >
+              Add Appointment
+            </Button>
+          </NavLink>
+          <NavLink to="/user/receptionist/add-details">
+            <Button w="100%" colorScheme="cyan" color="white">
+              Add Patient Details
+            </Button>
+          </NavLink>
+          <NavLink to="/user/receptionist/all-appointments">
+            <Button w="100%" colorScheme="cyan" color="white">
+              Appointments
+            </Button>
+          </NavLink>
+>>>>>>> 8a745eeff5b2f765d52ff5a82d66b2ba7f7d1893
         </Flex>
       </Box>
       <Grid
