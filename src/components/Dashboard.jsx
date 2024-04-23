@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useToast } from "@chakra-ui/react";
 import { GlobalContext } from "../context/GlobalContext";
 const Dashboard = () => {
-  const [patientInformation, setPatientInformation] = useState([]);
+  const [AddPatientInformation, setAddPatientInformation] = useState([]);
   const [revenueInformation, setRevenueInformation] = useState([]);
   const [averageAppointments, setAverageAppointments] = useState(0);
   const { currentUser, expirationTime, setCurrentUser } =
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
       axios
         .get("http://localhost:8000/api/v1/users/doctor/patientCountInfo")
-        .then((response) => setPatientInformation(response.data.data))
+        .then((response) => setAddPatientInformation(response.data.data))
         .catch((error) =>
           toast({
             title: "Unable fetch data.",
@@ -77,13 +77,13 @@ const Dashboard = () => {
       {/* <Box fontSize="2rem">Patient Information</Box>
         <Divider mb={3} /> */}
 
-      {patientInformation.map((info, index) => {
+      {AddPatientInformation.map((info, index) => {
         return (
           <Flex
             key={index}
             flex="1"
             bgColor="cyan.50"
-            p={5}
+            // p={5}
             rounded="md"
             direction="column"
             justify="center"
@@ -138,6 +138,7 @@ const Dashboard = () => {
         rounded="md"
         direction="column"
         justify="center"
+        gridColumn={{ xl: "1 / span 3", md: "1 / span 2" }}
       >
         <Box fontSize="1.5rem" color="cyan.600" textAlign="center">
           Average Appointments

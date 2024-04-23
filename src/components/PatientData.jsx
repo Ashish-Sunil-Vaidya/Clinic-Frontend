@@ -12,7 +12,6 @@ import {
   Link,
   Button,
   SimpleGrid,
-  useToast
 } from "@chakra-ui/react";
 
 import { ExternalLinkIcon } from "@chakra-ui/icons";
@@ -20,8 +19,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import axios from "axios";
 
-const PatientModalData = () => {
- 
+const PatientData = () => {
   const location = useLocation();
   const [searchedData,setSearchedData] = useState(null);
   
@@ -114,4 +112,4 @@ const PatientModalData = () => {
   );
 };
 
-export default PatientModalData;
+export default PatientData;

@@ -7,7 +7,7 @@ import { GlobalContext } from "../context/GlobalContext";
 import { useState, useContext, useEffect } from "react";
 
 const ReceptionistHome = () => {
-  const [tabValue, setTabValue] = useState("Dashboard");
+  const [tabValue, setTabValue] = useState("");
   const { currentUser, expirationTime } = useContext(GlobalContext);
   const navigator = useNavigate();
 
@@ -52,16 +52,6 @@ const ReceptionistHome = () => {
         </Flex>
         <Divider orientation="horizontal" my={3} borderWidth={2} />
         <Flex direction="column" gap={3}>
-          <NavLink to="/user/receptionist/billing">
-            <Button
-              w="100%"
-              colorScheme="cyan"
-              color="white"
-              onClick={() => setTabValue("Billing")}
-            >
-              Billing
-            </Button>
-          </NavLink>
           <NavLink to="/user/receptionist/appointment">
             <Button
               w="100%"
@@ -72,14 +62,19 @@ const ReceptionistHome = () => {
               Add Appointment
             </Button>
           </NavLink>
+          <NavLink to="/user/receptionist/add-details">
+            <Button w="100%" colorScheme="cyan" color="white">
+              Add Patient Details
+            </Button>
+          </NavLink>
           <NavLink to="/user/receptionist/all-appointments">
             <Button w="100%" colorScheme="cyan" color="white">
               Appointments
             </Button>
           </NavLink>
-          <NavLink to="/user/receptionist/add-details">
+          <NavLink to="/user/receptionist/patients">
             <Button w="100%" colorScheme="cyan" color="white">
-              Add Patient Details
+              Patient Details
             </Button>
           </NavLink>
         </Flex>

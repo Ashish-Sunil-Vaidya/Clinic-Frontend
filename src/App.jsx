@@ -3,18 +3,19 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import DoctorHome from "./pages/DoctorHome";
 import Schedules from "./components/Schedules";
-import ResetPassword from "./pages/ResetPassword";
+import ResetPassword from "./components/forms/ResetPassword";
 import Dashboard from "./components/Dashboard";
 import GlobalProvider from "./context/GlobalContext";
 import ReceptionistHome from "./pages/ReceptionistHome";
-import Billing from "./components/Billing";
-import AppointmentForm from "./components/AppointmentForm";
+import AddBilling from "./components/forms/AddBilling";
+import AddAppointment from "./components/forms/AddAppointment";
 import PatientsHistory from "./components/PatientsHistory";
 // import Patient_Detail from "./components/Patient_Detail";
-import ProfileForm from "./pages/ProfileForm";
-import Reciept from "./pages/Reciept";
-import PatientModalData from "./components/PatientModalData";
-import PatientDetail from "./components/PatientDetail";
+import ProfileForm from "./components/forms/ProfileForm";
+// import Reciept from "./pages/Reciept";
+import PatientData from "./components/PatientData";
+import AddPatientDetails from "./components/forms/AddPatientDetails";
+import UpdateDetails from "./components/UpdateDetails";
 
 const routes = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "patient/:id",
-        element: <PatientModalData />,
+        element: <PatientData />,
       },
     ],
   },
@@ -60,16 +61,12 @@ const routes = createBrowserRouter([
     element: <ReceptionistHome />,
     children: [
       {
-        path: "billing",
-        element: <Billing />,
-      },
-      {
         path: "appointment",
-        element: <AppointmentForm />,
+        element: <AddAppointment />,
       },
       {
         path:"add-details",
-        element: <PatientDetail />,
+        element: <AddPatientDetails />,
       },
       {
         path: "all-appointments",
@@ -77,7 +74,15 @@ const routes = createBrowserRouter([
       },
       {
         path: "patient/:id",
-        element: <PatientModalData />,
+        element: <PatientData />,
+      },
+      {
+        path: "patients",
+        element: <PatientsHistory />,
+      },
+      {
+        path: "patient/update/:id",
+        element: <UpdateDetails />,
       },
     ],
   },

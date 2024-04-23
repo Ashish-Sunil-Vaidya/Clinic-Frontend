@@ -1,47 +1,64 @@
-import { Box, Button, Divider, Flex, Grid, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { Outlet, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
-import clinicImg from "../assets/clinic.jpeg";
 import Header from "../components/Header";
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalContext } from "../context/GlobalContext";
-import { useNavigate  } from "react-router-dom";
-import { useToast } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 const DoctorHome = () => {
-  const [tabValue, setTabValue] = useState("Dashboard");
-  const { currentUser, setCurrentUser, expirationTime } = useContext(GlobalContext);
+  const {
+    currentUser,
+    setCurrentUser,
+    expirationTime,
+    activeTab,
+    setActiveTab,
+  } = useContext(GlobalContext);
   const navigator = useNavigate();
-  const toast = useToast()
+  const toast = useToast();
   useEffect(() => {
-    if(!currentUser || currentUser.role !== "doctor") toast({
-      title: 'Invalid Role.',
-      description: "Only doctor can access this page.",
-      status: 'error',
-      duration: 9000,
-      isClosable: true,
-    })
-    if(Date.now() > expirationTime) {
+    if (!currentUser || currentUser.role !== "doctor")
+      toast({
+        title: "Invalid Role.",
+        description: "Only doctor can access this page.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    if (Date.now() > expirationTime) {
       setCurrentUser(null);
-      navigator("/login")
+      navigator("/login");
     }
-  }, [])
+  }, []);
 
+  const tabs = [
+    { name: "Dashboard", path: "/user/doctor/dashboard" },
+    { name: "Schedules", path: "/user/doctor/schedules" },
+    { name: "Patients", path: "/user/doctor/patients" },
+  ];
 
   return (
     <Grid
       templateColumns={{
         base: "1fr",
-        md: "minmax(200px,20%) auto",
-        lg: "minmax(200px,20%) auto",
-        xl: "minmax(200px,20%) auto",
+        md: "minmax(200px,17%) auto",
+        lg: "minmax(200px,17%) auto",
+        xl: "minmax(200px,17%) auto",
       }}
       h="100svh"
+      bgColor="cyan.400"
     >
       <Box
         zIndex={2}
-        p={4}
-        borderRight="2px"
-        borderColor="gray.100"
         display={{
           base: "none",
           lg: "block",
@@ -49,75 +66,40 @@ const DoctorHome = () => {
           md: "block",
         }}
       >
-        <Flex align="center"  >
-          <Image
-            boxSize="50px"
-            objectFit="cover"
-            src={logo}
-            alt="Code Surgery Squad"
-            borderRadius="50%"
-          />
-          <Box fontSize="1.1rem" color="cyan.600" ml={2}>
-            Home
-          </Box>
-        </Flex>
-        <Divider orientation="horizontal" my={3} borderWidth={2} />
-        {/* <Box position="relative" overflow="hidden">
-          <Image src={clinicImg} h="200px" rounded="md" />
-          <Box
-            rounded="md"
-            zIndex={0}
-            position="absolute"
-            textAlign="center"
-            py="1rem"
-            fontWeight="bold"
-            w="100%"
-            bottom={0}
-            color="white"
-            bgColor="rgb(0,0,0,.5)"
-          >
-            Dr. Sunil Vaidya's Clinic
-          </Box>
-        </Box> */}
+        <Text
+          color="white"
+  
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          gap={2}
+          py={5}
+          fontSize="1.3rem"
+          bgColor="cyan.500"
+        >
+          <HamburgerIcon />
+          Menu
+        </Text>
         {/* <Divider orientation="horizontal" my={3} borderWidth={2} /> */}
-        <Flex direction="column" gap={3}>
-          <NavLink to="/user/doctor/dashboard">
-            <Button
-              w="100%"
-              colorScheme="cyan"
-              color="white"
-              onClick={() => setTabValue("Dashboard")}
-            >
-              Dashboard
-            </Button>
-          </NavLink>
-          <NavLink to="/user/doctor/schedules">
-            <Button
-              w="100%"
-              colorScheme="cyan"
-              color="white"
-              onClick={() => setTabValue("Schedules")}
-            >
-              Schedules
-            </Button>
-          </NavLink>
-          <NavLink to="/user/doctor/patients">
-            <Button
-              w="100%"
-              colorScheme="cyan"
-              color="white"
-              onClick={() => setTabValue("Patients History")}
-            >
-              Patients History
-            </Button>
-          </NavLink>
-          {/* <NavLink to="/user/doctor/payments">
-            <Button w="100%" colorScheme="cyan" color="white">
-              Payments
-            </Button>
-          </NavLink> */}
+        <Flex direction="column">
+          {tabs.map((tab, index) => (
+            <NavLink to={tab.path} key={index}>
+              <Box
+                p={3}
+                w="100%"
+                variant="outline"
+                textAlign="center"
+                fontWeight={600}
+                fontSize="1.2rem"
+                color={activeTab === tab.name ? "cyan.500" : "white"}
+                onClick={() => setActiveTab(tab.name)}
+                bgColor={activeTab === tab.name ? "white" : "transparent"}
+              >
+                {tab.name}
+              </Box>
+            </NavLink>
+          ))}
         </Flex>
-        <Divider orientation="horizontal" my={3} borderWidth={2} />
       </Box>
       <Grid
         zIndex={1}
@@ -130,7 +112,7 @@ const DoctorHome = () => {
         }}
         bgColor="white"
       >
-        <Header tabValue={tabValue} setTabValue={setTabValue} role="doctor" />
+        <Header role="doctor" />
 
         <Box overflowY="auto" h="100%">
           <Outlet />

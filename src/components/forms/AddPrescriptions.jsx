@@ -10,17 +10,24 @@ import {
 import { AddIcon } from "@chakra-ui/icons";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { GlobalContext } from "../context/GlobalContext";
+import { GlobalContext } from "../../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
+
 function AddPrescriptions({ patient_name }) {
   const [medicine, setMedicine] = useState("");
   const [dosage, setDosage] = useState("");
-  const [reports, setReports] = useState("");
+  const [reportName, setReportName] = useState("");
   const [reportFile, setReportFile] = useState(null);
+  const [isLoading, setIsLoading] = useState({
+    medicine: false,
+    report: false,
+  });
   const { currentUser, setCurrentUser, expirationTime } =
     useContext(GlobalContext);
   const toast = useToast();
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     if (!currentUser || currentUser?.role != "receptionist") {
       toast({
@@ -45,6 +52,7 @@ function AddPrescriptions({ patient_name }) {
   }, []);
 
   const handleAddMedicine = () => {
+    setIsLoading({ ...isLoading, medicine: true });
     axios
       .post("http://localhost:8000/api/v1/users/receptionist/addMedicine", {
         patient_name,
@@ -52,6 +60,11 @@ function AddPrescriptions({ patient_name }) {
         dosage,
       })
       .then((response) => {
+        setError(false);
+        setIsLoading({
+          ...isLoading,
+          medicine: false,
+        });
         setMedicine("");
         setDosage("");
         toast({
@@ -63,6 +76,11 @@ function AddPrescriptions({ patient_name }) {
         });
       })
       .catch((error) => {
+        setError(true);
+        setIsLoading({
+          ...isLoading,
+          medicine: false,
+        });
         toast({
           title: "Error",
           description: "Medicine Details not stored",
@@ -74,10 +92,10 @@ function AddPrescriptions({ patient_name }) {
   };
 
   const handleAddReport = () => {
-    console.log(reports, reportFile, patient_name);
+    setIsLoading({ ...isLoading, report: true });
     const formData = new FormData();
     formData.set("patient_name", patient_name);
-    formData.set("report_name", reports);
+    formData.set("report_name", reportName);
     formData.append("reportFile", reportFile);
 
     axios
@@ -86,8 +104,11 @@ function AddPrescriptions({ patient_name }) {
         formData
       )
       .then((response) => {
-        setMedicine("");
-        setDosage("");
+        setError(false);
+        setIsLoading({
+          ...isLoading,
+          report: false,
+        });
         toast({
           title: "Success",
           description: "Report Stored",
@@ -97,6 +118,11 @@ function AddPrescriptions({ patient_name }) {
         });
       })
       .catch((error) => {
+        setError(true);
+        setIsLoading({
+          ...isLoading,
+          report: false,
+        });
         toast({
           title: "Error",
           description: "Report not stored",
@@ -111,7 +137,6 @@ function AddPrescriptions({ patient_name }) {
     <Flex direction="column" width="100%" p="10px" gap="10px" maxW="1000px">
       <Flex
         direction="column"
-        bg="cyan.200"
         width="100%"
         p="10px"
         borderRadius="20px"
@@ -122,7 +147,13 @@ function AddPrescriptions({ patient_name }) {
           <Heading fontSize="25px">Prescription</Heading>
           <Flex justify="space-between" mb={3}>
             <FormLabel fontSize="1.2rem">Medicines</FormLabel>
-            <Button colorScheme="cyan" color="white" onClick={handleAddMedicine}>
+            <Button
+              colorScheme="cyan"
+              color="white"
+              onClick={handleAddMedicine}
+              isLoading={isLoading.medicine}
+              loadingText={"Saving..."}
+            >
               Save
             </Button>
           </Flex>
@@ -134,18 +165,18 @@ function AddPrescriptions({ patient_name }) {
             <Input
               fontSize={{ base: "15px", md: "20px" }}
               type="text"
-              bg="cyan.100"
               placeholder="Enter Medicine name"
               value={medicine}
               onChange={(e) => setMedicine(e.target.value)}
+              isInvalid={error && !medicine}
             />
             <Input
               fontSize={{ base: "15px", md: "20px" }}
               type="text"
-              bg="cyan.100"
               placeholder="Dosage"
               value={dosage}
               onChange={(e) => setDosage(e.target.value)}
+              isInvalid={error && !dosage}
             />
           </Grid>
         </FormControl>
@@ -153,7 +184,13 @@ function AddPrescriptions({ patient_name }) {
         <FormControl>
           <Flex justify="space-between" mb={3}>
             <FormLabel fontSize="1.2rem">Reports</FormLabel>
-            <Button colorScheme="cyan" color="white" onClick={handleAddReport}>
+            <Button
+              colorScheme="cyan"
+              color="white"
+              onClick={handleAddReport}
+              isLoading={isLoading.report}
+              loadingText={"Saving..."}
+            >
               Save
             </Button>
           </Flex>
@@ -165,16 +202,16 @@ function AddPrescriptions({ patient_name }) {
             <Input
               fontSize={{ base: "15px", md: "20px" }}
               type="text"
-              bg="cyan.100"
               placeholder="Enter Report name"
-              value={reports}
-              onChange={(e) => setReports(e.target.value)}
+              value={reportName}
+              onChange={(e) => setReportName(e.target.value)}
+              isInvalid={error && !reportName}
             />
             <Input
               fontSize={{ base: "15px", md: "20px" }}
               type="file"
-              bg="cyan.100"
               onChange={(e) => setReportFile(e.target.files[0])}
+              isInvalid={error && !reportFile}
             />
           </Grid>
         </FormControl>

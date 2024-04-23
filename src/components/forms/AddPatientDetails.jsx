@@ -7,20 +7,26 @@ import {
   TabPanels,
   TabPanel,
 } from "@chakra-ui/react";
-import PatientInfo from "./PatientInfo.jsx";
-import Prescriptions from "./Prescriptions.jsx";
-import BillingInfo from "./AddBillingInfo.jsx";
-import { useState } from "react";
+import AddPatientInfo from "./AddPatientInfo.jsx";
+import Prescriptions from "./AddPrescriptions.jsx";
+import AddBillingInfo from "./AddBilling.jsx";
+import { useEffect, useState } from "react";
 
-function PatientDetail() {
+function AddPatientDetails({patientsObject}) {
   const [patient_name, setPatientName] = useState("");
   const [mobile_no, setMobileNo] = useState("");
   const [symptoms, setSymptoms] = useState("");
+  useEffect(() => {
+    if(patientsObject) {
+      setPatientName(patientsObject.patient_name);
+      setMobileNo(patientsObject.mobile_no);
+      setSymptoms(patientsObject.symptoms)
+    }
+  }, [])
   return (
-    <Flex direction="column" bg="cyan.100" zIndex={9999} top={0}>
+    <Flex direction="column" zIndex={9999} top={0}>
       <Flex
         direction={{ md: "row", sm: "column", base: "column" }}
-        bg="cyan.100"
         p="10px"
         gap="10px"
         alignItems="center"
@@ -29,38 +35,34 @@ function PatientDetail() {
           height="100%"
           width="100%"
           direction="column"
+          gap={3}
           p="10px"
           justifyItems="center"
         >
           <Input
-            textColor="teal.800"
-            bg="cyan.50"
             fontSize="1.1rem"
             type="text"
             placeholder="Name Surname"
             value={patient_name}
+            disabled
           />
-        </Flex>
-        <Flex height="100%" width="100%" direction="column" p="10px">
           <Input
-            textColor="teal.800"
-            bg="cyan.50"
             fontSize="1.1rem"
             type="text"
             placeholder="Mobile"
             value={mobile_no}
+            disabled
           />
           <Input
-            textColor="teal.800"
-            bg="cyan.50"
             fontSize="1.1rem"
             type="text"
             placeholder="Symptoms"
             value={symptoms}
+            disabled
           />
         </Flex>
       </Flex>
-      <Tabs variant="enclosed" align="center">
+      <Tabs variant="soft-rounded" align="center">
         <TabList>
           <Tab
             fontSize="20px"
@@ -87,27 +89,28 @@ function PatientDetail() {
             Billing Details
           </Tab>
         </TabList>
-        <TabPanels bg="cyan.200">
+        <TabPanels>
           <TabPanel>
             <Flex justifyContent="center">
-              <PatientInfo
+              <AddPatientInfo
                 patient_name={patient_name}
                 setPatientName={setPatientName}
                 mobile_no={mobile_no}
                 setMobileNo={setMobileNo}
                 symptoms={symptoms}
                 setSymptoms={setSymptoms}
+                patientsObject={patientsObject}
               />
             </Flex>
           </TabPanel>
           <TabPanel>
             <Flex justifyContent="center">
-              <Prescriptions patient_name={patient_name} />
+              <Prescriptions patient_name={patient_name} patientsObject={patientsObject} />
             </Flex>
           </TabPanel>
           <TabPanel>
             <Flex justifyContent="center">
-              <BillingInfo patient_name={patient_name} />
+              <AddBillingInfo patient_name={patient_name} patientsObject={patientsObject}/>
             </Flex>
           </TabPanel>
         </TabPanels>
@@ -116,4 +119,4 @@ function PatientDetail() {
   );
 }
 
-export default PatientDetail;
+export default AddPatientDetails;

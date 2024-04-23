@@ -1,6 +1,6 @@
 import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { useState, useContext, useEffect } from "react";
-import { GlobalContext } from "../context/GlobalContext"
+import { GlobalContext } from "../../context/GlobalContext"
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios"
@@ -30,7 +30,7 @@ const ResetPassword = () => {
     if(newPassword === '' || confirmPassword === '') {
       toast({
         title: 'Error',
-        description: "All feilds required.",
+        description: "All fields required.",
         status: 'error',
         duration: 9000,
         isClosable: true,

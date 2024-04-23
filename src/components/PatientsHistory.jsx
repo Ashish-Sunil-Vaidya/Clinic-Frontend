@@ -10,7 +10,6 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure,
 } from "@chakra-ui/react";
 // import patientsData from "./data/patients.data";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -19,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import PatientModalData from "./PatientModalData";
 
 const PatientsHistory = () => {
   const [patientsHistory, setPatientsHistory] = useState([]);
@@ -58,7 +56,8 @@ const PatientsHistory = () => {
     axios
       .get(`http://localhost:8000/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
-        navigator(`/user/doctor/patient/${name}%20${surname}`, {
+        let endPoint = currentUser.role === 'doctor' ? `/user/doctor/patient/${name}%20${surname}` : `/user/receptionist/patient/update/${name}%20${surname}`
+        navigator(endPoint, {
           state: { data: response.data.data },
         });
       })
@@ -94,14 +93,7 @@ const PatientsHistory = () => {
           p="10px"
           gap={3}
         >
-          <IconButton
-            colorScheme="cyan"
-            aria-label="Search database"
-            icon={<Search2Icon />}
-            color="white"
-            fontSize="20px"
-            // onClick={handleSearch}
-          />
+      
           <Input
             type="text"
             fontSize="1.1rem"
@@ -127,7 +119,7 @@ const PatientsHistory = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {filteredData.map((Patient, index) => {
+            {filteredData.length > 0 ? filteredData.map((Patient, index) => {
               return (
                 <Tr
                   key={index}
@@ -152,16 +144,18 @@ const PatientsHistory = () => {
                         handleSearch(Patient?.patient_name);
                       }}
                     >
-                      View Details
+                      {currentUser.role === 'doctor' ? "View Details" : "Update Details"}
                     </Button>
                   </Td>
                 </Tr>
               );
-            })}
+            }) : <Button colorScheme='teal' size='lg' onClick={() => navigator("/user/receptionist/add-details")}>
+            Add Patient Details
+          </Button>}
           </Tbody>
         </Table>
       </TableContainer>
-      {/* {searchData && <PatientModalData />} */}
+
     </>
   );
 };
