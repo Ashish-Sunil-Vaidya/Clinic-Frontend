@@ -20,11 +20,9 @@ function AddPrescriptions({ patient_name }) {
   const [dosage, setDosage] = useState("");
   const [reportName, setReportName] = useState("");
   const [reportFile, setReportFile] = useState(null);
-  const [isLoading, setIsLoading] = useState({
-    medicine: false,
-    report: false,
-  });
-  const { currentUser, setCurrentUser, expirationTime } =
+  const [isLoadingMedicine, setIsLoadingMedicine] = useState(false);
+  const [isLoadingReport, setIsLoadingReport] = useState(false);
+  const { currentUser, setCurrentUser, expirationTime,inputBgColor } =
     useContext(GlobalContext);
   const toast = useToast();
   const [error, setError] = useState(false);
@@ -53,7 +51,7 @@ function AddPrescriptions({ patient_name }) {
   }, []);
 
   const handleAddMedicine = () => {
-    setIsLoading({ ...isLoading, medicine: true });
+    setIsLoadingMedicine(true);
     axios
       .post("http://localhost:8000/api/v1/users/receptionist/addMedicine", {
         patient_name,
@@ -62,10 +60,7 @@ function AddPrescriptions({ patient_name }) {
       })
       .then((response) => {
         setError(false);
-        setIsLoading({
-          ...isLoading,
-          medicine: false,
-        });
+        setIsLoadingMedicine(false);
         setMedicine("");
         setDosage("");
         toast({
@@ -78,10 +73,7 @@ function AddPrescriptions({ patient_name }) {
       })
       .catch((error) => {
         setError(true);
-        setIsLoading({
-          ...isLoading,
-          medicine: false,
-        });
+        setIsLoadingMedicine(false);
         toast({
           title: "Error",
           description: "Medicine Details not stored",
@@ -93,7 +85,7 @@ function AddPrescriptions({ patient_name }) {
   };
 
   const handleAddReport = () => {
-    setIsLoading({ ...isLoading, report: true });
+    setIsLoadingReport(true);
     const formData = new FormData();
     formData.set("patient_name", patient_name);
     formData.set("report_name", reportName);
@@ -106,10 +98,7 @@ function AddPrescriptions({ patient_name }) {
       )
       .then((response) => {
         setError(false);
-        setIsLoading({
-          ...isLoading,
-          report: false,
-        });
+        setIsLoadingReport(false);
         toast({
           title: "Success",
           description: "Report Stored",
@@ -120,10 +109,7 @@ function AddPrescriptions({ patient_name }) {
       })
       .catch((error) => {
         setError(true);
-        setIsLoading({
-          ...isLoading,
-          report: false,
-        });
+        setIsLoadingReport(false);
         toast({
           title: "Error",
           description: "Report not stored",
@@ -135,139 +121,135 @@ function AddPrescriptions({ patient_name }) {
   };
 
   return (
-    
-      <Flex width="100%" gap={10} h="100%" direction={{
+    <Flex
+      width="100%"
+      gap={10}
+      h="100%"
+      direction={{
         base: "column",
         md: "row",
         lg: "row",
         xl: "row",
-      
-      }}>
-        <FormControl>
-          <FormLabel fontSize="1.2rem">Medicines</FormLabel>
-          <Grid
-            gap="5px"
-        
-            justifyItems="center"
+      }}
+    >
+      <FormControl>
+        <FormLabel fontSize="1.2rem">Medicines</FormLabel>
+        <Grid gap="5px" justifyItems="center">
+          <Input
+            bg={inputBgColor}
+            fontSize={{ base: "15px", md: "20px" }}
+            type="text"
+            placeholder="Enter Medicine name"
+            value={medicine}
+            onChange={(e) => setMedicine(e.target.value)}
+            isInvalid={error && !medicine}
+            border="2px solid"
+            borderColor="cyan.400"
+          />
+          <Textarea
+            fontSize={{ base: "15px", md: "20px" }}
+            type="text"
+            placeholder="Dosage"
+            value={dosage}
+            onChange={(e) => setDosage(e.target.value)}
+            isInvalid={error && !dosage}
+            border="2px solid"
+            borderColor="cyan.400"
+            h="100%"
+            flex={1}
+            bg={inputBgColor}
+          />
+          <Button
+            colorScheme="cyan"
+            color="white"
+            onClick={handleAddMedicine}
+            isLoading={isLoadingMedicine}
+            loadingText={"Saving..."}
+            border="2px solid"
+            borderColor="cyan.400"
+            width="100%"
+          >
+            Save
+          </Button>
+        </Grid>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel fontSize="1.2rem">Reports</FormLabel>
+
+        <Grid
+          gap="5px"
+          direction={{ md: "row", sm: "column", base: "column" }}
+          justifyItems="center"
+        >
+          <Input
+            bg={inputBgColor}
+            fontSize={{ base: "15px", md: "20px" }}
+            type="text"
+            placeholder="Enter Report name"
+            value={reportName}
+            onChange={(e) => setReportName(e.target.value)}
+            isInvalid={error && !reportName}
+            border="2px solid"
+            borderColor="cyan.400"
+          />
+          <Box
+            border="2px solid"
+            borderColor="cyan.400"
+            w="100%"
+            rounded="md"
+            position="relative"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            bg={inputBgColor}
+            h="100px"
           >
             <Input
-              bg="white"
+              bg={inputBgColor}
               fontSize={{ base: "15px", md: "20px" }}
-              type="text"
-              placeholder="Enter Medicine name"
-              value={medicine}
-              onChange={(e) => setMedicine(e.target.value)}
-              isInvalid={error && !medicine}
-              border="2px solid"
-              borderColor="cyan.400"
+              type="file"
+              onChange={(e) => setReportFile(e.target.files[0])}
+              isInvalid={error && !reportFile}
+              opacity={0}
+              position="absolute"
+              top={0}
+              left={0}
+              right={0}
+              bottom={0}
             />
-            <Textarea
-              fontSize={{ base: "15px", md: "20px" }}
-              type="text"
-              placeholder="Dosage"
-              value={dosage}
-              onChange={(e) => setDosage(e.target.value)}
-              isInvalid={error && !dosage}
-              border="2px solid"
-              borderColor="cyan.400"
-              h="100%"
-              flex={1}
-              bg="white"
-            />
-            <Button
-              colorScheme="cyan"
-              color="white"
-              onClick={handleAddReport}
-              isLoading={isLoading.report}
-              loadingText={"Saving..."}
-              border="2px solid"
-              borderColor="cyan.400"
-              width="100%"
-            >
-              Save
-            </Button>
-          </Grid>
-        </FormControl>
-
-        <FormControl >
-          <FormLabel fontSize="1.2rem">Reports</FormLabel>
-
-          <Grid
-            gap="5px"
-            direction={{ md: "row", sm: "column", base: "column" }}
-            justifyItems="center"
-            
+            {!reportFile && (
+              <Text color="cyan.400">Drag or Click here to add file</Text>
+            )}
+            {reportFile && (
+              <Text color="cyan.400">
+                <Box>File Uploaded</Box>
+                <Button
+                  colorScheme="red"
+                  onClick={() => {
+                    setReportFile(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Text>
+            )}
+          </Box>
+          <Button
+            colorScheme="cyan"
+            color="white"
+            onClick={handleAddReport}
+            isLoading={isLoadingReport}
+            loadingText={"Saving..."}
+            border="2px solid"
+            borderColor="cyan.400"
+            w="100%"
           >
-            <Input
-              bg="white"
-              fontSize={{ base: "15px", md: "20px" }}
-              type="text"
-              placeholder="Enter Report name"
-              value={reportName}
-              onChange={(e) => setReportName(e.target.value)}
-              isInvalid={error && !reportName}
-              border="2px solid"
-              borderColor="cyan.400"
-            />
-            <Box
-              border="2px solid"
-              borderColor="cyan.400"
-              w="100%"
-              rounded="md"
-              position="relative"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              bg="white"
-              h="100px"
-            >
-              <Input
-                bg="white"
-                fontSize={{ base: "15px", md: "20px" }}
-                type="file"
-                onChange={(e) => setReportFile(e.target.files[0])}
-                isInvalid={error && !reportFile}
-                opacity={0}
-                position="absolute"
-                top={0}
-                left={0}
-                right={0}
-                bottom={0}
-            
-              />
-              {!reportFile && (
-                <Text color="cyan.400">Drag or Click here to add file</Text>
-              )}
-              {reportFile && (
-                <Text color="cyan.400">
-                  <Box>File Uploaded</Box>
-                  <Button
-                    colorScheme="red"
-                    onClick={() => {
-                      setReportFile(null);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Text>
-              )}
-            </Box>
-            <Button
-              colorScheme="cyan"
-              color="white"
-              onClick={handleAddReport}
-              isLoading={isLoading.report}
-              loadingText={"Saving..."}
-              border="2px solid"
-              borderColor="cyan.400"
-              w="100%"
-            >
-              Save
-            </Button>
-          </Grid>
-        </FormControl>
-      </Flex>
-  
+            Save
+          </Button>
+        </Grid>
+      </FormControl>
+    </Flex>
   );
 }
 

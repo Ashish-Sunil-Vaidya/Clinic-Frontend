@@ -40,7 +40,7 @@ function AddPatientInfo({
   const [weight, setWeight] = useState(0);
   const [last_visited, setLastVisited] = useState("");
   const [gender, setGender] = useState("");
-  const { currentUser, setCurrentUser, expirationTime } =
+  const { currentUser, setCurrentUser, expirationTime,inputBgColor } =
     useContext(GlobalContext);
   const toast = useToast();
   const [error, setError] = useState(false);
@@ -232,7 +232,7 @@ function AddPatientInfo({
           Patient Name
         </FormLabel>
         <Input
-          bg="white"
+          bg={inputBgColor}
           border="2px solid"
           borderColor="cyan.400"
           type="text"
@@ -251,7 +251,7 @@ function AddPatientInfo({
             Mobile No
           </FormLabel>
           <Input
-            bg="white"
+            bg={inputBgColor}
             border="2px solid"
             borderColor="cyan.400"
             type="tel"
@@ -269,7 +269,7 @@ function AddPatientInfo({
             Last Visited
           </FormLabel>
           <Input
-            bg="white"
+            bg={inputBgColor}
             border="2px solid"
             borderColor="cyan.400"
             type="date"
@@ -288,13 +288,13 @@ function AddPatientInfo({
             Age
           </FormLabel>
           <NumberInput
-          bg="white"
+          bg={inputBgColor}
             fontSize={"1.1rem"}
             isInvalid={(error && !age) || (error && !isValidAge(age))}
             value={age}
           >
             <NumberInputField
-            bg="white"
+            bg={inputBgColor}
               border="2px solid"
               borderColor="cyan.400"
               onChange={(e) => {
@@ -309,7 +309,7 @@ function AddPatientInfo({
             Weight
           </FormLabel>
           <NumberInput
-          bg="white"
+          bg={inputBgColor}
             fontSize={"1.1rem"}
             value={weight}
             isInvalid={(error && !weight) || (error && !isValidWeight(weight))}
@@ -327,7 +327,7 @@ function AddPatientInfo({
             Gender
           </FormLabel>
           <Select
-          bg="white"
+          bg={inputBgColor}
             fontSize={"1.1rem"}
             placeholder="Select Gender"
             value={gender}
@@ -347,7 +347,7 @@ function AddPatientInfo({
           Symptoms
         </FormLabel>
         <Textarea
-        bg="white"
+        bg={inputBgColor}
           fontSize={"1.1rem"}
           placeholder="Enter Symptoms:"
           value={symptoms}

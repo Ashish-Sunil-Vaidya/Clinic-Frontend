@@ -31,7 +31,7 @@ const AddAppointment = () => {
   const [time_of_app, setTimeOfApp] = useState("");
   const navigator = useNavigate();
   const toast = useToast();
-  const { currentUser, expirationTime, setCurrentUser } =
+  const { currentUser, expirationTime, setCurrentUser,formBgColor,inputBgColor } =
     useContext(GlobalContext);
   const [error, setError] = useState(false);
 
@@ -151,7 +151,6 @@ const AddAppointment = () => {
 
   return (
     <Grid
-      bg="white"
       borderRadius="20px"
       color="cyan.700"
       justifyContent="center"
@@ -159,7 +158,7 @@ const AddAppointment = () => {
       p={5}
     >
       <Heading>Add Appointments</Heading>
-      <Grid w="100%" h="90%" gap={4} bgColor="cyan.50" p={10}>
+      <Grid w="100%" h="90%" gap={4} bgColor={formBgColor} p={10}>
         <FormControl>
           <FormLabel fontSize="18px" m={0}>
             Name
@@ -169,8 +168,8 @@ const AddAppointment = () => {
               fontSize="18px"
               width="100%"
               type="text"
-              bgColor="white"
-              color="black"
+              bgColor={inputBgColor}
+              
               placeholder="Enter name"
               borderRadius="10px"
               value={patient_name}
@@ -190,8 +189,8 @@ const AddAppointment = () => {
               fontSize="18px"
               width="100%"
               type="text"
-              bgColor="white"
-              color="black"
+              bgColor={inputBgColor}
+              
               placeholder="Enter Mobile no"
               borderRadius="10px"
               value={mobile_no}
@@ -214,8 +213,8 @@ const AddAppointment = () => {
                 <Input
                   fontSize="18px"
                   width="100%"
-                  bgColor="white"
-                  color="black"
+                  bgColor={inputBgColor}
+                  
                   borderRadius="10px"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
@@ -235,8 +234,8 @@ const AddAppointment = () => {
                   fontSize="18px"
                   width="100%"
                   placeholder="Select Gender"
-                  bgColor="white"
-                  color="black"
+                  bgColor={inputBgColor}
+                  
                   borderRadius="10px"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
@@ -262,8 +261,8 @@ const AddAppointment = () => {
                   placeholder="Select Date"
                   size="md"
                   type="date"
-                  bgColor="white"
-                  color="black"
+                  bgColor={inputBgColor}
+                  
                   borderRadius="10px"
                   value={date_of_app}
                   onChange={(e) => setDateOfApp(e.target.value)}
@@ -284,8 +283,8 @@ const AddAppointment = () => {
                   placeholder="Select Time"
                   size="md"
                   type="time"
-                  bgColor="white"
-                  color="black"
+                  bgColor={inputBgColor}
+                  
                   borderRadius="10px"
                   value={time_of_app}
                   onChange={(e) => setTimeOfApp(e.target.value)}
@@ -299,7 +298,6 @@ const AddAppointment = () => {
         </VStack>
         <Button
           colorScheme="cyan"
-          color="white"
           onClick={handleAddAppointment}
           isLoading={isLoading}
           loadingText={"Saving Details..."}

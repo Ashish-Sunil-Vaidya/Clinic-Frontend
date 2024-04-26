@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuList,
   Text,
+  Switch,
 } from "@chakra-ui/react";
 
 import { FaBars } from "react-icons/fa";
@@ -22,7 +23,7 @@ import { useContext, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useToast } from "@chakra-ui/react";
+import { useToast, useColorMode } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 axios.defaults.withCredentials = true;
 const Header = () => {
@@ -31,6 +32,7 @@ const Header = () => {
   const navigator = useNavigate();
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const { colorMode, toggleColorMode } = useColorMode();
 
   const handleLogout = () => {
     setIsLoading(true);
@@ -105,13 +107,28 @@ const Header = () => {
                 </Box>
               </Flex>
             </MenuButton>
-            <MenuList>
+            <MenuList m={0} p={0}>
               <NavLink to="/edit-profile">
                 <MenuItem>Edit Profile</MenuItem>
               </NavLink>
               <NavLink to="/reset-password">
                 <MenuItem>Reset Password</MenuItem>
               </NavLink>
+              <Flex
+                justify="center"
+                align="center"
+                gap={3}
+                p={3}
+                bgColor="rgb(0,0,0,.1)"
+              >
+                <Text>Dark Mode</Text>{" "}
+                <Switch
+                  
+                  size="md"
+                  onChange={toggleColorMode}
+                  isChecked={colorMode === "dark"}
+                />
+              </Flex>
             </MenuList>
           </Menu>
           <Button
@@ -131,7 +148,7 @@ const Header = () => {
         bgColor="white"
         display={{ base: "block", md: "none", lg: "none", xl: "none" }}
       >
-        <AccordionItem border={0} >
+        <AccordionItem border={0}>
           <AccordionButton
             justifyContent="space-between"
             p={6}

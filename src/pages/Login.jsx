@@ -135,7 +135,7 @@ const Login = () => {
           <Container maxW="600px" minW="60px" centerContent>
             <Image
               width={{ md: "90%", sm: "80%", base: "70%" }}
-              src="./src/assets/login-logo.png"
+              src="./src/assets/logo.png"
             
               filter="drop-shadow(0px 0px 20px #0bc5ea)"
             ></Image>

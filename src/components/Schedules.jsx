@@ -22,7 +22,7 @@ import {
   Divider,
   AbsoluteCenter,
   Flex,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { useEffect, useState, useContext } from "react";
@@ -34,7 +34,8 @@ import axios from "axios";
 const Schedules = () => {
   const [appointmentsData, setAppointmentsData] = useState([]);
   const [dailyAppointments, setDailyAppointments] = useState([]);
-  const { currentUser } = useContext(GlobalContext);
+  const { currentUser, rowHoverBgColor, appBgColor } =
+    useContext(GlobalContext);
   const toast = useToast();
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
@@ -83,6 +84,44 @@ const Schedules = () => {
       );
   }, []);
 
+  const handleDelete = () => {
+    axios
+      .delete(
+        "http://localhost:8000/api/v1/users/receptionist/deleteLastMonthAppointments"
+      )
+      .then((response) => {
+        toast({
+          title: "Success",
+          description: "All appointments of last month are deleted.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        axios
+          .get("http://localhost:8000/api/v1/users/appointments")
+          .then((response) => {
+            setAppointmentsData(response.data.data);
+          })
+          .catch((error) => {
+            toast({
+              title: "Unable to fetch Data",
+              description: "something went wrong when fetching appointments",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          });
+      })
+      .catch((error) => {
+        toast({
+          title: "Unable to delete",
+          description: "Something went wrong when deleting appointments",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      });
+  };
   const openPatientDetails = (patientName) => {
     if (toast.isActive("t1")) {
       toast.closeAll();
@@ -182,7 +221,6 @@ const Schedules = () => {
         display="flex"
         justifySelf="center"
         gap={3}
-        bgColor="white"
       >
         <Input
           type="text"
@@ -191,7 +229,6 @@ const Schedules = () => {
           placeholder="Search Example: Name Surname"
           width="100%"
           flex={1}
-          border="3px solid #e2e8f0"
           value={searchKey}
           onChange={(e) => setSearchKey(e.target.value)}
         />
@@ -207,7 +244,7 @@ const Schedules = () => {
                 <AccordionIcon />
               </AccordionButton>
             </h2>
-            <AccordionPanel pb={4}>
+            <AccordionPanel>
               <TableContainer m={3} rounded="md">
                 <Table variant="simple">
                   <Thead>
@@ -228,7 +265,8 @@ const Schedules = () => {
                           key={index}
                           position="relative"
                           _hover={{
-                            bg: "cyan.50",
+                            cursor: "pointer",
+                            bgColor: rowHoverBgColor,
                           }}
                         >
                           <Td>{index + 1}</Td>
@@ -245,16 +283,20 @@ const Schedules = () => {
                               top="0"
                               left="0"
                               bottom="0"
-                              _hover={{
-                                cursor: "pointer",
-                              }}
                               _active={{
                                 bg: "cyan.50",
                                 opacity: "0.5",
                               }}
                             ></MenuButton>
-                            <MenuList display="grid" p={3} gap={3}>
+                            <MenuList
+                              display="flex"
+                              p={3}
+                              gap={3}
+                              position="absolute"
+                              top={-5}
+                            >
                               <Button
+                                flex={1}
                                 color="white"
                                 colorScheme="cyan"
                                 onClick={() => {
@@ -263,15 +305,18 @@ const Schedules = () => {
                               >
                                 View
                               </Button>
-                              <Button
-                                color="white"
-                                colorScheme="teal"
-                                onClick={() => {
-                                  openUpdateDetails(appointment.patient_name);
-                                }}
-                              >
-                                Update
-                              </Button>
+                              {currentUser.role === "receptionist" && (
+                                <Button
+                                  flex={1}
+                                  color="white"
+                                  colorScheme="teal"
+                                  onClick={() => {
+                                    openUpdateDetails(appointment.patient_name);
+                                  }}
+                                >
+                                  Update
+                                </Button>
+                              )}
                             </MenuList>
                           </Menu>
                         </Tr>
@@ -311,7 +356,7 @@ const Schedules = () => {
                         <Tr
                           key={index}
                           _hover={{
-                            bg: "cyan.50",
+                            bg: rowHoverBgColor,
                             cursor: "pointer",
                           }}
                           position="relative"
@@ -338,25 +383,35 @@ const Schedules = () => {
                                 opacity: "0.5",
                               }}
                             ></MenuButton>
-                            <MenuList display="grid" p={3} gap={3}>
+                            <MenuList
+                              display="flex"
+                              p={3}
+                              gap={3}
+                              position="absolute"
+                              top={-5}
+                            >
                               <Button
                                 color="white"
                                 colorScheme="cyan"
                                 onClick={() => {
                                   openPatientDetails(appointment.patient_name);
                                 }}
+                                flex={1}
                               >
                                 View
                               </Button>
-                              <Button
-                                color="white"
-                                colorScheme="teal"
-                                onClick={() => {
-                                  openUpdateDetails(appointment.patient_name);
-                                }}
-                              >
-                                Update
-                              </Button>
+                              {currentUser.role === "receptionist" && (
+                                <Button
+                                  color="white"
+                                  colorScheme="teal"
+                                  onClick={() => {
+                                    openUpdateDetails(appointment.patient_name);
+                                  }}
+                                  flex={1}
+                                >
+                                  Update
+                                </Button>
+                              )}
                             </MenuList>
                           </Menu>
                         </Tr>
@@ -370,15 +425,23 @@ const Schedules = () => {
         </Accordion>
         <Box position="relative" color="red.500" fontWeight={500} padding="10">
           <Divider borderColor="red.500" />
-          <AbsoluteCenter bg="white" px="4">
+          <AbsoluteCenter bg={appBgColor} px="4">
             Danger Zone
           </AbsoluteCenter>
         </Box>
-        <Flex justify="center" align="center" direction="column" gap={4} m={5} p={3} bg="red.50">
-          <Text color="red.500">
-            Delete All Appointments of last month
-          </Text>
-          <Button colorScheme="red">Delete</Button>
+        <Flex
+          justify="center"
+          align="center"
+          direction="column"
+          gap={4}
+          m={5}
+          p={3}
+          bg="rgb(255,0,0,.2)"
+        >
+          <Text color="red.500">Delete All Appointments of last month</Text>
+          <Button colorScheme="red" onClick={handleDelete}>
+            Delete
+          </Button>
         </Flex>
       </Box>
     </Grid>

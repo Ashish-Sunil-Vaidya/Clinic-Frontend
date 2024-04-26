@@ -28,7 +28,7 @@ const ProfileForm = () => {
   const [isChanged, setIsChanged] = useState(false);
   const [avatar, setAvatar] = useState(null);
   const [avatarUrl, setAvatarUrl] = useState(null);
-  const { currentUser, setCurrentUser, expirationTime } =
+  const { currentUser, setCurrentUser, expirationTime,inputBgColor,formBgColor } =
     useContext(GlobalContext);
   const [isLoading, setIsLoading] = useState(false);
   const navigator = useNavigate();
@@ -179,7 +179,7 @@ const ProfileForm = () => {
 
   return (
     <Box p={10} h="100svh">
-      <Grid templateColumns="30% 70%" alignItems="center" backgroundColor="cyan.50">
+      <Grid templateColumns="30% 70%" alignItems="center" backgroundColor={formBgColor}>
         <FormControl
           w="100%"
           h="100%"
@@ -194,6 +194,7 @@ const ProfileForm = () => {
           <FormLabel fontSize="2xl">Profile Picture</FormLabel>
           <Avatar width="250px" height="250px" src={avatarUrl} />
           <Input
+            bg={inputBgColor}
             type="file"
             opacity={0}
             onChange={(e) => {
@@ -237,6 +238,7 @@ const ProfileForm = () => {
           <FormControl>
             <FormLabel m={0}>Username</FormLabel>
             <Input
+              bg={inputBgColor}
               type="text"
               name="username"
               value={formData.username}
@@ -248,6 +250,7 @@ const ProfileForm = () => {
           <FormControl>
             <FormLabel m={0}>Full Name</FormLabel>
             <Input
+              bg={inputBgColor}
               type="text"
               name="fullname"
               value={formData.fullname}
@@ -259,6 +262,7 @@ const ProfileForm = () => {
           <FormControl>
             <FormLabel m={0}>Role</FormLabel>
             <Input
+              bg={inputBgColor}
               type="text"
               name="username"
               value={currentUser.role.toUpperCase()}
@@ -270,6 +274,7 @@ const ProfileForm = () => {
           <FormControl>
             <FormLabel m={0}>Mobile Number</FormLabel>
             <Input
+              bg={inputBgColor}
               type="text"
               name="mobile_no"
               value={formData.mobile_no}
@@ -281,6 +286,7 @@ const ProfileForm = () => {
           <FormControl>
             <FormLabel m={0}>Email</FormLabel>
             <Input
+              bg={inputBgColor}
               type="email"
               name="email"
               value={formData.email}

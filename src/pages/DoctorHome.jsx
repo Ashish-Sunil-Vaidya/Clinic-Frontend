@@ -7,6 +7,7 @@ import {
   Image,
   Text,
   Link,
+
 } from "@chakra-ui/react";
 import { Outlet, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -21,11 +22,14 @@ const DoctorHome = () => {
     currentUser,
     setCurrentUser,
     expirationTime,
-    activeTab,
-    setActiveTab,
+    sidebarMenuBgColor,
+    sidebarBgColor
   } = useContext(GlobalContext);
   const navigator = useNavigate();
   const toast = useToast();
+
+  
+  
   useEffect(() => {
     if (!currentUser || currentUser.role !== "doctor")
       toast({
@@ -66,7 +70,7 @@ const DoctorHome = () => {
           xl: "block",
           md: "block",
         }}
-        bg="cyan.400"
+        bg={sidebarBgColor}
       >
         <Text
           color="white"
@@ -76,7 +80,7 @@ const DoctorHome = () => {
           gap={2}
           py={5}
           fontSize="1.3rem"
-          bgColor="cyan.500"
+          bgColor={sidebarMenuBgColor}
         >
           <HamburgerIcon />
           Menu
@@ -89,8 +93,8 @@ const DoctorHome = () => {
               key={index}
               as={NavLink}
               _activeLink={{
-                bgColor: "white",
-                color: "cyan.400",
+                bgColor: "cyan.50",
+                color: "cyan.600",
               }}
               p={3}
               textAlign="center"

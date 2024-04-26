@@ -10,12 +10,14 @@ import {
 import AddPatientInfo from "./AddPatientInfo.jsx";
 import Prescriptions from "./AddPrescriptions.jsx";
 import AddBillingInfo from "./AddBilling.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
+import { GlobalContext } from "../../context/GlobalContext";
 
 function AddPatientDetails({patientsObject}) {
   const [patient_name, setPatientName] = useState("");
   const [mobile_no, setMobileNo] = useState("");
   const [symptoms, setSymptoms] = useState("");
+  const { formBgColor } = useContext(GlobalContext);
   useEffect(() => {
     if(patientsObject) {
       setPatientName(patientsObject.patient_name);
@@ -88,7 +90,7 @@ function AddPatientDetails({patientsObject}) {
             Billing Details
           </Tab>
         </TabList>
-        <TabPanels flex={1} bgColor="cyan.50">
+        <TabPanels flex={1} bgColor={formBgColor}>
           <TabPanel>
             <Flex justifyContent="center">
               <AddPatientInfo

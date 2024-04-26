@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { useColorModeValue } from "@chakra-ui/react";
 
 export const GlobalContext = createContext();
 const GlobalProvider = ({ children }) => {
@@ -9,8 +10,16 @@ const GlobalProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
     localStorage.setItem("expirationTime", expirationTime);
-  }, [currentUser])
+  }, [currentUser]) 
 
+  const sidebarMenuBgColor = useColorModeValue("cyan.500", "gray.600");
+  const sidebarBgColor = useColorModeValue("cyan.400", "gray.700");
+  const sidebarLinkActiveBgColor = useColorModeValue("cyan.50", "gray.200");
+  const sidebarLinkActiveColor = useColorModeValue("cyan.500", "gray.600");
+  const appBgColor = useColorModeValue("white", "gray.800");
+  const rowHoverBgColor = useColorModeValue("cyan.50", "gray.700");
+  const formBgColor = useColorModeValue("cyan.50", "gray.900");
+  const inputBgColor = useColorModeValue("white", "gray.800");
 
   return (
     <GlobalContext.Provider
@@ -20,7 +29,15 @@ const GlobalProvider = ({ children }) => {
         expirationTime,
         setExpirationTime,
         activeTab,
-        setActiveTab
+        setActiveTab,
+        sidebarMenuBgColor,
+        sidebarBgColor,
+        sidebarLinkActiveBgColor,
+        sidebarLinkActiveColor,
+        appBgColor,
+        rowHoverBgColor,
+        formBgColor,
+        inputBgColor
       }}
     >
       {children}

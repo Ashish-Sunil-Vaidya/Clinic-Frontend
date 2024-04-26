@@ -17,7 +17,15 @@ import { useState, useContext, useEffect } from "react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
 const ReceptionistHome = () => {
-  const { currentUser, expirationTime } = useContext(GlobalContext);
+  const {
+    currentUser,
+    expirationTime,
+    sidebarMenuBgColor,
+    sidebarBgColor,
+    sidebarLinkActiveBgColor,
+    sidebarLinkActiveColor,
+    appBgColor,
+  } = useContext(GlobalContext);
   const navigator = useNavigate();
 
   useEffect(() => {
@@ -41,7 +49,7 @@ const ReceptionistHome = () => {
         xl: "minmax(200px,17%) auto",
       }}
       h="100svh"
-      bgColor="cyan.400"
+      bgColor={sidebarBgColor}
     >
       <Box
         zIndex={2}
@@ -60,7 +68,7 @@ const ReceptionistHome = () => {
           gap={2}
           py={5}
           fontSize="1.3rem"
-          bgColor="cyan.500"
+          bg={sidebarMenuBgColor}
         >
           <HamburgerIcon />
           Menu
@@ -73,8 +81,8 @@ const ReceptionistHome = () => {
               key={index}
               as={NavLink}
               _activeLink={{
-                bgColor: "white",
-                color: "cyan.400",
+                bgColor: sidebarLinkActiveBgColor,
+                color: sidebarLinkActiveColor,
               }}
               p={3}
               textAlign="center"
@@ -99,9 +107,10 @@ const ReceptionistHome = () => {
           lg: "10svh 90svh",
           xl: "10svh 90svh",
         }}
-        bgColor="white"
+        bg={appBgColor}
       >
         <Header role="doctor" />
+
         <Outlet />
       </Grid>
     </Grid>

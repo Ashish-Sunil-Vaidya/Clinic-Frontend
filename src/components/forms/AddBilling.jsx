@@ -19,7 +19,7 @@ const AddBilling = ({ patient_name }) => {
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const { currentUser, expirationTime, setCurrentUser } =
+  const { currentUser, expirationTime, setCurrentUser,inputBgColor } =
     useContext(GlobalContext);
   const toast = useToast();
   const [error, setError] = useState(false);
@@ -133,7 +133,7 @@ const AddBilling = ({ patient_name }) => {
         </FormLabel>
         <Input
           
-          bg="white"
+          bg={inputBgColor}
           border="2px solid"
           borderColor="cyan.500"
           type="text"
@@ -149,7 +149,7 @@ const AddBilling = ({ patient_name }) => {
         </FormLabel>
         <Input
           
-          bg="white"
+          bg={inputBgColor}
           border="2px solid"
           borderColor="cyan.500"
           type="text"
@@ -165,7 +165,7 @@ const AddBilling = ({ patient_name }) => {
         </FormLabel>
         <Input
           
-          bg="white"
+          bg={inputBgColor}
           border="2px solid"
           borderColor="cyan.500"
           type="date"

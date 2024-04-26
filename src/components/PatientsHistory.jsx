@@ -25,7 +25,7 @@ import axios from "axios";
 
 const PatientsHistory = () => {
   const [patientsHistory, setPatientsHistory] = useState([]);
-  const { currentUser } = useContext(GlobalContext);
+  const { currentUser, rowHoverBgColor } = useContext(GlobalContext);
   const toast = useToast();
   const navigator = useNavigate();
   const [searchKey, setSearchKey] = useState("");
@@ -155,7 +155,6 @@ const PatientsHistory = () => {
         justifySelf="center"
         p="10px"
         gap={3}
-        bgColor="white"
       >
         <Input
           type="text"
@@ -165,13 +164,12 @@ const PatientsHistory = () => {
           p="10px"
           width="100%"
           flex={1}
-          border="3px solid #e2e8f0"
           value={searchKey}
           onChange={(e) => setSearchKey(e.target.value)}
         />
       </InputGroup>
-      <Box h="100%" overflowY="auto">
-        <TableContainer>
+      <Box h="100%" >
+        <TableContainer h="100%" overflowY="auto">
           <Table variant="simple" my={4}>
             <Thead>
               <Tr>
@@ -188,7 +186,7 @@ const PatientsHistory = () => {
                   <Tr
                     key={index}
                     _hover={{
-                      bg: "cyan.50",
+                      bg: rowHoverBgColor,
                     }}
                     position="relative"
                   >
@@ -215,25 +213,29 @@ const PatientsHistory = () => {
                             opacity: "0.5",
                           }}
                         ></MenuButton>
-                        <MenuList display="grid" p={3} gap={3}>
+                        <MenuList display="flex" p={3} gap={3} position="absolute" top={-3} zIndex={9999}>
                           <Button
                             color="white"
                             colorScheme="cyan"
                             onClick={() => {
                               openPatientDetails(Patient.patient_name);
                             }}
+                            flex={1}
                           >
                             View
                           </Button>
-                          <Button
-                            color="white"
-                            colorScheme="teal"
-                            onClick={() => {
-                              openUpdateDetails(Patient.patient_name);
-                            }}
-                          >
-                            Update
-                          </Button>
+                          {currentUser.role === "receptionist" && (
+                            <Button
+                              color="white"
+                              colorScheme="teal"
+                              onClick={() => {
+                                openUpdateDetails(Patient.patient_name);
+                              }}
+                              flex={1}
+                            >
+                              Update
+                            </Button>
+                          )}
                         </MenuList>
                       </Menu>
                     </Td>
