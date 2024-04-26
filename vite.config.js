@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   base: "/",
   server: {
-    proxy: "https://clinic-backend-xavv.onrender.com/api/v1"
+    proxy: "https://swaseem-clinic-backend.onrender.com"
   }
 })

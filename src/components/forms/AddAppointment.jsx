@@ -76,7 +76,7 @@ const AddAppointment = () => {
       else newTime += " AM";
       axios
         .post(
-          "/users/receptionist/addAppointment",
+          "/api/v1/users/receptionist/addAppointment",
           {
             patient_name,
             mobile_no,

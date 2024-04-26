@@ -37,7 +37,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsLoading(true);
     axios
-      .post("/users/logout", {
+      .post("/api/v1/users/logout", {
         credentials: "include",
       })
       .then((response) => {

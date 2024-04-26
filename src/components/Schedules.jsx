@@ -54,7 +54,7 @@ const Schedules = () => {
       navigator("/login");
     }
     axios
-      .get("/users/appointments")
+      .get("/api/v1/users/appointments")
       .then((response) => {
         setAppointmentsData(response.data.data);
       })
@@ -69,7 +69,7 @@ const Schedules = () => {
       );
 
     axios
-      .get("/users/dailyAppointments")
+      .get("/api/v1/users/dailyAppointments")
       .then((response) => {
         setDailyAppointments(response.data.data);
       })
@@ -87,7 +87,7 @@ const Schedules = () => {
   const handleDelete = () => {
     axios
       .delete(
-        "/users/receptionist/deleteLastMonthAppointments"
+        "/api/v1/users/receptionist/deleteLastMonthAppointments"
       )
       .then((response) => {
         toast({
@@ -98,7 +98,7 @@ const Schedules = () => {
           isClosable: true,
         });
         axios
-          .get("/users/appointments")
+          .get("/api/v1/users/appointments")
           .then((response) => {
             setAppointmentsData(response.data.data);
           })
@@ -128,7 +128,7 @@ const Schedules = () => {
     }
     const [name, surname] = patientName.split(" ");
     axios
-      .get(`/users/details/${name}%20${surname}`)
+      .get(`/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
         if (currentUser.role === "doctor") {
           navigator(`/user/doctor/patient/${name}%20${surname}`, {
@@ -188,7 +188,7 @@ const Schedules = () => {
   const openUpdateDetails = (patientName) => {
     const [name, surname] = patientName.split(" ");
     axios
-      .get(`/users/details/${name}%20${surname}`)
+      .get(`/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
         let endPoint =
           currentUser.role === "doctor"

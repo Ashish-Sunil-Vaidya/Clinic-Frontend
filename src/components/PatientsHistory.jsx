@@ -42,7 +42,7 @@ const PatientsHistory = () => {
       navigator("/login");
     }
     axios
-      .get("/users/allPatientDetails")
+      .get("/api/v1/users/allPatientDetails")
       .then((response) => setPatientsHistory(response.data.data))
       .catch((error) =>
         toast({
@@ -61,7 +61,7 @@ const PatientsHistory = () => {
     }
     const [name, surname] = patientName.split(" ");
     axios
-      .get(`/users/details/${name}%20${surname}`)
+      .get(`/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
         if (currentUser.role === "doctor") {
           navigator(`/user/doctor/patient/${name}%20${surname}`, {
@@ -121,7 +121,7 @@ const PatientsHistory = () => {
   const openUpdateDetails = (patientName) => {
     const [name, surname] = patientName.split(" ");
     axios
-      .get(`/users/details/${name}%20${surname}`)
+      .get(`/api/v1/users/details/${name}%20${surname}`)
       .then((response) => {
         let endPoint =
           currentUser.role === "doctor"

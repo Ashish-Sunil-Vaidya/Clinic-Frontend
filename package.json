@@ -4,7 +4,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://clinic-backend-xavv.onrender.com/api/v1",
+  "proxy": "https://swaseem-clinic-backend.onrender.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

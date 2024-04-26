@@ -45,7 +45,7 @@ const ResetPassword = () => {
         isClosable: true,
       })
     } else {
-      axios.post("/users/changePassword", {
+      axios.post("/api/v1/users/changePassword", {
       oldPassword,
       newPassword
     })

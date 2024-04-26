@@ -54,7 +54,7 @@ const Login = () => {
     }
 
     axios
-      .post("/users/login", {
+      .post("/api/v1/users/login", {
         role: role.toLowerCase(),
         username,
         password,
