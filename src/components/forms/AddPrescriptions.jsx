@@ -53,7 +53,7 @@ function AddPrescriptions({ patient_name }) {
   const handleAddMedicine = () => {
     setIsLoadingMedicine(true);
     axios
-      .post("https://swaseem-clinic-backend.onrender.com/api/v1/users/receptionist/addMedicine", {
+      .post("https://clinic-backend-xavv.onrender.com/api/v1/users/receptionist/addMedicine", {
         patient_name,
         medicine_name: medicine,
         dosage,
@@ -93,7 +93,7 @@ function AddPrescriptions({ patient_name }) {
 
     axios
       .post(
-        "https://swaseem-clinic-backend.onrender.com/api/v1/users/receptionist/addReport",
+        "https://clinic-backend-xavv.onrender.com/api/v1/users/receptionist/addReport",
         formData
       )
       .then((response) => {

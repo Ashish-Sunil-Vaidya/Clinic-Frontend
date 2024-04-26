@@ -37,7 +37,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsLoading(true);
     axios
-      .post("https://swaseem-clinic-backend.onrender.com/api/v1/users/logout", {
+      .post("https://clinic-backend-xavv.onrender.com/api/v1/users/logout", {
         credentials: "include",
       })
       .then((response) => {

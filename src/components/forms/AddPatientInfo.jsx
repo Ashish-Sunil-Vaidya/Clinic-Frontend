@@ -80,7 +80,7 @@ function AddPatientInfo({
     setIsLoading(true);
     axios
       .post(
-        "https://swaseem-clinic-backend.onrender.com/api/v1/users/receptionist/addPatientDetails",
+        "https://clinic-backend-xavv.onrender.com/api/v1/users/receptionist/addPatientDetails",
         {
           patient_name,
           mobile_no,
@@ -152,7 +152,7 @@ function AddPatientInfo({
     setIsLoading(true);
     axios
       .post(
-        "https://swaseem-clinic-backend.onrender.com/api/v1/users/receptionist/updatePatientDetails",
+        "https://clinic-backend-xavv.onrender.com/api/v1/users/receptionist/updatePatientDetails",
         {
           patient_name,
           mobile_no,

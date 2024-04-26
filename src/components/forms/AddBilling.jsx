@@ -52,7 +52,7 @@ const AddBilling = ({ patient_name }) => {
     setIsLoading(true);
     axios
       .post(
-        "https://swaseem-clinic-backend.onrender.com/api/v1/users/receptionist/addPaymentDetails",
+        "https://clinic-backend-xavv.onrender.com/api/v1/users/receptionist/addPaymentDetails",
         {
           patient_name,
           amount,
