@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "https://sparkly-moonbeam-be963d.netlify.app"
-  to = "https://clinic-backend-xavv.onrender.com"
+  from = "https://clinic-backend-xavv.onrender.com"
+  to = "https://sparkly-moonbeam-be963d.netlify.app"
   status = 200
   force = true
   headers = {X-From = "Netlify"}
