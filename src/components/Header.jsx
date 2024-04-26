@@ -37,7 +37,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsLoading(true);
     axios
-      .post("https://clinic-backend-xavv.onrender.com/api/v1/users/logout", {
+      .post("/users/logout", {
         credentials: "include",
       })
       .then((response) => {

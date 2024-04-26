@@ -52,7 +52,7 @@ const AddBilling = ({ patient_name }) => {
     setIsLoading(true);
     axios
       .post(
-        "https://clinic-backend-xavv.onrender.com/api/v1/users/receptionist/addPaymentDetails",
+        "/users/receptionist/addPaymentDetails",
         {
           patient_name,
           amount,

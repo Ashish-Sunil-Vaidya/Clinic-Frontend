@@ -54,7 +54,7 @@ const Login = () => {
     }
 
     axios
-      .post("https://clinic-backend-xavv.onrender.com/api/v1/users/login", {
+      .post("/users/login", {
         role: role.toLowerCase(),
         username,
         password,
