@@ -25,7 +25,7 @@ const Dashboard = () => {
       navigator("/login");
     } else {
       axios
-        .get("http://localhost:8000/api/v1/users/doctor/revenueInfo")
+        .get("https://swaseem-clinic-backend.onrender.com/api/v1/users/doctor/revenueInfo")
         .then((response) => {
           console.log("===  Dashboard.jsx [31] ===", revenueInformation);
           setRevenueInformation(response.data.data);
@@ -42,7 +42,7 @@ const Dashboard = () => {
         );
 
       axios
-        .get("http://localhost:8000/api/v1/users/doctor/patientCountInfo")
+        .get("https://swaseem-clinic-backend.onrender.com/api/v1/users/doctor/patientCountInfo")
         .then((response) => setAddPatientInformation(response.data.data))
         .catch((error) =>
           toast({
@@ -55,7 +55,7 @@ const Dashboard = () => {
         );
 
       axios
-        .get("http://localhost:8000/api/v1/users/doctor/averageAppointments")
+        .get("https://swaseem-clinic-backend.onrender.com/api/v1/users/doctor/averageAppointments")
         .then((response) =>
           setAverageAppointments(response.data.data.avgAppointments)
         )

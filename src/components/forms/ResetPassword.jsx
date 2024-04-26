@@ -45,7 +45,7 @@ const ResetPassword = () => {
         isClosable: true,
       })
     } else {
-      axios.post("http://localhost:8000/api/v1/users/changePassword", {
+      axios.post("https://swaseem-clinic-backend.onrender.com/api/v1/users/changePassword", {
       oldPassword,
       newPassword
     })

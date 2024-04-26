@@ -76,7 +76,7 @@ const AddAppointment = () => {
       else newTime += " AM";
       axios
         .post(
-          "http://localhost:8000/api/v1/users/receptionist/addAppointment",
+          "https://swaseem-clinic-backend.onrender.com/api/v1/users/receptionist/addAppointment",
           {
             patient_name,
             mobile_no,
