@@ -1,6 +1,6 @@
 {
-  "homepage": "https://ashish-sunil-vaidya.github.io/Clinic-Frontend/",
-  "name": "clinic-management-system-frontend",
+  "homepage": "https://ashish-sunil-vaidya.github.io/clinic-frontend",
+  "name": "clinic-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
